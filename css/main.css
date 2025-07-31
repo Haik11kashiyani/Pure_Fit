@@ -123,5 +123,50 @@ border: solid 1px white;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-;
+
+}
+
+
+
+.footer
+{
+margin-top: 3vh;  
+  width: 97vw;
+    border: 1px solid white;
+    border-radius: 10px;
+   backdrop-filter: blur(10px);
+}
+
+.footer-content {
+    padding: 10px;
+    
+    color: white;
+}
+.footer-links ul{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: center;
+    
+    list-style: none;
+    
+}
+.footer-links ul li a {
+    text-decoration: none;
+ padding-left: 3vw;
+ display: flex;
+ 
+}
+
+.footer-content h2{
+    text-align: left;
+}
+
+.footer-content p{
+    
+    justify-content: center;
+}
+.footer-copyright{
+display: flex;
+    justify-content: center;
 }
