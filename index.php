@@ -7,18 +7,39 @@
                 <p>Dress Your Vibe</p>
                 <p>Quality never goes out of style.</p>
             </div>
-            <div class="hero-imgs d-flex align-items-center justify-content-center">
-                <div class="hero-imgs-right">
-                    <p>name products</p>
-                    <img src="assets/img/hero-img2.png" alt="hero-img2" class="img-fluid">
-                </div>
-            </div>
+      <div class="row"  >
+
+          <div class="card" style="width:20dvw; right:0; left:62dvw; top:55dvh; position: relative; height: 38dvh; overflow: hidden; border-radius: 10px;" >
+              <img src="assets/img/hero2.png" alt="Card image" class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
+              <div class="card-img-overlay d-flex flex-column justify-content-end text-white">
+                  <h4 class="card-title">John Doe</h4>
+                  <p class="card-text">Some example text.</p>
+              </div>
+</div>
+    <div class="card" style="width:10dvw; right:0; margin-left:10px; left:62dvw; top:62dvh;  position: relative; height: 25dvh; border-radius: 10px; "  >
+            
+   <img src="assets/img/hero3.png" alt="Card image" class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" style=" backdrop-filter: blur(7px);">
+  <div class="card-img-overlay d-flex flex-column justify-content-end text-white ">
+      <h4 class="card-title">John Doe</h4>
+      <p class="card-text">Some example text.</p>
+      
+    </div>
+</div>
+            
         </div>
     </section>
 
     <!-- Products Section -->
     <section class="products-section py-4">
         <div class="container-fluid">
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-6 text-center text-md-center mb-2 mb-md-0">
+                    <h1 class="mb-0 fw-bold" style="color: #1a1a1a; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;">Products</h1>
+                </div>
+                <div class="col-12 col-md-6 text-md-end text-center">
+                    <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="background: radial-gradient(90px, #798436ff, #616d10ff); border: none; font-weight: 500;">See all products</a>
+                </div>
+            </div>
             <div class="row justify-content-center g-4">
                 <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                     <div class="productcant rounded mb-4 overflow-hidden">
@@ -83,6 +104,8 @@
             </div>
         </div>
     </section>
+
+  
 
     <?php
         $contant = ob_get_clean();

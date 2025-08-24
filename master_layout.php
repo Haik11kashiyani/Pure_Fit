@@ -90,9 +90,9 @@
                 </div>
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3">
                     <div class="mb-2 mb-md-0">
-                        <a href="#" class="me-3"><img src="assets/img/facebook.svg" alt="Facebook" /></a>
-                        <a href="#" class="me-3"><img src="assets/img/instagram.svg" alt="Instagram" /></a>
-                        <a href="#" class="me-3"><img src="assets/img/twitter.svg" alt="Twitter" /></a>
+                        <a href="#" class="me-3">Facebook</a>
+                        <a href="#" class="me-3">Instagram</a>
+                        <a href="#" class="me-3">Twitter</a>
                     </div>
                     <div class="mb-2 mb-md-0">
                         <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a>
