@@ -25,22 +25,31 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Products</a>
+                                    <a class="nav-link" href="products.php">Products</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">About Us</a>
+                                    <a class="nav-link" href="aboutus.php">About Us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact Us</a>
+                                    <a class="nav-link" href="contact.php">Contact Us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Cart</a>
+                                    <a class="nav-link" href="cart.php">Cart</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Favorite</a>
+                                    <a class="nav-link" href="favorites.php">Favorite</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="login.php">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="register.php">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="profile.php">Profile</a>
                                 </li>
                             </ul>
                         </div>
@@ -73,12 +82,15 @@
                     <div class="footer-links col-12 col-md-4 mb-4">
                         <h4>Quick Links</h4>
                         <ul class="list-unstyled p-0 m-0">
-                            <li class="mb-2"><a href="index.html">Home</a></li>
-                            <li class="mb-2"><a href="#">Products</a></li>
-                            <li class="mb-2"><a href="#">About us</a></li>
-                            <li class="mb-2"><a href="#">Contact us</a></li>
-                            <li class="mb-2"><a href="#">Cart</a></li>
-                            <li class="mb-2"><a href="#">Favorite</a></li>
+                            <li class="mb-2"><a href="index.php">Home</a></li>
+                            <li class="mb-2"><a href="products.php">Products</a></li>
+                            <li class="mb-2"><a href="aboutus.php">About us</a></li>
+                            <li class="mb-2"><a href="contact.php">Contact us</a></li>
+                            <li class="mb-2"><a href="cart.php">Cart</a></li>
+                            <li class="mb-2"><a href="favorites.php">Favorite</a></li>
+                            <li class="mb-2"><a href="login.php">Login</a></li>
+                            <li class="mb-2"><a href="register.php">Register</a></li>
+                            <li class="mb-2"><a href="profile.php">Profile</a></li>
                         </ul>
                     </div>
                     <div class="footer-contact col-12 col-md-4 mb-4">
