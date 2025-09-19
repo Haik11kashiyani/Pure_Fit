@@ -1,12 +1,12 @@
 <?php
 ob_start();
 ?>
-<div class="container-fluid py-5">
-    <div class="row justify-content-center">
+<div class="container-fluid" style="padding-top: 15vh; min-height: 100vh;">
+    <div class="row justify-content-center" style="min-height: 80vh; padding-top: 4vh;">
         <div class="col-12 col-md-8 col-lg-6">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); margin: 2rem 0;">
                 <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                    <h2 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                    <h2 class="mb-0 fw-bold" style="color: #3D4127;  letter-spacing: 1px;">
                         Create Account
                     </h2>
                     <p class="mb-0 mt-2" style="color: #636B2F; font-size: 0.9rem;">
@@ -17,7 +17,7 @@ ob_start();
                     <form>
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label for="firstName" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <label for="firstName" class="form-label fw-semibold" style="color: #3D4127; ">
                                     First Name
                                 </label>
                                 <div class="input-group">
@@ -30,7 +30,7 @@ ob_start();
                             </div>
                             
                             <div class="col-md-6 mb-4">
-                                <label for="lastName" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <label for="lastName" class="form-label fw-semibold" style="color: #3D4127; ">
                                     Last Name
                                 </label>
                                 <div class="input-group">
@@ -44,7 +44,7 @@ ob_start();
                         </div>
                         
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                            <label for="email" class="form-label fw-semibold" style="color: #3D4127; ">
                                 Email Address
                             </label>
                             <div class="input-group">
@@ -57,7 +57,7 @@ ob_start();
                         </div>
                         
                         <div class="mb-4">
-                            <label for="phone" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                            <label for="phone" class="form-label fw-semibold" style="color: #3D4127; ">
                                 Phone Number
                             </label>
                             <div class="input-group">
@@ -71,7 +71,7 @@ ob_start();
                         
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label for="password" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <label for="password" class="form-label fw-semibold" style="color: #3D4127; ">
                                     Password
                                 </label>
                                 <div class="input-group">
@@ -84,7 +84,7 @@ ob_start();
                             </div>
                             
                             <div class="col-md-6 mb-4">
-                                <label for="confirmPassword" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <label for="confirmPassword" class="form-label fw-semibold" style="color: #3D4127; ">
                                     Confirm Password
                                 </label>
                                 <div class="input-group">
@@ -108,7 +108,7 @@ ob_start();
                         </div>
                         
                         <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3" 
-                                style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                                style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease;  letter-spacing: 1px;">
                             Create Account
                         </button>
                         

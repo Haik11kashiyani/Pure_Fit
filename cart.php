@@ -5,11 +5,11 @@ ob_start();
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
             <!-- Page Header -->
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+            <div class="text-center mb-5 mt-5 pt-5">
+                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127;  letter-spacing: 2px;">
                     Shopping Cart
                 </h1>
-                <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                <p class="lead" style="color: #636B2F; ">
                     Review your items and proceed to checkout
                 </p>
             </div>
@@ -19,7 +19,7 @@ ob_start();
                 <div class="col-12 col-lg-8">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                         <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                            <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                 Your Items (3)
                             </h3>
                         </div>
@@ -31,7 +31,7 @@ ob_start();
                                         <img src="assets/products/1.png" alt="Product 1" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
                                     </div>
                                     <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
                                             Premium Workout Tank
                                         </h6>
                                         <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
@@ -67,7 +67,7 @@ ob_start();
                                         <img src="assets/products/1.png" alt="Product 2" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
                                     </div>
                                     <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
                                             Performance Leggings
                                         </h6>
                                         <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
@@ -103,7 +103,7 @@ ob_start();
                                         <img src="assets/products/1.png" alt="Product 3" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
                                     </div>
                                     <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
                                             Sports Bra
                                         </h6>
                                         <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
@@ -134,7 +134,7 @@ ob_start();
 
                             <!-- Continue Shopping -->
                             <div class="text-center mt-4">
-                                <a href="#" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
+                                <a href="#" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F;  transition: all 0.3s ease;">
                                     <i class="fas fa-arrow-left me-2"></i>
                                     Continue Shopping
                                 </a>
@@ -147,31 +147,31 @@ ob_start();
                 <div class="col-12 col-lg-4">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                         <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                            <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                 Order Summary
                             </h3>
                         </div>
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; font-family: 'Montserrat', sans-serif;">Subtotal (4 items):</span>
-                                <span class="fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">$209.96</span>
+                                <span style="color: #636B2F; ">Subtotal (4 items):</span>
+                                <span class="fw-bold" style="color: #3D4127; ">$209.96</span>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; font-family: 'Montserrat', sans-serif;">Shipping:</span>
-                                <span class="fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">$9.99</span>
+                                <span style="color: #636B2F; ">Shipping:</span>
+                                <span class="fw-bold" style="color: #3D4127; ">$9.99</span>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; font-family: 'Montserrat', sans-serif;">Tax:</span>
-                                <span class="fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">$18.90</span>
+                                <span style="color: #636B2F; ">Tax:</span>
+                                <span class="fw-bold" style="color: #3D4127; ">$18.90</span>
                             </div>
                             <hr style="border-color: #D4DE95;">
                             <div class="d-flex justify-content-between mb-4">
-                                <span class="h5 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">Total:</span>
-                                <span class="h5 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">$238.85</span>
+                                <span class="h5 fw-bold" style="color: #3D4127; ">Total:</span>
+                                <span class="h5 fw-bold" style="color: #3D4127; ">$238.85</span>
                             </div>
                             
                             <button class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3" 
-                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease;  letter-spacing: 1px;">
                                 Proceed to Checkout
                             </button>
                             
@@ -184,21 +184,7 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Promo Code -->
-                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden mt-4" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Have a Promo Code?
-                            </h5>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control border-0 py-2" placeholder="Enter code" 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                                <button class="btn" style="background: #D4DE95; color: #636B2F; border: none;">
-                                    Apply
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

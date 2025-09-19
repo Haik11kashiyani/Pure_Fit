@@ -3,7 +3,7 @@
 ?>
 <div class="container-fluid py-5">
     <!-- Hero Section -->
-    <div class="row justify-content-center mb-5">
+    <div class="row justify-content-center mb-5 mt-5 pt-5">
         <div class="col-12 col-lg-10 text-center">
             <h1 class="display-3 fw-bold mb-4" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 3px;">
                 About Pure Fit

@@ -5,11 +5,11 @@ ob_start();
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
             <!-- Page Header -->
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+            <div class="text-center mb-5 mt-5 pt-5">
+                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127;  letter-spacing: 2px;">
                     My Profile
                 </h1>
-                <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                <p class="lead" style="color: #636B2F; ">
                     Manage your account settings and preferences
                 </p>
             </div>
@@ -22,7 +22,7 @@ ob_start();
                             <div class="profile-avatar mb-4" style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #BAC095, #D4DE95); display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 4px solid #D4DE95;">
                                 <i class="fas fa-user fa-3x" style="color: #636B2F;"></i>
                             </div>
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                            <h5 class="fw-bold mb-2" style="color: #3D4127; ">
                                 John Doe
                             </h5>
                             <p class="mb-3" style="color: #636B2F; font-size: 0.9rem;">
@@ -30,39 +30,33 @@ ob_start();
                             </p>
                             <div class="profile-stats d-flex justify-content-around mb-4">
                                 <div class="text-center">
-                                    <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">12</h6>
+                                    <h6 class="fw-bold mb-1" style="color: #3D4127; ">12</h6>
                                     <small style="color: #636B2F; font-size: 0.8rem;">Orders</small>
                                 </div>
                                 <div class="text-center">
-                                    <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">8</h6>
+                                    <h6 class="fw-bold mb-1" style="color: #3D4127; ">8</h6>
                                     <small style="color: #636B2F; font-size: 0.8rem;">Favorites</small>
                                 </div>
-                                <div class="text-center">
-                                    <h6 class="fw-bold mb-1" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">4.9★</h6>
-                                    <small style="color: #636B2F; font-size: 0.8rem;">Rating</small>
-                                </div>
+                         
                             </div>
                             
                             <!-- Profile Navigation -->
                             <div class="profile-nav">
                                 <button class="btn w-100 mb-2 profile-nav-btn active" data-target="personal-info" 
-                                        style="background: #636B2F; color: white; border: none; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
+                                        style="background: #636B2F; color: white; border: none;  transition: all 0.3s ease;">
                                     <i class="fas fa-user me-2"></i>Personal Info
                                 </button>
                                 <button class="btn w-100 mb-2 profile-nav-btn" data-target="orders" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
+                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95;  transition: all 0.3s ease;">
                                     <i class="fas fa-shopping-bag me-2"></i>Orders
                                 </button>
                                 <button class="btn w-100 mb-2 profile-nav-btn" data-target="addresses" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
+                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95;  transition: all 0.3s ease;">
                                     <i class="fas fa-map-marker-alt me-2"></i>Addresses
                                 </button>
-                                <button class="btn w-100 mb-2 profile-nav-btn" data-target="security" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
-                                    <i class="fas fa-shield-alt me-2"></i>Security
-                                </button>
+                              
                                 <button class="btn w-100 mb-2 profile-nav-btn" data-target="preferences" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease;">
+                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95;  transition: all 0.3s ease;">
                                     <i class="fas fa-cog me-2"></i>Preferences
                                 </button>
                             </div>
@@ -76,7 +70,7 @@ ob_start();
                     <div class="profile-section active" id="personal-info">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                                <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                     Personal Information
                                 </h3>
                             </div>
@@ -84,7 +78,7 @@ ob_start();
                                 <form>
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
-                                            <label for="firstName" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                            <label for="firstName" class="form-label fw-semibold" style="color: #3D4127; ">
                                                 First Name
                                             </label>
                                             <input type="text" class="form-control border-0 py-3" id="firstName" value="John" 
@@ -92,7 +86,7 @@ ob_start();
                                         </div>
                                         
                                         <div class="col-md-6 mb-4">
-                                            <label for="lastName" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                            <label for="lastName" class="form-label fw-semibold" style="color: #3D4127; ">
                                                 Last Name
                                             </label>
                                             <input type="text" class="form-control border-0 py-3" id="lastName" value="Doe" 
@@ -101,7 +95,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="email" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="email" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Email Address
                                         </label>
                                         <input type="email" class="form-control border-0 py-3" id="email" value="john.doe@example.com" 
@@ -109,7 +103,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="phone" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="phone" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Phone Number
                                         </label>
                                         <input type="tel" class="form-control border-0 py-3" id="phone" value="+1 (234) 567-8901" 
@@ -117,7 +111,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="birthdate" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="birthdate" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Date of Birth
                                         </label>
                                         <input type="date" class="form-control border-0 py-3" id="birthdate" value="1990-01-01" 
@@ -125,7 +119,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="bio" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="bio" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Bio
                                         </label>
                                         <textarea class="form-control border-0 py-3" id="bio" rows="3" placeholder="Tell us about yourself..." 
@@ -133,7 +127,7 @@ ob_start();
                                     </div>
                                     
                                     <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;  letter-spacing: 1px;">
                                         Save Changes
                                     </button>
                                 </form>
@@ -145,14 +139,14 @@ ob_start();
                     <div class="profile-section" id="orders" style="display: none;">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                                <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                     Order History
                                 </h3>
                             </div>
                             <div class="card-body p-4">
                                 <div class="order-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; ">
                                             Order #12345
                                         </h6>
                                         <span class="badge rounded-pill px-3 py-2" style="background: #D4DE95; color: #636B2F;">
@@ -170,7 +164,7 @@ ob_start();
                                 
                                 <div class="order-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; ">
                                             Order #12344
                                         </h6>
                                         <span class="badge rounded-pill px-3 py-2" style="background: #D4DE95; color: #636B2F;">
@@ -193,21 +187,21 @@ ob_start();
                     <div class="profile-section" id="addresses" style="display: none;">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                                <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                     Addresses
                                 </h3>
                             </div>
                             <div class="card-body p-4">
                                 <div class="address-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <h6 class="mb-0 fw-bold" style="color: #3D4127; ">
                                             Home Address
                                         </h6>
                                         <button class="btn btn-sm" style="background: none; color: #636B2F; border: none;">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </div>
-                                    <p class="mb-0" style="color: #636B2F; font-family: 'Montserrat', sans-serif; line-height: 1.6;">
+                                    <p class="mb-0" style="color: #636B2F;  line-height: 1.6;">
                                         123 Main Street<br>
                                         Apt 4B<br>
                                         New York, NY 10001<br>
@@ -216,7 +210,7 @@ ob_start();
                                 </div>
                                 
                                 <button class="btn px-4 py-2 rounded-pill fw-bold" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; font-family: 'Montserrat', sans-serif;">
+                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; ">
                                     <i class="fas fa-plus me-2"></i>Add New Address
                                 </button>
                             </div>
@@ -227,14 +221,14 @@ ob_start();
                     <div class="profile-section" id="security" style="display: none;">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                                <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                     Security Settings
                                 </h3>
                             </div>
                             <div class="card-body p-4">
                                 <form>
                                     <div class="mb-4">
-                                        <label for="currentPassword" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="currentPassword" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Current Password
                                         </label>
                                         <input type="password" class="form-control border-0 py-3" id="currentPassword" 
@@ -242,7 +236,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="newPassword" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="newPassword" class="form-label fw-semibold" style="color: #3D4127; ">
                                             New Password
                                         </label>
                                         <input type="password" class="form-control border-0 py-3" id="newPassword" 
@@ -250,7 +244,7 @@ ob_start();
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="confirmPassword" class="form-label fw-semibold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                        <label for="confirmPassword" class="form-label fw-semibold" style="color: #3D4127; ">
                                             Confirm New Password
                                         </label>
                                         <input type="password" class="form-control border-0 py-3" id="confirmPassword" 
@@ -258,7 +252,7 @@ ob_start();
                                     </div>
                                     
                                     <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;  letter-spacing: 1px;">
                                         Update Password
                                     </button>
                                 </form>
@@ -270,37 +264,37 @@ ob_start();
                     <div class="profile-section" id="preferences" style="display: none;">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                                <h3 class="mb-0 fw-bold" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
                                     Preferences
                                 </h3>
                             </div>
                             <div class="card-body p-4">
                                 <div class="mb-4">
-                                    <h6 class="fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                    <h6 class="fw-bold mb-3" style="color: #3D4127; ">
                                         Email Notifications
                                     </h6>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="orderUpdates" checked style="accent-color: #636B2F;">
-                                        <label class="form-check-label" for="orderUpdates" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                                        <label class="form-check-label" for="orderUpdates" style="color: #636B2F; ">
                                             Order updates and tracking
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="promotions" checked style="accent-color: #636B2F;">
-                                        <label class="form-check-label" for="promotions" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                                        <label class="form-check-label" for="promotions" style="color: #636B2F; ">
                                             Promotions and offers
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="newsletter" style="accent-color: #636B2F;">
-                                        <label class="form-check-label" for="newsletter" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                                        <label class="form-check-label" for="newsletter" style="color: #636B2F; ">
                                             Newsletter and fitness tips
                                         </label>
                                     </div>
                                 </div>
                                 
                                 <div class="mb-4">
-                                    <h6 class="fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
+                                    <h6 class="fw-bold mb-3" style="color: #3D4127; ">
                                         Language Preference
                                     </h6>
                                     <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
@@ -312,7 +306,7 @@ ob_start();
                                 </div>
                                 
                                 <button class="btn px-4 py-2 rounded-pill fw-bold text-white" 
-                                        style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                                        style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;  letter-spacing: 1px;">
                                     Save Preferences
                                 </button>
                             </div>

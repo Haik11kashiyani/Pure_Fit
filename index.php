@@ -32,13 +32,9 @@
     <!-- Products Section -->
     <section class="products-section py-4">
         <div class="container-fluid">
-            <div class="row align-items-center mb-4">
-                <div class="col-12 col-md-6 text-center text-md-center mb-2 mb-md-0">
-                    <h1 class="mb-0 fw-bold" style="color: #1a1a1a; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;">Products</h1>
-                </div>
-                <div class="col-12 col-md-6 text-md-end text-center">
-                    <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="background: radial-gradient(90px, #798436ff, #616d10ff); border: none; font-weight: 500;">See all products</a>
-                </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0">Products</h1>
+                <a href="#" class="btn btn-link text-decoration-none">See all products</a>
             </div>
             <div class="row justify-content-center g-4">
                 <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
@@ -87,26 +83,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Review Section -->
-    <section class="my-4">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-12 col-md-4">
-                    <div class="review-box rounded p-4 text-center h-100">hii</div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="review-box rounded p-4 text-center h-100">hi</div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="review-box rounded p-4 text-center h-100">h</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-  
-
     <?php
         $contant = ob_get_clean();
         include_once 'master_layout.php';

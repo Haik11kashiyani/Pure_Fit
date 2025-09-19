@@ -32,6 +32,291 @@ ob_start();
                         <div class="col-12 col-md-3">
                             <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
                                 <option selected>All Categories</option>
+                                <option>MALE</option>
+                                <option>FEMALE</option>
+                                <option>KIDS</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                <option selected>Brands</option>
+                                <option>NIKE</option>
+                                <option>ADDIDAS</option>
+                                <option>GUCCI</option>
+                                <option>H&M</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <button class="btn w-100 py-2 rounded-pill fw-bold text-white" 
+                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; ">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section py-4">
+        <div class="container-fluid">
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-6 text-center text-md-center mb-2 mb-md-0">
+                    <h1 class="mb-0 fw-bold" style="color: #1a1a1a; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;">Products</h1>
+                </div>
+                <div class="col-12 col-md-6 text-md-end text-center">
+                    <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="background: radial-gradient(90px, #798436ff, #616d10ff); border: none; font-weight: 500;">See all products</a>
+                </div>
+            </div>
+            <div class="row justify-content-center g-4">
+                <!-- Product 1 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Premium Workout Tank" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Nike Dri-FIT Tank</h3>
+                            <p>Lightweight & breathable workout essential</p>
+                            <p>₹2,999</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Performance Leggings" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Adidas Yoga Leggings</h3>
+                            <p>High-waisted comfort for all-day wear</p>
+                            <p>₹3,499</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Sports Bra" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Puma Sports Bra</h3>
+                            <p>Maximum support for high-intensity workouts</p>
+                            <p>₹1,899</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Running Shorts" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Reebok Running Shorts</h3>
+                            <p>Quick-dry fabric with side pockets</p>
+                            <p>₹1,599</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Performance Hoodie" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Under Armour Hoodie</h3>
+                            <p>Fleece-lined warmth for outdoor training</p>
+                            <p>₹4,299</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Premium Yoga Mat" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Lululemon Yoga Mat</h3>
+                            <p>Eco-friendly mat with superior grip</p>
+                            <p>₹5,999</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Gym Gloves" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Gym Gloves</h3>
+                            <p>Protective grip for weight training</p>
+                            <p>₹899</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Water Bottle" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Insulated Water Bottle</h3>
+                            <p>Stainless steel keeps drinks cold for hours</p>
+                            <p>₹1,299</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 9 -->
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                    <div class="productcant rounded mb-4">
+                        <div class="position-relative">
+                            <img src="assets/products/1.png" alt="Resistance Bands" class="img-fluid w-100 rounded">
+                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info p-2 text-center rounded">
+                            <h3>Resistance Bands Set</h3>
+                            <p>Complete set for home workouts</p>
+                            <p>₹1,599</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<?php
+$contant = ob_get_clean();
+include_once 'master_layout.php';
+?>
+
+<?php
+ob_start();
+?>
+<div class="container-fluid py-5">
+    <!-- Page Header -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-12 col-lg-10 text-center">
+            <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+                Our Products
+            </h1>
+            <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                Discover our complete collection of high-quality fitness apparel
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" class="form-control border-0 py-2" placeholder="Search products..." 
+                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                <option selected>All Categories</option>
                                 <option>Tops</option>
                                 <option>Bottoms</option>
                                 <option>Sports Bras</option>
@@ -464,3 +749,4 @@ ob_start();
 $contant = ob_get_clean();
 include_once 'master_layout.php';
 ?>
+
