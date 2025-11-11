@@ -1,648 +1,315 @@
 <?php
+session_start();
 ob_start();
+include 'connection.php';
+
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, trim($_GET['search'])) : '';
+$category_id = isset($_GET['category']) ? (int)$_GET['category'] : 0;
+$min_price = isset($_GET['min_price']) ? (float)$_GET['min_price'] : 0;
+$max_price = isset($_GET['max_price']) ? (float)$_GET['max_price'] : 0;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+$categories_query = "SELECT * FROM categories WHERE is_active = 1 ORDER BY name ASC";
+$categories_result = mysqli_query($conn, $categories_query);
 ?>
-<div class="container-fluid py-5">
-    <!-- Page Header -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-12 col-lg-10 text-center">
-            <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+<div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
+    <!-- Success/Error Messages -->
+    <?php if (isset($_SESSION['success_message'])): ?>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-lg-10">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['success_message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    </div>
+    <?php unset($_SESSION['success_message']); endif; ?>
+    
+    <?php if (isset($_SESSION['error_message'])): ?>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-lg-10">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo $_SESSION['error_message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    </div>
+    <?php unset($_SESSION['error_message']); endif; ?>
+    
+    <div class="row justify-content-center mb-4 mb-md-5">
+        <div class="col-12 col-lg-10 text-center px-3">
+            <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
                 Our Products
             </h1>
-            <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+            <p class="lead mb-0" style="color: #636B2F;">
                 Discover our complete collection of high-quality fitness apparel
             </p>
         </div>
     </div>
 
-    <!-- Filters and Search -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-12 col-lg-10">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                <div class="card-body p-4">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-12 col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <input type="text" class="form-control border-0 py-2" placeholder="Search products..." 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+    <div class="row justify-content-center mb-4 mb-md-5">
+        <div class="col-12 col-lg-10 px-3">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
+                <div class="card-body p-3 p-md-4">
+                    <form method="GET" action="products.php" id="filterForm">
+                        <div class="row g-2 g-md-3 align-items-end">
+                            <div class="col-12 col-md-3">
+                                <label class="form-label small fw-bold" style="color: #3D4127;">Search</label>
+                                <div class="input-group">
+                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" name="search" class="form-control border-0 py-2" placeholder="Search products..." 
+                                           value="<?php echo htmlspecialchars($search); ?>"
+                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-2">
+                                <label class="form-label small fw-bold" style="color: #3D4127;">Category</label>
+                                <select name="category" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                    <option value="0">All Categories</option>
+                                    <?php while ($cat = mysqli_fetch_assoc($categories_result)): ?>
+                                    <option value="<?php echo $cat['category_id']; ?>" <?php echo $category_id == $cat['category_id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($cat['name']); ?>
+                                    </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-2">
+                                <label class="form-label small fw-bold" style="color: #3D4127;">Min Price</label>
+                                <input type="number" name="min_price" class="form-control border-0 py-2" placeholder="Min" 
+                                       value="<?php echo $min_price > 0 ? $min_price : ''; ?>"
+                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;" min="0" step="0.01">
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-2">
+                                <label class="form-label small fw-bold" style="color: #3D4127;">Max Price</label>
+                                <input type="number" name="max_price" class="form-control border-0 py-2" placeholder="Max" 
+                                       value="<?php echo $max_price > 0 ? $max_price : ''; ?>"
+                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;" min="0" step="0.01">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-2">
+                                <label class="form-label small fw-bold" style="color: #3D4127;">Sort By</label>
+                                <select name="sort" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                    <option value="newest" <?php echo $sort == 'newest' ? 'selected' : ''; ?>>Newest First</option>
+                                    <option value="price_low" <?php echo $sort == 'price_low' ? 'selected' : ''; ?>>Price: Low to High</option>
+                                    <option value="price_high" <?php echo $sort == 'price_high' ? 'selected' : ''; ?>>Price: High to Low</option>
+                                    <option value="name_asc" <?php echo $sort == 'name_asc' ? 'selected' : ''; ?>>Name: A-Z</option>
+                                    <option value="name_desc" <?php echo $sort == 'name_desc' ? 'selected' : ''; ?>>Name: Z-A</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-1">
+                                <button type="submit" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
+                                        style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                                    <i class="fas fa-filter"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                                <option selected>All Categories</option>
-                                <option>MALE</option>
-                                <option>FEMALE</option>
-                                <option>KIDS</option>
-                                
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                                <option selected>Brands</option>
-                                <option>NIKE</option>
-                                <option>ADDIDAS</option>
-                                <option>GUCCI</option>
-                                <option>H&M</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-2">
-                            <button class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; ">
-                                Filter
-                            </button>
-                        </div>
+                    </form>
+                    <?php if ($search || $category_id || $min_price || $max_price): ?>
+                    <div class="mt-3">
+                        <a href="products.php" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>Clear Filters
+                        </a>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Products Section -->
-    <section class="products-section py-4">
-        <div class="container-fluid">
-            <div class="row align-items-center mb-4">
-                <div class="col-12 col-md-6 text-center text-md-center mb-2 mb-md-0">
-                    <h1 class="mb-0 fw-bold" style="color: #1a1a1a; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;">Products</h1>
-                </div>
-                <div class="col-12 col-md-6 text-md-end text-center">
-                    <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="background: radial-gradient(90px, #798436ff, #616d10ff); border: none; font-weight: 500;">See all products</a>
-                </div>
-            </div>
-            <div class="row justify-content-center g-4">
-                <!-- Product 1 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Premium Workout Tank" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Nike Dri-FIT Tank</h3>
-                            <p>Lightweight & breathable workout essential</p>
-                            <p>₹2,999</p>
-                        </div>
-                    </div>
-                </div>
+    <?php
+    $products_per_page = 6;
+    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $current_page = max(1, $current_page);
+    $offset = ($current_page - 1) * $products_per_page;
+    
+    $where_conditions = ["p.is_active = 1"];
+    
+    if ($search) {
+        $where_conditions[] = "(p.name LIKE '%$search%' OR p.description LIKE '%$search%')";
+    }
+    
+    if ($category_id > 0) {
+        $where_conditions[] = "p.category_id = $category_id";
+    }
+    
+    if ($min_price > 0) {
+        $where_conditions[] = "p.price >= $min_price";
+    }
+    
+    if ($max_price > 0) {
+        $where_conditions[] = "p.price <= $max_price";
+    }
+    
+    $where_clause = implode(' AND ', $where_conditions);
+    
+    $order_by = "p.created_at DESC";
+    switch ($sort) {
+        case 'price_low':
+            $order_by = "p.price ASC";
+            break;
+        case 'price_high':
+            $order_by = "p.price DESC";
+            break;
+        case 'name_asc':
+            $order_by = "p.name ASC";
+            break;
+        case 'name_desc':
+            $order_by = "p.name DESC";
+            break;
+        default:
+            $order_by = "p.created_at DESC";
+    }
+    
+    $count_q = "SELECT COUNT(*) as total FROM products p WHERE $where_clause";
+    $count_r = mysqli_query($conn, $count_q);
+    $count_row = mysqli_fetch_assoc($count_r);
+    $total_products = $count_row['total'];
+    $total_pages = ceil($total_products / $products_per_page);
+    ?>
 
-                <!-- Product 2 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Performance Leggings" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Adidas Yoga Leggings</h3>
-                            <p>High-waisted comfort for all-day wear</p>
-                            <p>₹3,499</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Sports Bra" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Puma Sports Bra</h3>
-                            <p>Maximum support for high-intensity workouts</p>
-                            <p>₹1,899</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Running Shorts" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Reebok Running Shorts</h3>
-                            <p>Quick-dry fabric with side pockets</p>
-                            <p>₹1,599</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 5 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Performance Hoodie" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Under Armour Hoodie</h3>
-                            <p>Fleece-lined warmth for outdoor training</p>
-                            <p>₹4,299</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 6 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Premium Yoga Mat" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Lululemon Yoga Mat</h3>
-                            <p>Eco-friendly mat with superior grip</p>
-                            <p>₹5,999</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 7 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Gym Gloves" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Gym Gloves</h3>
-                            <p>Protective grip for weight training</p>
-                            <p>₹899</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 8 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Water Bottle" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Insulated Water Bottle</h3>
-                            <p>Stainless steel keeps drinks cold for hours</p>
-                            <p>₹1,299</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 9 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                            <img src="assets/products/1.png" alt="Resistance Bands" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                            <h3>Resistance Bands Set</h3>
-                            <p>Complete set for home workouts</p>
-                            <p>₹1,599</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-
-
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<?php
-$contant = ob_get_clean();
-include_once 'master_layout.php';
-?>
-
-<?php
-ob_start();
-?>
-<div class="container-fluid py-5">
-    <!-- Page Header -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-12 col-lg-10 text-center">
-            <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
-                Our Products
-            </h1>
-            <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
-                Discover our complete collection of high-quality fitness apparel
-            </p>
-        </div>
-    </div>
-
-    <!-- Filters and Search -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-12 col-lg-10">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                <div class="card-body p-4">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-12 col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <input type="text" class="form-control border-0 py-2" placeholder="Search products..." 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                                <option selected>All Categories</option>
-                                <option>Tops</option>
-                                <option>Bottoms</option>
-                                <option>Sports Bras</option>
-                                <option>Outerwear</option>
-                                <option>Accessories</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
-                                <option selected>Sort By</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
-                                <option>Newest First</option>
-                                <option>Best Rated</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-2">
-                            <button class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                Filter
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-lg-10 px-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0 text-muted">
+                    <strong><?php echo $total_products; ?></strong> product<?php echo $total_products != 1 ? 's' : ''; ?> found
+                    <?php if ($search): ?>
+                        for "<strong><?php echo htmlspecialchars($search); ?></strong>"
+                    <?php endif; ?>
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Products Grid -->
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-10">
-            <div class="row g-4">
-                <!-- Product 1 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Premium Workout Tank" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                            <div class="product-badge position-absolute top-0 start-0 m-3">
-                                <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #636B2F, #3D4127); color: white; font-size: 0.8rem;">
-                                    Best Seller
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Premium Workout Tank
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                High-performance moisture-wicking fabric with breathable mesh panels.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h5 fw-bold mb-0" style="color: #636B2F;">$49.99</span>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(128)</span>
+        <div class="col-12 col-lg-10 px-3">
+            <div class="row g-3 g-md-4">
+                <?php
+                
+                $prod_q = "SELECT p.*, c.name as category_name 
+                          FROM products p 
+                          LEFT JOIN categories c ON p.category_id = c.category_id 
+                          WHERE $where_clause 
+                          ORDER BY $order_by 
+                          LIMIT $products_per_page OFFSET $offset";
+                $prod_r = mysqli_query($conn, $prod_q);
+                if ($prod_r && mysqli_num_rows($prod_r) > 0) {
+                    while ($prod = mysqli_fetch_assoc($prod_r)) {
+                        $img = !empty($prod['image_path']) ? $prod['image_path'] : 'assets/products/1.png';
+                        $title = htmlspecialchars($prod['name']);
+                        $desc = htmlspecialchars(mb_strimwidth($prod['description'] ?? '', 0, 120, '...'));
+                        $price = '₹' . number_format($prod['price'], 2);
+                ?>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 d-flex justify-content-center">
+                            <a href="product-details.php?id=<?php echo $prod['product_id']; ?>" class="text-decoration-none w-100" style="max-width: 400px;">
+                                <div class="productcant rounded">
+                                    <div class="position-relative overflow-hidden rounded-top">
+                                        <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo $title; ?>" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover;">
+                                        <div class="product-actions position-absolute top-0 end-0 m-2 m-md-3" style="z-index: 10;">
+                                            <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                                <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
+                                                <input type="hidden" name="action" value="add">
+                                                <input type="hidden" name="redirect" value="products.php?page=<?php echo $current_page; ?>">
+                                                <button type="submit" class="btn btn-sm rounded-circle me-1 mb-1" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                    <i class="fas fa-heart"></i>
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                                <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
+                                                <input type="hidden" name="action" value="add">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="hidden" name="redirect" value="products.php?page=<?php echo $current_page; ?>">
+                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="product-info p-3 text-center rounded-bottom bg-white">
+                                        <h3 class="mb-2 fs-5 fs-md-4"><?php echo $title; ?></h3>
+                                        <p class="mb-2 text-muted small"><?php echo $desc; ?></p>
+                                        <p class="mb-0 fw-bold fs-5" style="color: #636B2F;"><?php echo $price; ?></p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
+                            </a>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Product 2 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Performance Leggings" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                            <div class="product-badge position-absolute top-0 start-0 m-3">
-                                <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; font-size: 0.8rem;">
-                                    Sale
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Performance Leggings
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                Compression-fit leggings with four-way stretch and built-in support.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="d-flex align-items-center">
-                                    <span class="h5 fw-bold mb-0 me-2" style="color: #e74c3c;">$59.99</span>
-                                    <span class="text-decoration-line-through" style="color: #636B2F; font-size: 0.9rem;">$79.99</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="far fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(95)</span>
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Sports Bra" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Sports Bra
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                High-support sports bra with adjustable straps and moisture-wicking technology.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h5 fw-bold mb-0" style="color: #636B2F;">$39.99</span>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(156)</span>
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Running Shorts" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Running Shorts
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                Lightweight running shorts with built-in liner and reflective details.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h5 fw-bold mb-0" style="color: #636B2F;">$34.99</span>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="far fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(87)</span>
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 5 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Performance Hoodie" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Performance Hoodie
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                Warm and breathable hoodie perfect for pre and post-workout sessions.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h5 fw-bold mb-0" style="color: #636B2F;">$69.99</span>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(203)</span>
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 6 -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card shadow-lg border-0 rounded-4 overflow-hidden h-100" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="product-image-container position-relative">
-                            <img src="assets/products/1.png" alt="Yoga Mat" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
-                            <div class="product-overlay position-absolute top-0 end-0 m-3">
-                                <button class="btn btn-sm rounded-circle me-2" style="background: rgba(255, 255, 255, 0.9); color: #e74c3c; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.9); color: #636B2F; border: none; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="fw-bold mb-2" style="color: #3D4127; font-family: 'Montserrat', sans-serif;">
-                                Premium Yoga Mat
-                            </h5>
-                            <p class="mb-2" style="color: #636B2F; font-size: 0.9rem; line-height: 1.4;">
-                                Non-slip yoga mat with perfect thickness for comfort and stability.
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h5 fw-bold mb-0" style="color: #636B2F;">$89.99</span>
-                                <div class="rating">
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(167)</span>
-                                </div>
-                            </div>
-                            <div class="mt-auto">
-                                <a href="product-details.php" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                   style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; font-family: 'Montserrat', sans-serif;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                    }
+                } else {
+                    echo "<div class='col-12 text-center py-5'>";
+                    echo "<i class='fas fa-box-open fa-4x mb-3' style='color: #D4DE95;'></i>";
+                    echo "<h4 class='mb-2' style='color: #3D4127;'>No Products Found</h4>";
+                    echo "<p class='text-muted'>Try adjusting your filters or search terms</p>";
+                    if ($search || $category_id || $min_price || $max_price) {
+                        echo "<a href='products.php' class='btn btn-primary mt-3' style='background: linear-gradient(135deg, #636B2F, #3D4127); border: none;'>";
+                        echo "<i class='fas fa-redo me-2'></i>Clear All Filters";
+                        echo "</a>";
+                    }
+                    echo "</div>";
+                }
+                ?>
             </div>
 
-            <!-- Pagination -->
-            <div class="row justify-content-center mt-5">
+            <?php if ($total_pages > 1): 
+                $query_params = $_GET;
+                unset($query_params['page']);
+                $query_string = http_build_query($query_params);
+                $query_string = $query_string ? '&' . $query_string : '';
+            ?>
+            <div class="row justify-content-center mt-4 mt-md-5">
                 <div class="col-12">
                     <nav aria-label="Products pagination">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link rounded-start" href="#" style="border-color: #D4DE95; color: #636B2F;">
+                        <ul class="pagination justify-content-center flex-wrap">
+                            <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
+                                <a class="page-link rounded-start" href="<?php echo ($current_page > 1) ? '?page=' . ($current_page - 1) . $query_string : '#'; ?>" style="border-color: #D4DE95; color: #636B2F;">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
                             </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#" style="background: #636B2F; border-color: #636B2F; color: white;">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" style="border-color: #D4DE95; color: #636B2F;">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" style="border-color: #D4DE95; color: #636B2F;">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link rounded-end" href="#" style="border-color: #D4DE95; color: #636B2F;">
+                            
+                            <?php
+                            $start_page = max(1, $current_page - 2);
+                            $end_page = min($total_pages, $current_page + 2);
+                            
+                            if ($start_page > 1) {
+                                echo '<li class="page-item"><a class="page-link" href="?page=1' . $query_string . '" style="border-color: #D4DE95; color: #636B2F;">1</a></li>';
+                                if ($start_page > 2) {
+                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #D4DE95; color: #636B2F;">...</span></li>';
+                                }
+                            }
+                            
+                            for ($i = $start_page; $i <= $end_page; $i++) {
+                                $active = ($i == $current_page) ? 'active' : '';
+                                $style = ($i == $current_page) ? 'background: #636B2F; border-color: #636B2F; color: white;' : 'border-color: #D4DE95; color: #636B2F;';
+                                echo '<li class="page-item ' . $active . '"><a class="page-link" href="?page=' . $i . $query_string . '" style="' . $style . '">' . $i . '</a></li>';
+                            }
+                            
+                            if ($end_page < $total_pages) {
+                                if ($end_page < $total_pages - 1) {
+                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #D4DE95; color: #636B2F;">...</span></li>';
+                                }
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $query_string . '" style="border-color: #D4DE95; color: #636B2F;">' . $total_pages . '</a></li>';
+                            }
+                            ?>
+                            
+                            <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
+                                <a class="page-link rounded-end" href="<?php echo ($current_page < $total_pages) ? '?page=' . ($current_page + 1) . $query_string : '#'; ?>" style="border-color: #D4DE95; color: #636B2F;">
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
                             </li>
                         </ul>
                     </nav>
+                    
+                    <!-- Page Info -->
+                    <div class="text-center mt-3">
+                        <p class="text-muted small mb-0">
+                            Showing <?php echo (($current_page - 1) * $products_per_page) + 1; ?> 
+                            to <?php echo min($current_page * $products_per_page, $total_products); ?> 
+                            of <?php echo $total_products; ?> products
+                        </p>
+                    </div>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

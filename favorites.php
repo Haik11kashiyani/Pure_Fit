@@ -1,15 +1,48 @@
 <?php
+session_start();
 ob_start();
+include 'connection.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
 ?>
-<div class="container-fluid py-5">
-    <div class="row justify-content-center">
+<div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
+    <!-- Success/Error Messages -->
+    <?php if (isset($_SESSION['success_message'])): ?>
+    <div class="row justify-content-center mb-3">
         <div class="col-12 col-lg-10">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['success_message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    </div>
+    <?php unset($_SESSION['success_message']); endif; ?>
+    
+    <?php if (isset($_SESSION['error_message'])): ?>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-lg-10">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo $_SESSION['error_message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    </div>
+    <?php unset($_SESSION['error_message']); endif; ?>
+    
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
-            <div class="text-center mb-5 mt-5 pt-5">
-                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
-                    My Favorites
+            <div class="text-center mb-4 mb-md-5">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
+                    <i class="fas fa-heart text-danger me-2"></i>My Favorites
                 </h1>
-                <p class="lead" style="color: #636B2F; font-family: 'Montserrat', sans-serif;">
+                <p class="lead mb-0" style="color: #636B2F;">
                     Your saved items for future purchases
                 </p>
             </div>
@@ -17,82 +50,78 @@ ob_start();
             <!-- Products Section -->
             <section class="products-section py-4">
                 <div class="container-fluid">
-                    <div class="row align-items-center mb-4">
-                        <div class="col-12 col-md-6 text-center text-md-center mb-2 mb-md-0">
-                            <h1 class="mb-0 fw-bold" style="color: #1a1a1a; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;">My Favorites</h1>
+                    <div class="row justify-content-center g-3 g-md-4">
+                        <?php
+                        // Fetch favorites from database
+                        $fav_query = "SELECT f.*, p.*, p.name as product_name, p.price, p.image_path 
+                                     FROM favorites f 
+                                     INNER JOIN products p ON f.product_id = p.product_id 
+                                     WHERE f.user_id = ? AND p.is_active = 1 
+                                     ORDER BY f.created_at DESC";
+                        $fav_stmt = $conn->prepare($fav_query);
+                        $fav_stmt->bind_param("i", $user_id);
+                        $fav_stmt->execute();
+                        $fav_result = $fav_stmt->get_result();
+                        
+                        if ($fav_result->num_rows > 0) {
+                            while ($fav = $fav_result->fetch_assoc()) {
+                                $img = !empty($fav['image_path']) ? $fav['image_path'] : 'assets/products/1.png';
+                                $title = htmlspecialchars($fav['product_name']);
+                                $desc = htmlspecialchars(mb_strimwidth($fav['description'] ?? '', 0, 100, '...'));
+                                $price = '₹' . number_format($fav['price'], 2);
+                        ?>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 d-flex justify-content-center">
+                            <a href="product-details.php?id=<?php echo $fav['product_id']; ?>" class="text-decoration-none w-100" style="max-width: 400px;">
+                                <div class="productcant rounded">
+                                    <div class="position-relative overflow-hidden rounded-top">
+                                        <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo $title; ?>" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover;">
+                                        <div class="product-actions position-absolute top-0 end-0 m-2 m-md-3" style="z-index: 10;">
+                                            <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                                <input type="hidden" name="product_id" value="<?php echo $fav['product_id']; ?>">
+                                                <input type="hidden" name="action" value="remove">
+                                                <input type="hidden" name="redirect" value="favorites.php">
+                                                <button type="submit" class="btn btn-sm rounded-circle me-1 mb-1" style="background: #e74c3c; color: white; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                    <i class="fas fa-heart"></i>
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                                <input type="hidden" name="product_id" value="<?php echo $fav['product_id']; ?>">
+                                                <input type="hidden" name="action" value="add">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="hidden" name="redirect" value="favorites.php">
+                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="product-info p-3 text-center rounded-bottom bg-white">
+                                        <h3 class="mb-2 fs-5 fs-md-4"><?php echo $title; ?></h3>
+                                        <p class="mb-2 text-muted small"><?php echo $desc; ?></p>
+                                        <p class="mb-0 fw-bold fs-5" style="color: #636B2F;"><?php echo $price; ?></p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="col-12 col-md-6 text-md-end text-center">
-                            <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="background: radial-gradient(90px, #798436ff, #616d10ff); border: none; font-weight: 500;">See all products</a>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center g-4">
-                <!-- Favorite Item 1 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                                    <img src="assets/products/1.png" alt="product-img" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
+                        <?php
+                            }
+                        } else {
+                        ?>
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
+                                <h3 class="text-muted">No Favorites Yet</h3>
+                                <p class="text-muted">Start adding products to your favorites!</p>
+                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold mt-3" style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                                    Browse Products
+                                </a>
                             </div>
                         </div>
-                        <div class="product-info p-2 text-center rounded">
-                                    <h3>Nike Air Max</h3>
-                                    <p>Comfortable running shoes</p>
-                                    <p>₹8,999</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Favorite Item 2 -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                    <div class="productcant rounded mb-4">
-                        <div class="position-relative">
-                                    <img src="assets/products/1.png" alt="product-img" class="img-fluid w-100 rounded">
-                            <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="product-info p-2 text-center rounded">
-                                    <h3>Adidas Ultraboost</h3>
-                                    <p>Premium running sneakers</p>
-                                    <p>₹12,999</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Favorite Item 3 -->
-                        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                            <div class="productcant rounded mb-4">
-                                <div class="position-relative">
-                                    <img src="assets/products/1.png" alt="product-img" class="img-fluid w-100 rounded">
-                                    <div class="product-actions position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                        <button class="btn btn-sm rounded-circle me-1 add-to-favorites" style="background: rgba(255, 255, 255, 0.95); color: #e74c3c; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                        <button class="btn btn-sm rounded-circle add-to-cart" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                            <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </div>
-                        </div>
-                                <div class="product-info p-2 text-center rounded">
-                                    <h3>Puma RS-X</h3>
-                                    <p>Retro-inspired lifestyle shoes</p>
-                                    <p>₹6,999</p>
-                            </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
-            </div>
             </section>
         </div>
     </div>

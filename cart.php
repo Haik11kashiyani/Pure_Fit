@@ -1,140 +1,129 @@
 <?php
+session_start();
 ob_start();
+include 'connection.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch cart items from database
+$cart_query = "SELECT c.*, p.name, p.price, p.image_path, p.stock_quantity 
+               FROM cart c 
+               INNER JOIN products p ON c.product_id = p.product_id 
+               WHERE c.user_id = ? AND p.is_active = 1 
+               ORDER BY c.created_at DESC";
+$cart_stmt = $conn->prepare($cart_query);
+$cart_stmt->bind_param("i", $user_id);
+$cart_stmt->execute();
+$cart_result = $cart_stmt->get_result();
+
+$cart_items = [];
+$total_amount = 0;
+
+while ($item = $cart_result->fetch_assoc()) {
+    $cart_items[] = $item;
+    $total_amount += ($item['price'] * $item['quantity']);
+}
+
+$cart_count = count($cart_items);
 ?>
-<div class="container-fluid py-5">
+<div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-10">
+        <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
-            <div class="text-center mb-5 mt-5 pt-5">
-                <h1 class="display-4 fw-bold mb-3" style="color: #3D4127;  letter-spacing: 2px;">
-                    Shopping Cart
+            <div class="text-center mb-4 mb-md-5">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
+                    <i class="fas fa-shopping-cart me-2"></i>Shopping Cart
                 </h1>
-                <p class="lead" style="color: #636B2F; ">
+                <p class="lead mb-0" style="color: #636B2F;">
                     Review your items and proceed to checkout
                 </p>
             </div>
 
-            <div class="row g-5">
+            <?php if ($cart_count > 0): ?>
+            <div class="row g-4 g-md-5">
                 <!-- Cart Items -->
                 <div class="col-12 col-lg-8">
-                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
-                                Your Items (3)
+                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
+                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
+                            <h3 class="mb-0 fw-bold" style="color: #3D4127;">
+                                Your Items (<?php echo $cart_count; ?>)
                             </h3>
                         </div>
-                        <div class="card-body p-4">
-                            <!-- Cart Item 1 -->
-                            <div class="cart-item mb-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-                                <div class="row align-items-center">
-                                    <div class="col-3 col-md-2">
-                                        <img src="assets/products/1.png" alt="Product 1" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
+                        <div class="card-body p-3 p-md-4">
+                            <?php foreach ($cart_items as $item): 
+                                $img = !empty($item['image_path']) ? $item['image_path'] : 'assets/products/1.png';
+                                $item_total = $item['price'] * $item['quantity'];
+                            ?>
+                            <!-- Cart Item -->
+                            <div class="cart-item mb-3 mb-md-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
+                                <div class="row align-items-center g-2">
+                                    <div class="col-4 col-md-2">
+                                        <a href="product-details.php?id=<?php echo $item['product_id']; ?>">
+                                            <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid rounded" style="max-height: 80px; object-fit: cover; width: 100%;">
+                                        </a>
                                     </div>
-                                    <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
-                                            Premium Workout Tank
-                                        </h6>
-                                        <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
-                                            Size: M | Color: Black
+                                    <div class="col-8 col-md-4">
+                                        <a href="product-details.php?id=<?php echo $item['product_id']; ?>" class="text-decoration-none">
+                                            <h6 class="fw-bold mb-1" style="color: #3D4127;">
+                                                <?php echo htmlspecialchars($item['name']); ?>
+                                            </h6>
+                                        </a>
+                                        <p class="mb-1 small" style="color: #636B2F;">
+                                            Price: ₹<?php echo number_format($item['price'], 2); ?>
                                         </p>
-                                        <p class="mb-0 fw-bold" style="color: #636B2F;">
-                                            $49.99
+                                        <p class="mb-0 fw-bold d-md-none" style="color: #636B2F;">
+                                            Total: ₹<?php echo number_format($item_total, 2); ?>
                                         </p>
                                     </div>
-                                    <div class="col-3 col-md-2">
-                                        <div class="quantity-controls d-flex align-items-center">
-                                            <button class="btn btn-sm rounded-circle me-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-minus fa-xs"></i>
-                                            </button>
-                                            <span class="fw-bold" style="color: #3D4127; min-width: 30px; text-align: center;">1</span>
-                                            <button class="btn btn-sm rounded-circle ms-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-plus fa-xs"></i>
-                                            </button>
+                                    <div class="col-6 col-md-3">
+                                        <div class="quantity-controls d-flex align-items-center justify-content-center">
+                                            <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                                <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                                <input type="hidden" name="action" value="update_quantity">
+                                                <input type="hidden" name="quantity" value="<?php echo max(1, $item['quantity'] - 1); ?>">
+                                                <input type="hidden" name="redirect" value="cart.php">
+                                                <button type="submit" class="btn btn-sm rounded-circle me-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-minus fa-xs"></i>
+                                                </button>
+                                            </form>
+                                            <span class="fw-bold mx-2" style="color: #3D4127; min-width: 30px; text-align: center;"><?php echo $item['quantity']; ?></span>
+                                            <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                                <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                                <input type="hidden" name="action" value="update_quantity">
+                                                <input type="hidden" name="quantity" value="<?php echo $item['quantity'] + 1; ?>">
+                                                <input type="hidden" name="redirect" value="cart.php">
+                                                <button type="submit" class="btn btn-sm rounded-circle ms-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-plus fa-xs"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-2 text-end mt-3 mt-md-0">
-                                        <button class="btn btn-sm text-danger" style="background: none; border: none;">
-                                            <i class="fas fa-trash"></i> Remove
-                                        </button>
+                                    <div class="col-6 col-md-3 text-end">
+                                        <p class="mb-2 fw-bold d-none d-md-block" style="color: #636B2F;">
+                                            ₹<?php echo number_format($item_total, 2); ?>
+                                        </p>
+                                        <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                            <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                            <input type="hidden" name="action" value="remove">
+                                            <input type="hidden" name="redirect" value="cart.php">
+                                            <button type="submit" class="btn btn-sm text-danger" style="background: none; border: none;">
+                                                <i class="fas fa-trash"></i> <span class="d-none d-md-inline">Remove</span>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Cart Item 2 -->
-                            <div class="cart-item mb-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-                                <div class="row align-items-center">
-                                    <div class="col-3 col-md-2">
-                                        <img src="assets/products/1.png" alt="Product 2" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
-                                            Performance Leggings
-                                        </h6>
-                                        <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
-                                            Size: S | Color: Navy
-                                        </p>
-                                        <p class="mb-0 fw-bold" style="color: #636B2F;">
-                                            $79.99
-                                        </p>
-                                    </div>
-                                    <div class="col-3 col-md-2">
-                                        <div class="quantity-controls d-flex align-items-center">
-                                            <button class="btn btn-sm rounded-circle me-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-minus fa-xs"></i>
-                                            </button>
-                                            <span class="fw-bold" style="color: #3D4127; min-width: 30px; text-align: center;">2</span>
-                                            <button class="btn btn-sm rounded-circle ms-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-plus fa-xs"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-2 text-end mt-3 mt-md-0">
-                                        <button class="btn btn-sm text-danger" style="background: none; border: none;">
-                                            <i class="fas fa-trash"></i> Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Cart Item 3 -->
-                            <div class="cart-item mb-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-                                <div class="row align-items-center">
-                                    <div class="col-3 col-md-2">
-                                        <img src="assets/products/1.png" alt="Product 3" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <h6 class="fw-bold mb-1" style="color: #3D4127; ">
-                                            Sports Bra
-                                        </h6>
-                                        <p class="mb-1" style="color: #636B2F; font-size: 0.9rem;">
-                                            Size: 34B | Color: Gray
-                                        </p>
-                                        <p class="mb-0 fw-bold" style="color: #636B2F;">
-                                            $39.99
-                                        </p>
-                                    </div>
-                                    <div class="col-3 col-md-2">
-                                        <div class="quantity-controls d-flex align-items-center">
-                                            <button class="btn btn-sm rounded-circle me-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-minus fa-xs"></i>
-                                            </button>
-                                            <span class="fw-bold" style="color: #3D4127; min-width: 30px; text-align: center;">1</span>
-                                            <button class="btn btn-sm rounded-circle ms-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-plus fa-xs"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-2 text-end mt-3 mt-md-0">
-                                        <button class="btn btn-sm text-danger" style="background: none; border: none;">
-                                            <i class="fas fa-trash"></i> Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
 
                             <!-- Continue Shopping -->
                             <div class="text-center mt-4">
-                                <a href="#" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F;  transition: all 0.3s ease;">
+                                <a href="products.php" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F; transition: all 0.3s ease;">
                                     <i class="fas fa-arrow-left me-2"></i>
                                     Continue Shopping
                                 </a>
@@ -145,48 +134,56 @@ ob_start();
 
                 <!-- Order Summary -->
                 <div class="col-12 col-lg-4">
-                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127; ">
+                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
+                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
+                            <h3 class="mb-0 fw-bold" style="color: #3D4127;">
                                 Order Summary
                             </h3>
                         </div>
-                        <div class="card-body p-4">
+                        <div class="card-body p-3 p-md-4">
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; ">Subtotal (4 items):</span>
-                                <span class="fw-bold" style="color: #3D4127; ">$209.96</span>
+                                <span style="color: #636B2F;">Subtotal (<?php echo $cart_count; ?> items):</span>
+                                <span class="fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount, 2); ?></span>
+                            </div>
+                        
+                            <div class="d-flex justify-content-between mb-3">
+                                <span style="color: #636B2F;">Shipping:</span>
+                                <span class="fw-bold" style="color: #3D4127;">Free</span>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; ">Shipping:</span>
-                                <span class="fw-bold" style="color: #3D4127; ">$9.99</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F; ">Tax:</span>
-                                <span class="fw-bold" style="color: #3D4127; ">$18.90</span>
+                                <span style="color: #636B2F;">Tax (GST 18%):</span>
+                                <span class="fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount * 0.18, 2); ?></span>
                             </div>
                             <hr style="border-color: #D4DE95;">
                             <div class="d-flex justify-content-between mb-4">
-                                <span class="h5 fw-bold" style="color: #3D4127; ">Total:</span>
-                                <span class="h5 fw-bold" style="color: #3D4127; ">$238.85</span>
+                                <span class="h5 fw-bold" style="color: #3D4127;">Total:</span>
+                                <span class="h5 fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount * 1.18, 2); ?></span>
                             </div>
                             
-                            <button class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3" 
-                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease;  letter-spacing: 1px;">
-                                Proceed to Checkout
-                            </button>
+                            <a href="checkout.php" class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3 text-decoration-none" 
+                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease; letter-spacing: 1px; display: block;">
+                                <i class="fas fa-lock me-2"></i>Proceed to Checkout
+                            </a>
                             
-                            <div class="text-center">
-                                <p class="mb-0" style="color: #636B2F; font-size: 0.9rem;">
-                                    <i class="fas fa-lock me-2"></i>
-                                    Secure checkout powered by Stripe
-                                </p>
-                            </div>
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
+            <?php else: ?>
+            <!-- Empty Cart -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="text-center py-5">
+                        <i class="fas fa-shopping-cart fa-5x text-muted mb-4" style="opacity: 0.3;"></i>
+                        <h3 class="fw-bold mb-3" style="color: #3D4127;">Your Cart is Empty</h3>
+                        <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
+                        <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                            <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

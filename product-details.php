@@ -1,109 +1,76 @@
 <?php
 ob_start();
+include 'connection.php';
 
-// Get product parameters from URL
-$productId = isset($_GET['id']) ? $_GET['id'] : '1';
-$productName = isset($_GET['name']) ? urldecode($_GET['name']) : 'Premium Workout Tank';
-$productPrice = isset($_GET['price']) ? $_GET['price'] : '49.99';
+// Get product ID from URL
+$productId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Product data array (in a real application, this would come from a database)
-$products = [
-    '1' => [
-        'name' => 'Premium Workout Tank',
-        'price' => '$49.99',
-        'description' => 'Experience ultimate comfort and performance with our Premium Workout Tank. Made from high-quality moisture-wicking fabric with breathable mesh panels, this tank top is designed to keep you cool and dry during even the most intense workouts.',
-        'image' => 'assets/products/1.png',
-        'rating' => 5,
-        'reviews' => 128,
-        'badge' => 'Best Seller'
-    ],
-    '2' => [
-        'name' => 'Performance Leggings',
-        'price' => '$59.99',
-        'description' => 'Compression-fit leggings with four-way stretch and built-in support. Perfect for high-intensity workouts and everyday wear.',
-        'image' => 'assets/products/1.png',
-        'rating' => 4,
-        'reviews' => 95,
-        'badge' => 'Sale'
-    ],
-    '3' => [
-        'name' => 'Sports Bra',
-        'price' => '$39.99',
-        'description' => 'High-support sports bra with adjustable straps and moisture-wicking technology. Designed for maximum comfort during intense workouts.',
-        'image' => 'assets/products/1.png',
-        'rating' => 5,
-        'reviews' => 156,
-        'badge' => 'New'
-    ],
-    '4' => [
-        'name' => 'Running Shorts',
-        'price' => '$34.99',
-        'description' => 'Lightweight running shorts with built-in liner and reflective details. Perfect for early morning or evening runs.',
-        'image' => 'assets/products/1.png',
-        'rating' => 4,
-        'reviews' => 87,
-        'badge' => 'Popular'
-    ],
-    '5' => [
-        'name' => 'Performance Hoodie',
-        'price' => '$69.99',
-        'description' => 'Warm and breathable hoodie perfect for pre and post-workout sessions. Features moisture-wicking technology and comfortable fit.',
-        'image' => 'assets/products/1.png',
-        'rating' => 5,
-        'reviews' => 203,
-        'badge' => 'Best Seller'
-    ],
-    '6' => [
-        'name' => 'Premium Yoga Mat',
-        'price' => '$89.99',
-        'description' => 'Non-slip yoga mat with perfect thickness for comfort and stability. Made from eco-friendly materials with superior grip.',
-        'image' => 'assets/products/1.png',
-        'rating' => 5,
-        'reviews' => 167,
-        'badge' => 'Premium'
-    ]
+// Fetch product from database
+$query = "SELECT p.*, c.name as category_name, s.subcategory_name 
+          FROM products p 
+          LEFT JOIN categories c ON p.category_id = c.category_id 
+          LEFT JOIN subcategories s ON p.subcategory_id = s.subcategory_id 
+          WHERE p.product_id = ? AND p.is_active = 1";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $productId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    // Product not found, redirect to products page
+    header('Location: products.php');
+    exit;
+}
+
+$product = $result->fetch_assoc();
+
+// Fetch product variants (sizes)
+$variantsQuery = "SELECT * FROM product_variants WHERE product_id = ? AND is_active = 1 ORDER BY size";
+$variantsStmt = $conn->prepare($variantsQuery);
+$variantsStmt->bind_param("i", $productId);
+$variantsStmt->execute();
+$variantsResult = $variantsStmt->get_result();
+$variants = [];
+while ($variant = $variantsResult->fetch_assoc()) {
+    $variants[] = $variant;
+}
+
+// Prepare product data
+$currentProduct = [
+    'id' => $product['product_id'],
+    'name' => $product['name'],
+    'price' => '₹' . number_format($product['price'], 2),
+    'description' => $product['description'] ?? 'No description available.',
+    'image' => !empty($product['image_path']) ? $product['image_path'] : 'assets/products/1.png',
+    'stock' => $product['stock_quantity'],
+    'category' => $product['category_name'] ?? 'Uncategorized',
+    'subcategory' => $product['subcategory_name'] ?? ''
 ];
-
-// Get current product data
-$currentProduct = isset($products[$productId]) ? $products[$productId] : $products['1'];
 ?>
-<div class="container-fluid py-5">
+
+<div class="container-fluid py-5"><div class="row justify-content-center mb-5">
+        <div class="col-12 col-lg-10 text-center">
+            <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+                 Products Details
+            </h1>
+            
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="mb-4 mt-5 pt-5">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.php" style="color: #636B2F; text-decoration: none;">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="products.php" style="color: #636B2F; text-decoration: none;">Products</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page" style="color: #3D4127; font-weight: 600;">
-                        <?php echo htmlspecialchars($currentProduct['name']); ?>
-                    </li>
-                </ol>
-            </nav>
 
             <div class="row g-5">
                 <!-- Product Images -->
                 <div class="col-12 col-lg-6">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                         <div class="card-body p-0">
-                            <div class="main-image-container position-relative">
-                                <img src="<?php echo htmlspecialchars($currentProduct['image']); ?>" alt="<?php echo htmlspecialchars($currentProduct['name']); ?>" class="img-fluid w-100" id="mainImage" style="height: 500px; object-fit: cover;">
+                            <div class="main-image-container position-relative d-flex justify-content-center align-items-center" style="min-height: 500px;">
+                                <img src="<?php echo htmlspecialchars($currentProduct['image']); ?>" alt="<?php echo htmlspecialchars($currentProduct['name']); ?>" class="img-fluid" id="mainImage" style="max-height: 500px; object-fit: contain;">
                                 <div class="product-badge position-absolute top-0 start-0 m-3">
-                                    <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #636B2F, #3D4127); color: white; font-size: 0.9rem;">
-                                        <?php echo htmlspecialchars($currentProduct['badge']); ?>
-                                    </span>
+                                    
                                 </div>
                             </div>
-                            <div class="thumbnail-images d-flex justify-content-center gap-2 p-3">
-                                <img src="assets/products/1.png" alt="Thumbnail 1" class="img-thumbnail thumbnail-img" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid #D4DE95; transition: all 0.3s ease;">
-                                <img src="assets/products/1.png" alt="Thumbnail 2" class="img-thumbnail thumbnail-img" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease;">
-                                <img src="assets/products/1.png" alt="Thumbnail 3" class="img-thumbnail thumbnail-img" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease;">
-                                <img src="assets/products/1.png" alt="Thumbnail 4" class="img-thumbnail thumbnail-img" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease;">
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -117,21 +84,15 @@ $currentProduct = isset($products[$productId]) ? $products[$productId] : $produc
                             </h1>
                             
                             <div class="d-flex align-items-center mb-3">
-                                <div class="rating me-3">
-                                    <?php 
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        if ($i <= $currentProduct['rating']) {
-                                            echo '<i class="fas fa-star" style="color: #f39c12;"></i>';
-                                        } else {
-                                            echo '<i class="far fa-star" style="color: #f39c12;"></i>';
-                                        }
-                                    }
-                                    ?>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">(<?php echo $currentProduct['reviews']; ?> reviews)</span>
-                                </div>
-                                <span class="badge rounded-pill px-3 py-2" style="background: #D4DE95; color: #636B2F; font-size: 0.8rem;">
-                                    In Stock
-                                </span>
+                                <?php if ($currentProduct['stock'] > 0): ?>
+                                    <span class="badge rounded-pill px-3 py-2" style="background: #D4DE95; color: #636B2F; font-size: 0.8rem;">
+                                        In Stock 
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge rounded-pill px-3 py-2" style="background: #dc3545; color: white; font-size: 0.8rem;">
+                                        Out of Stock
+                                    </span>
+                                <?php endif; ?>
                             </div>
                             
                             <div class="price-section mb-4">
@@ -144,27 +105,31 @@ $currentProduct = isset($products[$productId]) ? $products[$productId] : $produc
                             </p>
                             
                             <!-- Size Selection -->
+                            <?php if (!empty($variants)): ?>
                             <div class="mb-4">
-                                <h6 class="fw-bold mb-3" style="color: #3D4127; ">Select Size:</h6>
+                                <h6 class="fw-bold mb-3" style="color: #3D4127;">Select Size:</h6>
                                 <div class="d-flex gap-2 flex-wrap">
-                                    <button class="btn size-btn" style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; min-width: 50px; transition: all 0.3s ease;">XS</button>
-                                    <button class="btn size-btn" style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; min-width: 50px; transition: all 0.3s ease;">S</button>
-                                    <button class="btn size-btn active" style="background: #636B2F; color: white; border: 2px solid #636B2F; min-width: 50px; transition: all 0.3s ease;">M</button>
-                                    <button class="btn size-btn" style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; min-width: 50px; transition: all 0.3s ease;">L</button>
-                                    <button class="btn size-btn" style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; min-width: 50px; transition: all 0.3s ease;">XL</button>
+                                    <?php foreach ($variants as $index => $variant): ?>
+                                        <button class="btn size-btn <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                                data-variant-id="<?php echo $variant['variant_id']; ?>"
+                                                data-stock="<?php echo $variant['stock_quantity']; ?>"
+                                                <?php echo $variant['stock_quantity'] <= 0 ? 'disabled' : ''; ?>
+                                                style="background: <?php echo $index === 0 ? '#636B2F' : '#f8f9fa'; ?>; 
+                                                       color: <?php echo $index === 0 ? 'white' : '#636B2F'; ?>; 
+                                                       border: 2px solid <?php echo $index === 0 ? '#636B2F' : '#D4DE95'; ?>; 
+                                                       min-width: 50px; 
+                                                       transition: all 0.3s ease;
+                                                       <?php echo $variant['stock_quantity'] <= 0 ? 'opacity: 0.5; cursor: not-allowed;' : ''; ?>">
+                                            <?php echo htmlspecialchars($variant['size']); ?>
+                                            <?php if ($variant['stock_quantity'] <= 0): ?>
+                                                <br><small>(Out of Stock)</small>
+                                            <?php endif; ?>
+                                        </button>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             
-                            <!-- Color Selection -->
-                            <div class="mb-4">
-                                <h6 class="fw-bold mb-3" style="color: #3D4127; ">Select Color:</h6>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="color-option active" style="width: 30px; height: 30px; border-radius: 50%; background: #000000; border: 3px solid #636B2F; cursor: pointer; transition: all 0.3s ease;"></div>
-                                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background: #ffffff; border: 3px solid #D4DE95; cursor: pointer; transition: all 0.3s ease;"></div>
-                                    <div class="color-option" style="width: 30px; height: 30px; border-radius: 50%; background: #808080; border: 3px solid #D4DE95; cursor: pointer; transition: all 0.3s ease;"></div>
-                                    <span class="ms-2" style="color: #636B2F; font-size: 0.9rem;">Black</span>
-                                </div>
-                            </div>
                             
                             <!-- Quantity -->
                             <div class="mb-4">
@@ -182,16 +147,27 @@ $currentProduct = isset($products[$productId]) ? $products[$productId] : $produc
                             
                             <!-- Action Buttons -->
                             <div class="d-grid gap-3 mb-4">
-                                <button class="btn py-3 rounded-pill fw-bold text-white" 
-                                        style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;  letter-spacing: 1px;">
-                                    <i class="fas fa-shopping-cart me-2"></i>
-                                    Add to Cart
-                                </button>
-                                <button class="btn py-3 rounded-pill fw-bold" 
-                                        style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95; ">
-                                    <i class="fas fa-heart me-2"></i>
-                                    Add to Wishlist
-                                </button>
+                                <form method="POST" action="add_to_cart.php">
+                                    <input type="hidden" name="product_id" value="<?php echo $currentProduct['id']; ?>">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="redirect" value="product-details.php?id=<?php echo $currentProduct['id']; ?>">
+                                    <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold text-white" 
+                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; letter-spacing: 1px;">
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                        Add to Cart
+                                    </button>
+                                </form>
+                                <form method="POST" action="add_to_favorites.php">
+                                    <input type="hidden" name="product_id" value="<?php echo $currentProduct['id']; ?>">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="redirect" value="product-details.php?id=<?php echo $currentProduct['id']; ?>">
+                                    <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold" 
+                                            style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95;">
+                                        <i class="fas fa-heart me-2"></i>
+                                        Add to Wishlist
+                                    </button>
+                                </form>
                             </div>
                             
                                                  </div>
@@ -217,12 +193,7 @@ $currentProduct = isset($products[$productId]) ? $products[$productId] : $produc
                                         Specifications
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link border-0 fw-bold" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" 
-                                            style="color: #636B2F; background: none; ">
-                                        Reviews
-                                    </button>
-                                </li>
+                               
                             </ul>
                         </div>
                         <div class="card-body p-4">
@@ -277,41 +248,7 @@ $currentProduct = isset($products[$productId]) ? $products[$productId] : $produc
                                     </div>
                                 </div>
                                 
-                                <!-- Reviews Tab -->
-                                <div class="tab-pane fade" id="reviews" role="tabpanel">
-                                    <h4 class="fw-bold mb-3" style="color: #3D4127; ">Customer Reviews</h4>
-                                    <div class="review-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h6 class="mb-0 fw-bold" style="color: #3D4127; ">Sarah M.</h6>
-                                            <div class="rating">
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                            </div>
-                                        </div>
-                                        <p class="mb-0" style="color: #636B2F;  line-height: 1.6;">
-                                            "Absolutely love this tank top! It's incredibly comfortable and keeps me dry during intense workouts. The fit is perfect and it looks great too!"
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="review-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h6 class="mb-0 fw-bold" style="color: #3D4127; ">Mike R.</h6>
-                                            <div class="rating">
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-                                                <i class="far fa-star" style="color: #f39c12;"></i>
-                                            </div>
-                                        </div>
-                                        <p class="mb-0" style="color: #636B2F;  line-height: 1.6;">
-                                            "Great quality fabric and the moisture-wicking really works. Only giving 4 stars because I wish it came in more colors."
-                                        </p>
-                                    </div>
-                                </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -490,17 +427,6 @@ include_once 'master_layout.php';
 
                                                 </li>
 
-                                                <li class="mb-2" style="color: #636B2F; ">
-
-                                                    <strong>Anti-Odor:</strong> Yes
-
-                                                </li>
-
-                                                <li class="mb-2" style="color: #636B2F; ">
-
-                                                    <strong>Made in:</strong> Vietnam
-
-                                                </li>
 
                                             </ul>
 
@@ -509,75 +435,7 @@ include_once 'master_layout.php';
                                     </div>
 
                                 </div>
-
                                 
-
-                                <!-- Reviews Tab -->
-
-                                <div class="tab-pane fade" id="reviews" role="tabpanel">
-
-                                    <h4 class="fw-bold mb-3" style="color: #3D4127; ">Customer Reviews</h4>
-
-                                    <div class="review-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-
-                                            <h6 class="mb-0 fw-bold" style="color: #3D4127; ">Sarah M.</h6>
-
-                                            <div class="rating">
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                            </div>
-
-                                        </div>
-
-                                        <p class="mb-0" style="color: #636B2F;  line-height: 1.6;">
-
-                                            "Absolutely love this tank top! It's incredibly comfortable and keeps me dry during intense workouts. The fit is perfect and it looks great too!"
-
-                                        </p>
-
-                                    </div>
-
-                                    
-
-                                    <div class="review-item mb-4 p-3 rounded" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
-
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-
-                                            <h6 class="mb-0 fw-bold" style="color: #3D4127; ">Mike R.</h6>
-
-                                            <div class="rating">
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="fas fa-star" style="color: #f39c12;"></i>
-
-                                                <i class="far fa-star" style="color: #f39c12;"></i>
-
-                                            </div>
-
-                                        </div>
-
-                                        <p class="mb-0" style="color: #636B2F;  line-height: 1.6;">
-
-                                            "Great quality fabric and the moisture-wicking really works. Only giving 4 stars because I wish it came in more colors."
-
-                                        </p>
-
                                     </div>
 
                                 </div>

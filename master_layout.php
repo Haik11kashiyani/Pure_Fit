@@ -1,3 +1,4 @@
+<?php if (session_status() == PHP_SESSION_NONE) session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +12,98 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,gu,es,fr,de,ar,zh-CN,ja,ko',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
+    <style>
+        /* Hide Google Translate banner and frame */
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+        body {
+            top: 0px !important;
+            position: static !important;
+        }
+        .skiptranslate iframe {
+            display: none !important;
+        }
+        iframe.skiptranslate {
+            display: none !important;
+        }
+        body > .skiptranslate {
+            display: none !important;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        #goog-gt-tt, .goog-te-balloon-frame {
+            display: none !important;
+        }
+        .goog-text-highlight {
+            background: none !important;
+            box-shadow: none !important;
+        }
+        /* Google Translate widget styling */
+        #google_translate_element,
+        #google_translate_element_profile {
+            display: block;
+        }
+        #google_translate_element select,
+        #google_translate_element_profile select {
+            border: 2px solid #636B2F !important;
+            border-radius: 10px !important;
+            padding: 12px 20px !important;
+            font-size: 16px !important;
+            color: #3D4127 !important;
+            background: white !important;
+            cursor: pointer !important;
+            outline: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        #google_translate_element select:hover,
+        #google_translate_element_profile select:hover {
+            background: #f8f9fa !important;
+            border-color: #3D4127 !important;
+        }
+        .goog-te-gadget {
+            font-family: inherit !important;
+        }
+        .goog-te-gadget-simple {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            font-size: 16px !important;
+        }
+        .goog-te-gadget-icon {
+            display: none !important;
+        }
+        .goog-logo-link {
+            display: none !important;
+        }
+        .goog-te-gadget span {
+            display: none !important;
+        }
+        .goog-te-combo {
+            margin: 0 !important;
+        }
+        /* Force show select element */
+        .goog-te-gadget select.goog-te-combo {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,30 +111,56 @@
     <section class="header-section">
         <header>
             <div class="nav-container">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container-fluid">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <div class="container-fluid px-3 px-md-4">
+                        <!-- Brand/Logo for mobile -->
+                        <a class="navbar-brand d-lg-none fw-bold" href="index.php" style="color: #f1f8cc;">Pure Fit</a>
+                        
+                        <!-- Hamburger toggler -->
+                        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
+                        
+                        <!-- Collapsible navbar -->
                         <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav ms-auto">
+                            <ul class="navbar-nav ms-auto align-items-lg-center">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.php">Home</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="products.php">Products</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="products.php">Products</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="cart.php">Cart</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="cart.php">
+                                        <i class="fas fa-shopping-cart d-lg-none me-2"></i>Cart
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="favorites.php">Favorite</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="favorites.php">
+                                        <i class="fas fa-heart d-lg-none me-2"></i>Favorites
+                                    </a>
+                                </li>
+                                <?php if (!empty($_SESSION['user_id'])): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="profile.php">
+                                        <i class="fas fa-user d-lg-none me-2"></i>Profile
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="login.php">Login</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="logout.php">
+                                        <i class="fas fa-sign-out-alt d-lg-none me-2"></i>Logout
+                                    </a>
                                 </li>
+                                <?php else: ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="profile.php">Profile</a>
+                                    <a class="nav-link px-2 px-lg-3 py-2" href="login.php">
+                                        <i class="fas fa-sign-in-alt d-lg-none me-2"></i>Login
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <!-- Google Translate Widget -->
+                                <li class="nav-item ms-lg-2">
+                                    <div id="google_translate_element" class="d-inline-block"></div>
                                 </li>
                             </ul>
                         </div>
@@ -85,8 +203,8 @@
                     <div class="footer-contact col-12 col-md-4 mb-4">
                         <h4>Contact</h4>
                         <p>Email: info@purefitcloths.com</p>
-                        <p>Phone: +1 234 567 8901</p>
-                        <p>Location: Your City, Country</p>
+                        <p>Phone: +91 234 567 8901</p>
+                        <p>Location: Rajkot, Gujarat, India</p>
                     </div>
                 </div>
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3">
@@ -99,97 +217,206 @@
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Product Actions jQuery -->
+    <!-- Product Actions with AJAX -->
     <script>
-        // Cart and Favorites functionality using jQuery
         $(document).ready(function() {
             // Add to Cart functionality
-            $('.add-to-cart').on('click', function(e) {
+            $(document).on('click', '.add-to-cart', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
                 const $button = $(this);
-                const $productCard = $button.closest('.productcant');
-                const productName = $productCard.find('h3').text();
-                const productPrice = $productCard.find('p:last-child').text();
                 
-                // Add to cart logic (you can customize this)
-                addToCart(productName, productPrice);
+                // Find product ID - try multiple methods
+                let productId = null;
                 
-                // Visual feedback
-                $button.html('<i class="fas fa-check"></i>');
-                $button.css({
-                    'background': '#28a745',
-                    'color': 'white'
+                // Method 1: Check if button has data-product-id attribute
+                productId = $button.data('product-id');
+                
+                // Method 2: Find closest link with product ID in href
+                if (!productId) {
+                    const $link = $button.closest('.productcant').find('a[href*="product-details.php"]').first();
+                    if ($link.length) {
+                        const match = $link.attr('href').match(/id=(\d+)/);
+                        if (match) productId = match[1];
+                    }
+                }
+                
+                // Method 3: Check parent link
+                if (!productId) {
+                    const $parentLink = $button.closest('a[href*="product-details.php"]');
+                    if ($parentLink.length) {
+                        const match = $parentLink.attr('href').match(/id=(\d+)/);
+                        if (match) productId = match[1];
+                    }
+                }
+                
+                if (!productId) {
+                    showNotification('Error: Product ID not found', 'danger');
+                    console.error('Could not find product ID for cart');
+                    return;
+                }
+                
+                // Show loading state
+                const originalHTML = $button.html();
+                $button.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
+                
+                $.ajax({
+                    url: 'ajax_cart.php',
+                    type: 'POST',
+                    data: {
+                        product_id: productId,
+                        action: 'add',
+                        quantity: 1
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Success feedback
+                            $button.html('<i class="fas fa-check"></i>');
+                            $button.css({
+                                'background': '#28a745',
+                                'color': 'white'
+                            });
+                            showNotification(response.message, 'success');
+                            
+                            // Reset after 1.5 seconds
+                            setTimeout(() => {
+                                $button.html(originalHTML);
+                                $button.css({
+                                    'background': 'rgba(255, 255, 255, 0.95)',
+                                    'color': '#636B2F'
+                                }).prop('disabled', false);
+                            }, 1500);
+                        } else {
+                            $button.html(originalHTML).prop('disabled', false);
+                            showNotification(response.message, 'warning');
+                        }
+                    },
+                    error: function() {
+                        $button.html(originalHTML).prop('disabled', false);
+                        showNotification('Error adding to cart', 'danger');
+                    }
                 });
-                
-                setTimeout(() => {
-                    $button.html('<i class="fas fa-shopping-cart"></i>');
-                    $button.css({
-                        'background': 'rgba(255, 255, 255, 0.95)',
-                        'color': '#636B2F'
-                    });
-                }, 1000);
             });
 
             // Add to Favorites functionality
-            $('.add-to-favorites').on('click', function(e) {
+            $(document).on('click', '.add-to-favorites', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
                 const $button = $(this);
-                const $productCard = $button.closest('.productcant');
-                const productName = $productCard.find('h3').text();
-                const productPrice = $productCard.find('p:last-child').text();
                 
-                // Add to favorites logic (you can customize this)
-                addToFavorites(productName, productPrice);
+                // Find product ID - try multiple methods
+                let productId = null;
                 
-                // Visual feedback
-                $button.html('<i class="fas fa-heart-fill"></i>');
-                $button.css({
-                    'background': '#e74c3c',
-                    'color': 'white'
+                // Method 1: Check if button has data-product-id attribute
+                productId = $button.data('product-id');
+                
+                // Method 2: Find closest link with product ID in href
+                if (!productId) {
+                    const $link = $button.closest('.productcant').find('a[href*="product-details.php"]').first();
+                    if ($link.length) {
+                        const match = $link.attr('href').match(/id=(\d+)/);
+                        if (match) productId = match[1];
+                    }
+                }
+                
+                // Method 3: Check parent link
+                if (!productId) {
+                    const $parentLink = $button.closest('a[href*="product-details.php"]');
+                    if ($parentLink.length) {
+                        const match = $parentLink.attr('href').match(/id=(\d+)/);
+                        if (match) productId = match[1];
+                    }
+                }
+                
+                if (!productId) {
+                    showNotification('Error: Product ID not found', 'danger');
+                    console.error('Could not find product ID');
+                    return;
+                }
+                
+                // Check if already favorited
+                const isFavorited = $button.hasClass('favorited');
+                const action = isFavorited ? 'remove' : 'add';
+                
+                // Show loading state
+                const originalHTML = $button.html();
+                $button.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
+                
+                $.ajax({
+                    url: 'ajax_favorites.php',
+                    type: 'POST',
+                    data: {
+                        product_id: productId,
+                        action: action
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            if (response.action === 'added') {
+                                // Added to favorites
+                                $button.addClass('favorited');
+                                $button.html('<i class="fas fa-heart"></i>');
+                                $button.css({
+                                    'background': '#e74c3c',
+                                    'color': 'white'
+                                });
+                                showNotification(response.message, 'success');
+                            } else {
+                                // Removed from favorites
+                                $button.removeClass('favorited');
+                                $button.html('<i class="fas fa-heart"></i>');
+                                $button.css({
+                                    'background': 'rgba(255, 255, 255, 0.95)',
+                                    'color': '#e74c3c'
+                                });
+                                showNotification(response.message, 'success');
+                                
+                                // If on favorites page, remove the card
+                                if (window.location.pathname.includes('favorites.php')) {
+                                    $button.closest('.col-12').fadeOut(300, function() {
+                                        $(this).remove();
+                                        // Check if no more favorites
+                                        if ($('.productcant').length === 0) {
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            }
+                            $button.prop('disabled', false);
+                        } else {
+                            $button.html(originalHTML).prop('disabled', false);
+                            showNotification(response.message, 'warning');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $button.html(originalHTML).prop('disabled', false);
+                        showNotification('Error updating favorites', 'danger');
+                        console.error('AJAX Error:', error);
+                    }
                 });
-                
-                setTimeout(() => {
-                    $button.html('<i class="fas fa-heart"></i>');
-                    $button.css({
-                        'background': 'rgba(255, 255, 255, 0.95)',
-                        'color': '#e74c3c'
-                    });
-                }, 1000);
             });
         });
 
-        function addToCart(productName, productPrice) {
-            // You can implement your cart logic here
-            console.log('Added to cart:', productName, productPrice);
-            // Example: Store in localStorage, send to server, etc.
-            showNotification('Product added to cart!', 'success');
-        }
-
-        function addToFavorites(productName, productPrice) {
-            // You can implement your favorites logic here
-            console.log('Added to favorites:', productName, productPrice);
-            // Example: Store in localStorage, send to server, etc.
-            showNotification('Product added to favorites!', 'success');
-        }
-
         function showNotification(message, type) {
-            // Create notification element using jQuery
             const $notification = $('<div>')
-                .addClass(`alert alert-${type} position-fixed`)
+                .addClass(`alert alert-${type} alert-dismissible fade show position-fixed`)
                 .css({
-                    'top': '20px',
+                    'top': '80px',
                     'right': '20px',
                     'z-index': '9999',
-                    'min-width': '300px'
+                    'min-width': '300px',
+                    'box-shadow': '0 4px 12px rgba(0,0,0,0.15)'
                 })
-                .html(message);
+                .html(`
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `);
             
             $('body').append($notification);
             
-            // Remove notification after 3 seconds
             setTimeout(() => {
                 $notification.fadeOut(300, function() {
                     $(this).remove();

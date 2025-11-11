@@ -1,165 +1,231 @@
-        body {
-            background-image: radial-gradient(circle, #BAC095, #D4DE95);
-        }
+        /* ============================================
+   PURE FIT - FULLY RESPONSIVE CSS
+   Mobile-First Approach with Bootstrap 5
+   ============================================ */
 
-        /* Header Section - Default gradient background */
-        .header-section {
-            background: linear-gradient(135deg,  #BAC095 0%, #D4DE95 50%, #636B2F 100%);
-            min-height: 60vh;
-            position: relative;
-        }
+/* BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* Header Section with background image - only for index page */
-        .header-section.index-header {
-            background-image: url('../assets/img/hero1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: top center;
-        }
+body {
+    background-image: radial-gradient(circle, #BAC095, #D4DE95);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
 
-        /* Hero Section with background image - only for index page */
-        .hero-section.index-header {
-            background-image: url('../assets/img/hero1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: top center;
-        }
+/* ============================================
+   HEADER & NAVIGATION - RESPONSIVE
+   ============================================ */
 
-        /* Ensure all pages have gradient background */
-        .page-content {
-            background: linear-gradient(135deg, #BAC095 0%, #D4DE95 50%, #636B2F 100%);
-            min-height: 100vh;
-        }
+.header-section {
+    background: linear-gradient(135deg, #BAC095 0%, #D4DE95 50%, #636B2F 100%);
+    min-height: 40vh;
+    position: relative;
+}
 
-        /* Navigation - Custom positioning */
-        .nav-container {
-            position: fixed;
-            top: 3vh;
-            width: 88vw;
-            margin-left: 6vw;
-            z-index: 1000;
-        }
+.header-section.index-header {
+    background-image: url('../assets/img/hero1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 60vh;
+}
 
-        .nav-container .navbar-nav .nav-link {
-            color: #f1f8cc !important;
-            font-size: larger;
-            font-weight: bold;
-            margin: 0 15px;
-            position: relative;
-            text-decoration: none;
-        }
+.hero-section.index-header {
+    background-image: url('../assets/img/hero1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 
-        .nav-container .navbar-nav .nav-link::after {
-            content: "";
-            display: block;
-            position: absolute;
-            left: 0;
-            bottom: -4px;
-            width: 100%;
-            height: 2px;
-            background: #D4DE95;
-            transform: scaleX(0);
-            transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-        }
+.page-content {
+    background: linear-gradient(135deg, #BAC095 0%, #D4DE95 50%, #636B2F 100%);
+    min-height: 100vh;
+}
 
-        .nav-container .navbar-nav .nav-link:hover::after {
-            transform: scaleX(1);
-        }
+/* NAVIGATION - FULLY RESPONSIVE */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    transition: background 0.3s ease;
+}
 
-        .nav-container .navbar-nav .nav-link:hover {
-            color: #effc9c !important;
-        }
-        /* Hero Section - Complex positioning */
-        .hero-section {
-            width: 99vw;
-            background-image: url('../assets/img/hero1.png');
-            height: 100vh;
-            
-            position: relative;
-        }
+/* Dark background for mobile and tablet only */
+@media (max-width: 991.98px) {
+    .nav-container {
+        background: rgba(61, 65, 39, 0.98) !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    }
+}
 
-        .hero-text {
-            position: absolute;
-            left: 5%;
-            top: 15%;
-            width: 45%;
-            height: 70%;
-        }
+/* Keep transparent for desktop */
+@media (min-width: 992px) {
+    .nav-container {
+        background: transparent;
+    }
+}
 
-        .hero-text h1 {
-            font-size: 8vh;
-            color: #f1f8cc;
-        }
+.nav-container .navbar-nav .nav-link {
+    color: #f1f8cc !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .hero-text p {
-            font-size: 4vh;
-            color: #636B2F;
-        }
+.nav-container .navbar-nav .nav-link::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #D4DE95;
+    transform: scaleX(0);
+    transition: transform 0.3s cubic-bezier(.4, 0, .2, 1);
+}
 
-        .hero-imgs {
-            position: absolute;
-            left: 50%;
-            top: 15%;
-            width: 45%;
-            height: 70%;
-        }
+.nav-container .navbar-nav .nav-link:hover::after {
+    transform: scaleX(1);
+}
 
-        .hero-imgs-right {
-            position: relative;
-            width: 17vw;
-            height: 20vh;
-            top: 20vh;
-            left: 20vw;
-            background-color: blanchedalmond;
-        }
+.nav-container .navbar-nav .nav-link:hover {
+    color: #effc9c !important;
+}
 
-        /* Products Section - Custom effects */
-        .products-section {
-            backdrop-filter: blur(25px);
-        }
+.navbar-toggler {
+    border-color: rgba(241, 248, 204, 0.5) !important;
+}
 
-        .productcant {
-            border: 1px solid #636B2F;
-            max-width: 350px;
-            width: 100%;
-            position: relative;
-            overflow: visible;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            min-height: 280px;
-            
-        }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28241, 248, 204, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
-        .productcant:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(99, 107, 47, 0.2);
-        }
+/* ============================================
+   HERO SECTION - RESPONSIVE
+   ============================================ */
 
-        .product-actions {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+.hero-section {
+    width: 100%;
+    background-image: url('../assets/img/hero1.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+}
 
-        .productcant:hover .product-actions {
-            opacity: 1;
-        }
+.hero-text {
+    position: relative;
+    width: 100%;
+    padding: 2rem;
+    z-index: 10;
+}
 
-        .product-actions button {
-            transition: all 0.3s ease;
-        }
+.hero-text h1 {
+    font-size: clamp(2rem, 6vw, 5rem);
+    color: #f1f8cc;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
 
-        .product-actions button:hover {
-            transform: scale(1.1);
-        }
+.hero-text p {
+    font-size: clamp(1rem, 3vw, 2rem);
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
 
-        .add-to-favorites:hover {
-            background: #e74c3c !important;
-            color: white !important;
-        }
+.hero-imgs {
+    display: none;
+}
 
-        .add-to-cart:hover {
-            background: #636B2F !important;
-            color: white !important;
-        }
+.hero-imgs-right {
+    display: none;
+}
+
+/* ============================================
+   PRODUCTS SECTION - RESPONSIVE
+   ============================================ */
+
+.products-section {
+    backdrop-filter: blur(25px);
+    padding: 2rem 0;
+}
+
+.productcant {
+    border: 2px solid #636B2F;
+    border-radius: 12px;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2rem;
+}
+
+.productcant:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(99, 107, 47, 0.3);
+}
+
+.productcant img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.productcant:hover img {
+    transform: scale(1.05);
+}
+
+.product-actions {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.productcant:hover .product-actions {
+    opacity: 1;
+}
+
+.product-actions button {
+    transition: all 0.3s ease;
+}
+
+.product-actions button:hover {
+    transform: scale(1.1);
+}
+
+.add-to-favorites:hover {
+    background: #e74c3c !important;
+    color: white !important;
+}
+
+.add-to-cart:hover {
+    background: #636B2F !important;
+    color: white !important;
+}
 
         .productcant::before {
             content: "";
@@ -169,7 +235,7 @@
             backdrop-filter: blur(7px);
 
             opacity: 0;
-            transition: opacity 0.4s cubic-bezier(.4,0,.2,1);
+            transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1);
             z-index: 1;
             pointer-events: none;
         }
@@ -187,13 +253,13 @@
             top: 65%;
             transform: translate(-50%, 60px);
             opacity: 0;
-            transition: opacity 0.6s cubic-bezier(.3,0,.2,1), transform 0.6s cubic-bezier(.3,0,.2,1), box-shadow 0.6s cubic-bezier(.4,0,.2,1);
+            transition: opacity 0.6s cubic-bezier(.3, 0, .2, 1), transform 0.6s cubic-bezier(.3, 0, .2, 1), box-shadow 0.6s cubic-bezier(.4, 0, .2, 1);
             z-index: 15;
             border: 2px solid #636B2F;
-            
+
             backdrop-filter: blur(10px);
             padding: 12px 16px;
-            
+
         }
 
         .product-info h3 {
@@ -232,7 +298,7 @@
         .review-box {
             background: #D4DE95;
             border: 1px solid #636B2F;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* Footer - Custom colors and effects */
@@ -240,7 +306,7 @@
             background: #3D4127;
             color: #D4DE95;
             width: 98.8vw;
-            
+
         }
 
         .footer-main {
@@ -257,45 +323,241 @@
             color: #636B2F;
         }
 
-        
+
 
         .footer-copy {
             color: #bbb;
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .hero-text h1 {
-                font-size: 6vh;
-            }
+/* ============================================
+   FOOTER - RESPONSIVE
+   ============================================ */
 
-            .hero-text p {
-                font-size: 3vh;
-            }
+.footer {
+    background: #3D4127;
+    color: #D4DE95;
+    width: 100%;
+    margin-top: 3rem;
+}
 
-            .productcant {
-                min-height: 250px;
-                padding-bottom: 90px;
-            }
+.footer-main {
+    border-bottom: 1px solid #636B2F;
+}
 
-            .product-info {
-                width: 98%;
-                top: 60%;
-                transform: translate(-50%, 40px);
-                padding: 10px 12px;
-                min-height: 55px;
-            }
+.footer-links a {
+    color: #D4DE95;
+    text-decoration: none;
+    transition: color 0.2s;
+}
 
-            .product-info h3 {
-                font-size: 0.9rem;
-            }
+.footer-links a:hover {
+    color: #BAC095;
+}
 
-            .product-info p {
-                font-size: 0.8rem;
-            }
+.footer-copy {
+    color: #bbb;
+}
 
-            .productcant:hover .product-info {
-                transform: translate(-50%, 0px);
-            }
-        }
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* Extra Small Devices (phones, 320px - 575px) */
+@media (max-width: 575.98px) {
+    .nav-container {
+        padding: 0.5rem 0;
+    }
     
+    .hero-section {
+        min-height: 70vh;
+        padding-top: 60px;
+    }
+    
+    .hero-text {
+        padding: 1rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-text p {
+        font-size: 1rem;
+    }
+    
+    .productcant {
+        min-height: 280px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-info {
+        width: 95%;
+        padding: 8px 12px;
+        position: static;
+        transform: none;
+        opacity: 1;
+        margin-top: 1rem;
+    }
+    
+    .product-actions {
+        opacity: 1;
+    }
+    
+    .footer {
+        padding: 2rem 1rem;
+    }
+    
+    .products-section .position-relative a.btn.btn-primary {
+        position: static;
+        transform: none;
+        display: block;
+        margin: 1rem auto;
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* Small Devices (landscape phones, 576px - 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .hero-section {
+        min-height: 80vh;
+    }
+    
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-text p {
+        font-size: 1.25rem;
+    }
+    
+    .productcant {
+        max-width: 400px;
+        margin: 0 auto 2rem;
+    }
+    
+    .product-info {
+        width: 96%;
+    }
+}
+
+/* Medium Devices (tablets, 768px - 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .nav-container {
+        padding: 1rem 2rem;
+    }
+    
+    .hero-section {
+        min-height: 90vh;
+    }
+    
+    .hero-text {
+        padding: 2rem 3rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 3.5rem;
+    }
+    
+    .hero-text p {
+        font-size: 1.5rem;
+    }
+    
+    .productcant {
+        max-width: 350px;
+    }
+    
+    .product-info {
+        top: 65%;
+        transform: translate(-50%, 60px);
+        opacity: 0;
+    }
+    
+    .productcant:hover .product-info {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Large Devices (desktops, 992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .nav-container {
+        padding: 1rem 3rem;
+    }
+    
+    .hero-text {
+        padding: 3rem 4rem;
+    }
+    
+    .productcant {
+        max-width: 320px;
+    }
+}
+
+/* Extra Large Devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .nav-container {
+        padding: 1rem 6vw;
+    }
+    
+    .hero-text {
+        padding: 3rem 5rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 5rem;
+    }
+    
+    .hero-text p {
+        font-size: 2rem;
+    }
+    
+    .productcant {
+        max-width: 350px;
+    }
+    
+    .container-fluid {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+/* Landscape Orientation */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero-section {
+        min-height: 150vh;
+    }
+    
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-text p {
+        font-size: 1rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .product-actions {
+        opacity: 1;
+    }
+    
+    .product-info {
+        opacity: 1;
+        position: static;
+        transform: none;
+        margin-top: 1rem;
+    }
+    
+    .productcant:hover {
+        transform: none;
+    }
+}
+
+/* High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .productcant img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}

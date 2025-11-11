@@ -1,7 +1,59 @@
 
 <?php
-        ob_start();
-        ?>
+ob_start();
+include 'connection.php';
+session_start();
+$login_error = '';
+// If coming from verification
+$verified_msg = '';
+if (isset($_GET['verified']) && $_GET['verified'] == 1) {
+    $verified_msg = 'Your account has been verified. You may now sign in.';
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    if (!$email || !$password) {
+        $login_error = 'Please enter email and password.';
+    } else {
+        // Get user details including role
+        $stmt = mysqli_prepare($conn, "SELECT u.user_id, u.password, u.is_active, u.first_name, u.last_name, r.role_name 
+                                        FROM users u 
+                                        INNER JOIN roles r ON u.role_id = r.role_id 
+                                        WHERE u.email = ? LIMIT 1");
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+        if (mysqli_stmt_num_rows($stmt) === 1) {
+            mysqli_stmt_bind_result($stmt, $user_id, $hash, $is_active, $first_name, $last_name, $role_name);
+            mysqli_stmt_fetch($stmt);
+            if (!password_verify($password, $hash)) {
+                $login_error = 'Invalid credentials.';
+            } elseif (!$is_active) {
+                $login_error = 'Account not active. Please verify your email.';
+            } else {
+                // Login success - Check role and redirect accordingly
+                if ($role_name == 'admin') {
+                    // Admin user - redirect to admin panel
+                    $_SESSION['admin_id'] = $user_id;
+                    $_SESSION['admin_email'] = $email;
+                    $_SESSION['admin_name'] = $first_name . ' ' . $last_name;
+                    header('Location: admin/index.php');
+                    exit;
+                } else {
+                    // Regular customer - redirect to main site
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['email'] = $email;
+                    header('Location: index.php');
+                    exit;
+                }
+            }
+        } else {
+            $login_error = 'Invalid credentials.';
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+?>
 
 <div class="container-fluid" style="padding-top: 15vh; min-height: 100vh; ">
     <div class="row justify-content-center" style="min-height: 80vh; padding-top: 4vh;">
@@ -16,40 +68,44 @@
                     </p>
                 </div>
                 <div class="card-body p-4">
-                    <form>
+                    <?php if (!empty($login_error)): ?>
+                        <div class="alert alert-danger"><?php echo $login_error; ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($verified_msg)): ?>
+                        <div class="alert alert-success"><?php echo $verified_msg; ?></div>
+                    <?php endif; ?>
+                    <div class="alert-container"></div>
+                    <form method="POST" action="" id="loginForm" novalidate>
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold" style="color: #3D4127; ">
+                            <label for="email" class="form-label fw-semibold" style="color: #3D4127;">
                                 Email Address
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
                                     <i class="fas fa-envelope"></i>
                                 </span>
-                                <input type="email" class="form-control border-0 py-3" id="email" placeholder="Enter your email" 
+                                <input type="text" class="form-control border-0 py-3" id="email" name="email" placeholder="Enter your email" 
                                        style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
                             </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold" style="color: #3D4127; ">
+                            <label for="password" class="form-label fw-semibold" style="color: #3D4127;">
                                 Password
                             </label>
-                            <div class="input-group">
+                            <div class="input-group position-relative">
                                 <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
                                     <i class="fas fa-lock"></i>
                                 </span>
-                                <input type="password" class="form-control border-0 py-3" id="password" placeholder="Enter your password" 
+                                <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
                                        style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                    <i class="fas fa-eye text-muted"></i>
+                                </span>
                             </div>
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember" style="accent-color: #636B2F;">
-                                <label class="form-check-label" for="remember" style="color: #636B2F; font-size: 0.9rem;">
-                                    Remember me
-                                </label>
-                            </div>
                             <a href="#" class="text-decoration-none" style="color: #636B2F; font-size: 0.9rem; transition: color 0.3s ease;">
                                 Forgot password?
                             </a>
@@ -141,8 +197,23 @@ a:hover {
 }
 </style>
 
-<!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="js/validation.js"></script>
+<script>
+$(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        const isValid = Validation.validateForm('#loginForm', {
+            email: { required: true, email: true },
+            password: { required: true, password: true }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+</script>
 
     <?php
         $contant = ob_get_clean();
