@@ -147,7 +147,7 @@ $currentProduct = [
                             
                             <!-- Action Buttons -->
                             <div class="d-grid gap-3 mb-4">
-                                <form method="POST" action="add_to_cart.php">
+                                <form method="POST" action="add_to_cart.php" novalidate>
                                     <input type="hidden" name="product_id" value="<?php echo $currentProduct['id']; ?>">
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="quantity" value="1">
@@ -158,7 +158,7 @@ $currentProduct = [
                                         Add to Cart
                                     </button>
                                 </form>
-                                <form method="POST" action="add_to_favorites.php">
+                                <form method="POST" action="add_to_favorites.php" novalidate>
                                     <input type="hidden" name="product_id" value="<?php echo $currentProduct['id']; ?>">
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="redirect" value="product-details.php?id=<?php echo $currentProduct['id']; ?>">

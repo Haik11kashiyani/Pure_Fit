@@ -83,7 +83,7 @@ $cart_count = count($cart_items);
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="quantity-controls d-flex align-items-center justify-content-center">
-                                            <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                            <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo max(1, $item['quantity'] - 1); ?>">
@@ -93,7 +93,7 @@ $cart_count = count($cart_items);
                                                 </button>
                                             </form>
                                             <span class="fw-bold mx-2" style="color: #3D4127; min-width: 30px; text-align: center;"><?php echo $item['quantity']; ?></span>
-                                            <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                            <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo $item['quantity'] + 1; ?>">
@@ -108,7 +108,7 @@ $cart_count = count($cart_items);
                                         <p class="mb-2 fw-bold d-none d-md-block" style="color: #636B2F;">
                                             ₹<?php echo number_format($item_total, 2); ?>
                                         </p>
-                                        <form method="POST" action="add_to_cart.php" style="display: inline;">
+                                        <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                             <input type="hidden" name="action" value="remove">
                                             <input type="hidden" name="redirect" value="cart.php">

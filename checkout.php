@@ -94,7 +94,7 @@ $has_addresses = count($addresses) > 0;
                 </p>
             </div>
 
-            <form method="POST" action="process_order.php" id="checkoutForm">
+            <form method="POST" action="process_order.php" id="checkoutForm" novalidate>
                 <div class="row g-4 g-md-5">
                     <!-- Checkout Form -->
                     <div class="col-12 col-lg-7">

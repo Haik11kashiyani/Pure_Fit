@@ -230,7 +230,7 @@ if (empty($_SESSION['csrf_token'])) {
                                     </div>
                                 <?php endif; ?>
                                 
-                                <form method="POST" action="">
+                                <form method="POST" action="" novalidate>
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                                     <input type="hidden" name="update_profile" value="1">
                                     
@@ -389,7 +389,7 @@ if (empty($_SESSION['csrf_token'])) {
                                 </h3>
                             </div>
                             <div class="card-body p-4">
-                                <form method="POST" action="" id="address-form">
+                                <form method="POST" action="" id="address-form" novalidate>
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                                     <input type="hidden" name="update_profile" value="1">
                                     
@@ -427,7 +427,7 @@ if (empty($_SESSION['csrf_token'])) {
                                     </div>
                                 <?php endif; ?>
                                 
-                                <form method="POST" action="">
+                                <form method="POST" action="" novalidate>
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                                     <input type="hidden" name="change_password" value="1">
                                     

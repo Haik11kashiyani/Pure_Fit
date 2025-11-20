@@ -98,7 +98,7 @@ while ($row = mysqli_fetch_assoc($status_result)) {
                 </div>
             </div>
             <div class="col-md-4">
-                <form method="GET" class="input-group">
+                <form method="GET" class="input-group" novalidate>
                     <input type="text" name="search" class="form-control" placeholder="Search orders..." value="<?php echo htmlspecialchars($search); ?>">
                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -230,7 +230,7 @@ while ($row = mysqli_fetch_assoc($status_result)) {
                                         
                                         <hr>
                                         <h6>Update Order Status</h6>
-                                        <form method="POST">
+                                        <form method="POST" novalidate>
                                             <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                                             <div class="row g-3">
                                                 <div class="col-md-6">

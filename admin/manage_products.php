@@ -107,7 +107,7 @@ include 'layout.php';
             <h5 class="mb-0">Add New Product</h5>
         </div>
         <div class="card-body">
-            <form id="productForm" method="POST" action="" onsubmit="return validateProduct()" enctype="multipart/form-data" class="row g-3">
+            <form id="productForm" method="POST" action="" onsubmit="return validateProduct()" enctype="multipart/form-data" class="row g-3" novalidate>
                 <input type="hidden" name="action" value="add">
                 <input type="hidden" name="product_id" value="">
                 <!-- Product Name -->

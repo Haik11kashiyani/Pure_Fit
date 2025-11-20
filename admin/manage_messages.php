@@ -85,7 +85,7 @@ $unread_count = mysqli_fetch_assoc($unread_query)['count'];
                 </div>
             </div>
             <div class="col-md-6">
-                <form method="GET" class="input-group">
+                <form method="GET" class="input-group" novalidate>
                     <input type="text" name="search" class="form-control" placeholder="Search messages..." value="<?php echo htmlspecialchars($search); ?>">
                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -129,7 +129,7 @@ $unread_count = mysqli_fetch_assoc($unread_query)['count'];
                     
                     <div class="d-flex gap-2">
                         <?php if (!$msg['is_read']): ?>
-                        <form method="POST" class="d-inline">
+                        <form method="POST" class="d-inline" novalidate>
                             <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
                             <button type="submit" name="mark_read" class="btn btn-sm btn-success">
                                 <i class="fas fa-check me-1"></i>Mark as Read
@@ -156,7 +156,7 @@ $unread_count = mysqli_fetch_assoc($unread_query)['count'];
                             <h5 class="modal-title">Delete Message</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <form method="POST">
+                        <form method="POST" novalidate>
                             <div class="modal-body">
                                 <input type="hidden" name="message_id" value="<?php echo $msg['message_id']; ?>">
                                 <p>Are you sure you want to delete this message from <strong><?php echo htmlspecialchars($msg['name']); ?></strong>?</p>

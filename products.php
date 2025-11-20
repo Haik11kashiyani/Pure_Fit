@@ -51,7 +51,7 @@ $categories_result = mysqli_query($conn, $categories_query);
         <div class="col-12 col-lg-10 px-3">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
                 <div class="card-body p-3 p-md-4">
-                    <form method="GET" action="products.php" id="filterForm">
+                    <form method="GET" action="products.php" id="filterForm" novalidate>
                         <div class="row g-2 g-md-3 align-items-end">
                             <div class="col-12 col-md-3">
                                 <label class="form-label small fw-bold" style="color: #3D4127;">Search</label>
@@ -206,7 +206,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                                     <div class="position-relative overflow-hidden rounded-top">
                                         <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo $title; ?>" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover;">
                                         <div class="product-actions position-absolute top-0 end-0 m-2 m-md-3" style="z-index: 10;">
-                                            <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                            <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
                                                 <input type="hidden" name="action" value="add">
                                                 <input type="hidden" name="redirect" value="products.php?page=<?php echo $current_page; ?>">
@@ -214,7 +214,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                                                     <i class="fas fa-heart"></i>
                                                 </button>
                                             </form>
-                                            <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                            <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
                                                 <input type="hidden" name="action" value="add">
                                                 <input type="hidden" name="quantity" value="1">

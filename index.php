@@ -53,7 +53,7 @@
                             <div class="position-relative overflow-hidden rounded-top">
                                 <img src="<?php echo $img; ?>" alt="<?php echo $pname; ?>" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover;">
                                 <div class="product-actions position-absolute top-0 end-0 m-2 m-md-3" style="z-index: 10;">
-                                    <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                    <form method="POST" action="add_to_favorites.php" style="display: inline-block;" onclick="event.stopPropagation();" novalidate>
                                         <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
                                         <input type="hidden" name="action" value="add">
                                         <input type="hidden" name="redirect" value="index.php">
@@ -61,7 +61,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </form>
-                                    <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();">
+                                    <form method="POST" action="add_to_cart.php" style="display: inline-block;" onclick="event.stopPropagation();" novalidate>
                                         <input type="hidden" name="product_id" value="<?php echo $prod['product_id']; ?>">
                                         <input type="hidden" name="action" value="add">
                                         <input type="hidden" name="quantity" value="1">

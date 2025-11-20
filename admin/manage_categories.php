@@ -86,7 +86,7 @@ function deleteCategory($conn) {
     <!-- Add Category Form -->
     <div class="card p-4 mb-4 shadow-sm">
         <h5 class="mb-3">Add New Category</h5>
-        <form id="categoryForm" method="POST" action="" onsubmit="return validateCategory()">
+        <form id="categoryForm" method="POST" action="" onsubmit="return validateCategory()" novalidate>
             <input type="hidden" name="action" value="add">
             <div class="row g-3">
                 <!-- Category Name -->
@@ -175,7 +175,7 @@ function deleteCategory($conn) {
                 <h5 class="modal-title">Edit Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="" id="editCategoryForm">
+            <form method="POST" action="" id="editCategoryForm" novalidate>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="category_id" id="edit_category_id">
                 <div class="modal-body">

@@ -77,7 +77,7 @@ function deleteSubcategory($conn) {
     <!-- Add Subcategory Form -->
     <div class="card p-4 mb-4 shadow-sm">
         <h5 class="mb-3">Add New Subcategory</h5>
-        <form method="POST" action="" id="subcategoryForm" onsubmit="return validateSubcategory()">
+        <form method="POST" action="" id="subcategoryForm" onsubmit="return validateSubcategory()" novalidate>
             <input type="hidden" name="action" value="add">
             <div class="row g-3">
                 <!-- Category Selection -->
@@ -175,7 +175,7 @@ function deleteSubcategory($conn) {
                 <h5 class="modal-title">Edit Subcategory</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="" id="editSubcategoryForm">
+            <form method="POST" action="" id="editSubcategoryForm" novalidate>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="subcategory_id" id="edit_subcategory_id">
                 <div class="modal-body">

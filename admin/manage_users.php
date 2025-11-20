@@ -126,7 +126,7 @@ $roles_result = mysqli_query($conn, "SELECT * FROM roles");
                 </div>
             </div>
             <div class="col-md-6">
-                <form method="GET" class="input-group">
+                <form method="GET" class="input-group" novalidate>
                     <input type="text" name="search" class="form-control" placeholder="Search users..." value="<?php echo htmlspecialchars($search); ?>">
                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -193,7 +193,7 @@ $roles_result = mysqli_query($conn, "SELECT * FROM roles");
                                         <h5 class="modal-title">Edit User</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <form method="POST">
+                                    <form method="POST" novalidate>
                                         <div class="modal-body">
                                             <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                             <div class="mb-3">
@@ -256,7 +256,7 @@ $roles_result = mysqli_query($conn, "SELECT * FROM roles");
                                         <h5 class="modal-title">Deactivate User</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <form method="POST">
+                                    <form method="POST" novalidate>
                                         <div class="modal-body">
                                             <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                             <p>Are you sure you want to deactivate user <strong><?php echo htmlspecialchars($user['username']); ?></strong>?</p>
@@ -292,7 +292,7 @@ $roles_result = mysqli_query($conn, "SELECT * FROM roles");
                 <h5 class="modal-title">Add New User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST">
+            <form method="POST" novalidate>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Username</label>
