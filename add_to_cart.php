@@ -93,27 +93,12 @@ try {
         $check_result = $check_stmt->get_result();
         
             if ($check_result->num_rows > 0) {
-            // Update quantity
-            $row = $check_result->fetch_assoc();
-                $new_quantity = $row['quantity'] + $quantity;
-                // If available_stock known, ensure we don't exceed it
-                if ($available_stock !== null && $new_quantity > $available_stock) {
-                    $_SESSION['error_message'] = 'Cannot add more — Product stock insufficient';
-                    header('Location: ' . $redirect);
-                    exit;
-                }
-            
-            $update_query = "UPDATE cart SET quantity = ?, updated_at = NOW() WHERE cart_id = ?";
-            $update_stmt = $conn->prepare($update_query);
-            if ($update_stmt === false) throw new Exception('DB prepare failed (update cart quantity): ' . $conn->error);
-            $update_stmt->bind_param("ii", $new_quantity, $row['cart_id']);
-            
-            if ($update_stmt->execute()) {
-                $_SESSION['success_message'] = 'Cart updated successfully';
+                // Item already exists — do not add duplicate row or silently increase quantity.
+                // Show a user-friendly message asking them to manage quantity in the cart page.
+                $_SESSION['error_message'] = 'Product already added to cart';
+                header('Location: ' . $redirect);
+                exit;
             } else {
-                throw new Exception($update_stmt->error);
-            }
-        } else {
             // Add to cart with or without variant_id
             if ($variant_id) {
                 $insert_query = "INSERT INTO cart (user_id, product_id, variant_id, quantity, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())";

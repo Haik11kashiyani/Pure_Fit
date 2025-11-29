@@ -83,23 +83,10 @@ try {
     $check_result = $check_stmt->get_result();
 
     if ($check_result->num_rows > 0) {
-        $row = $check_result->fetch_assoc();
-        $new_quantity = $row['quantity'] + $quantity;
-        if ($available_stock !== null && $new_quantity > $available_stock) {
-            echo json_encode(['success' => false, 'message' => 'Cannot add more — Product stock insufficient']);
-            exit;
-        }
-
-        $update_query = "UPDATE cart SET quantity = ?, updated_at = NOW() WHERE cart_id = ?";
-        $update_stmt = $conn->prepare($update_query);
-        if ($update_stmt === false) throw new Exception('DB prepare failed (update): ' . $conn->error);
-        $update_stmt->bind_param('ii', $new_quantity, $row['cart_id']);
-        if ($update_stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Cart updated successfully']);
-            exit;
-        } else {
-            throw new Exception($update_stmt->error);
-        }
+        // Item already exists in cart — return friendly message and do not duplicate
+        echo json_encode(['success' => false, 'message' => 'Product already added to cart']);
+        exit;
+    }
     } else {
         // Insert new cart row
         if ($variant_id) {

@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $address_id = isset($_POST['address_id']) ? (int)$_POST['address_id'] : 0;
 $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method']);
 
-if ($address_id > 0) {
+    if ($address_id > 0) {
     // Using saved address
     $addr_query = "SELECT * FROM addresses WHERE address_id = ? AND user_id = ?";
     $addr_stmt = $conn->prepare($addr_query);
@@ -47,7 +47,8 @@ if ($address_id > 0) {
         $shipping_address .= ', ' . $addr['address_line2'];
     }
     $shipping_address .= ', ' . $addr['city'] . ', ' . $addr['state'] . ' - ' . $addr['pincode'];
-    $shipping_address .= '\nPhone: ' . $phone;
+    // store real newline characters instead of literal \n so rendering is consistent
+    $shipping_address .= "\nPhone: " . $phone;
     
 } else {
     // Using new address
@@ -68,7 +69,8 @@ if ($address_id > 0) {
         $shipping_address .= ', ' . $address_line2;
     }
     $shipping_address .= ', ' . $city . ', ' . $state . ' - ' . $pincode;
-    $shipping_address .= '\nPhone: ' . $phone . '\nEmail: ' . $email;
+    // use real newlines for stored address data
+    $shipping_address .= "\nPhone: " . $phone . "\nEmail: " . $email;
     
     // Save address if requested
     if ($save_address) {
@@ -102,14 +104,39 @@ if ($address_id > 0) {
     }
 }
 
-// Fetch cart items and calculate total
-$cart_query = "SELECT c.*, p.price FROM cart c 
+// Fetch cart items and calculate total. Support `selected_cart[]` passed from checkout for single-item checkout.
+$selected_cart_ids = [];
+if (!empty($_POST['selected_cart']) && is_array($_POST['selected_cart'])) {
+    foreach ($_POST['selected_cart'] as $id) {
+        $iv = (int)$id;
+        if ($iv > 0) $selected_cart_ids[] = $iv;
+    }
+}
+
+if (!empty($selected_cart_ids)) {
+    $placeholders = implode(',', array_fill(0, count($selected_cart_ids), '?'));
+    $types = str_repeat('i', count($selected_cart_ids));
+    $cart_query = "SELECT c.*, p.price FROM cart c INNER JOIN products p ON c.product_id = p.product_id WHERE c.user_id = ? AND p.is_active = 1 AND c.cart_id IN ($placeholders)";
+    $cart_stmt = $conn->prepare($cart_query);
+    $params = array_merge([$user_id], $selected_cart_ids);
+    $types_all = 'i' . $types;
+    $bind_names = [];
+    $bind_names[] = &$types_all;
+    foreach ($params as $k => $v) {
+        $bind_names[] = &$params[$k];
+    }
+    call_user_func_array([$cart_stmt, 'bind_param'], $bind_names);
+    $cart_stmt->execute();
+    $cart_result = $cart_stmt->get_result();
+} else {
+    $cart_query = "SELECT c.*, p.price FROM cart c 
                INNER JOIN products p ON c.product_id = p.product_id 
                WHERE c.user_id = ? AND p.is_active = 1";
-$cart_stmt = $conn->prepare($cart_query);
-$cart_stmt->bind_param("i", $user_id);
-$cart_stmt->execute();
-$cart_result = $cart_stmt->get_result();
+    $cart_stmt = $conn->prepare($cart_query);
+    $cart_stmt->bind_param("i", $user_id);
+    $cart_stmt->execute();
+    $cart_result = $cart_stmt->get_result();
+}
 
 $cart_items = [];
 $subtotal = 0;
@@ -192,21 +219,67 @@ try {
                 throw new Exception('Variant not found for id ' . $variant_id);
             }
         } else {
-            // No variant: use product-level stock
+            // No variant: prefer product-level stock, but if product stock is low and there are active variants
+            // attempt to fulfill from variants (lock rows with FOR UPDATE to avoid races)
             $check_prod_q = "SELECT stock_quantity FROM products WHERE product_id = ? FOR UPDATE";
             $check_prod_stmt = $conn->prepare($check_prod_q);
+            if ($check_prod_stmt === false) throw new Exception('DB prepare failed (check product): ' . $conn->error);
             $check_prod_stmt->bind_param('i', $item['product_id']);
             $check_prod_stmt->execute();
             $check_prod_res = $check_prod_stmt->get_result();
             if ($check_prod_res && $prow = $check_prod_res->fetch_assoc()) {
-                $available = (int)$prow['stock_quantity'];
-                if ($available < (int)$item['quantity']) {
-                    throw new Exception('Insufficient stock for product id ' . $item['product_id']);
+                $prod_available = (int)$prow['stock_quantity'];
+                $needed = (int)$item['quantity'];
+
+                if ($prod_available >= $needed) {
+                    // enough product-level stock — decrement product
+                    $dec_prod_q = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
+                    $dec_prod_stmt = $conn->prepare($dec_prod_q);
+                    if ($dec_prod_stmt === false) throw new Exception('DB prepare failed (dec product): ' . $conn->error);
+                    $dec_prod_stmt->bind_param('ii', $needed, $item['product_id']);
+                    if (!$dec_prod_stmt->execute()) throw new Exception($dec_prod_stmt->error);
+                } else {
+                    // Not enough product-level stock — check active variants and try to fulfill using variants
+                    $var_rows_q = "SELECT variant_id, stock_quantity FROM product_variants WHERE product_id = ? AND is_active = 1 ORDER BY stock_quantity DESC FOR UPDATE";
+                    $var_rows_stmt = $conn->prepare($var_rows_q);
+                    if ($var_rows_stmt === false) throw new Exception('DB prepare failed (lock variants): ' . $conn->error);
+                    $var_rows_stmt->bind_param('i', $item['product_id']);
+                    $var_rows_stmt->execute();
+                    $var_rows_res = $var_rows_stmt->get_result();
+
+                    $variant_total = 0;
+                    $variants = [];
+                    while ($vr = $var_rows_res->fetch_assoc()) {
+                        $variants[] = $vr;
+                        $variant_total += (int)$vr['stock_quantity'];
+                    }
+
+                    if (($prod_available + $variant_total) < $needed) {
+                        throw new Exception('Insufficient stock for product id ' . $item['product_id']);
+                    }
+
+                    // first use variants to fulfill as much as possible
+                    $remaining = $needed;
+                    foreach ($variants as $vr) {
+                        if ($remaining <= 0) break;
+                        $avail = (int)$vr['stock_quantity'];
+                        if ($avail <= 0) continue;
+                        $take = min($avail, $remaining);
+                        $dec_var_q = "UPDATE product_variants SET stock_quantity = stock_quantity - ? WHERE variant_id = ?";
+                        $dec_var_stmt = $conn->prepare($dec_var_q);
+                        if ($dec_var_stmt === false) throw new Exception('DB prepare failed (dec variant): ' . $conn->error);
+                        $dec_var_stmt->bind_param('ii', $take, $vr['variant_id']);
+                        if (!$dec_var_stmt->execute()) throw new Exception($dec_var_stmt->error);
+                        $remaining -= $take;
+                    }
+
+                    // After decrementing variants, decrement product-level stock by the total requested
+                    $dec_prod_q = "UPDATE products SET stock_quantity = GREATEST(stock_quantity - ?, 0) WHERE product_id = ?";
+                    $dec_prod_stmt = $conn->prepare($dec_prod_q);
+                    if ($dec_prod_stmt === false) throw new Exception('DB prepare failed (dec product after variants): ' . $conn->error);
+                    $dec_prod_stmt->bind_param('ii', $needed, $item['product_id']);
+                    if (!$dec_prod_stmt->execute()) throw new Exception($dec_prod_stmt->error);
                 }
-                $dec_prod_q = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
-                $dec_prod_stmt = $conn->prepare($dec_prod_q);
-                $dec_prod_stmt->bind_param('ii', $item['quantity'], $item['product_id']);
-                if (!$dec_prod_stmt->execute()) throw new Exception($dec_prod_stmt->error);
             } else {
                 throw new Exception('Product not found for id ' . $item['product_id']);
             }
@@ -217,15 +290,62 @@ try {
         $order_item_stmt->execute();
     }
 
-    // Clear cart
-    $clear_cart_query = "DELETE FROM cart WHERE user_id = ?";
-    $clear_cart_stmt = $conn->prepare($clear_cart_query);
-    $clear_cart_stmt->bind_param("i", $user_id);
-    $clear_cart_stmt->execute();
+    // Clear processed cart entries
+    if (!empty($selected_cart_ids)) {
+        // delete only those cart ids
+        $placeholders = implode(',', array_fill(0, count($selected_cart_ids), '?'));
+        $del_q = "DELETE FROM cart WHERE cart_id IN ($placeholders)";
+        $del_stmt = $conn->prepare($del_q);
+        $types = str_repeat('i', count($selected_cart_ids));
+        $bind_names = [];
+        $bind_names[] = &$types;
+        foreach ($selected_cart_ids as $k => $v) {
+            $bind_names[] = &$selected_cart_ids[$k];
+        }
+        call_user_func_array([$del_stmt, 'bind_param'], $bind_names);
+        $del_stmt->execute();
+    } else {
+        $clear_cart_query = "DELETE FROM cart WHERE user_id = ?";
+        $clear_cart_stmt = $conn->prepare($clear_cart_query);
+        $clear_cart_stmt->bind_param("i", $user_id);
+        $clear_cart_stmt->execute();
+    }
 
     // Commit transaction
     mysqli_commit($conn);
 
+        // Send order confirmation email to user (short order id formatting)
+        // Attempt to determine email address: prefer $email from form, fallback to user account
+        $recipient_email = $email ?? null;
+        if (empty($recipient_email)) {
+            $ue = $conn->prepare('SELECT email FROM users WHERE user_id = ? LIMIT 1');
+            if ($ue) {
+                $ue->bind_param('i', $user_id);
+                $ue->execute();
+                $ures = $ue->get_result();
+                if ($ures && $ur = $ures->fetch_assoc()) $recipient_email = $ur['email'];
+                $ue->close();
+            }
+        }
+
+        if (!empty($recipient_email)) {
+            // Make a short two-digit order id like '06'
+            $short_order = sprintf('%02d', $order_id % 100);
+            $subject = "Order Confirmation — Order " . $short_order;
+            // Compose a simple plain-text message for now
+            $msg_lines = [];
+            $msg_lines[] = "Thank you — your order has been placed.";
+            $msg_lines[] = "Order ID: " . $short_order;
+            $msg_lines[] = "Total: ₹" . number_format($total_amount, 2);
+            $msg_lines[] = "\nShipping Address:";
+            $msg_lines[] = $shipping_address;
+            $msg_lines[] = "\nYou can view your order in your account at: " . (isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : '') . dirname($_SERVER['PHP_SELF']) . "/profile.php?tab=orders&order_id=" . $order_id;
+            $message = implode("\n", $msg_lines);
+
+            $headers = "From: no-reply@" . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'example.com') . "\r\n";
+            $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+            @mail($recipient_email, $subject, $message, $headers);
+        }
     // Set success message based on payment method
     if ($payment_method === 'cod') {
         $_SESSION['order_success'] = 'Order placed successfully! You will pay cash on delivery.';

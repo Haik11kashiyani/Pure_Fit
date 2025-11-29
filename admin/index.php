@@ -150,7 +150,8 @@ $recent_orders = mysqli_query($conn, $recent_orders_query);
                 <?php if (mysqli_num_rows($recent_orders) > 0): ?>
                     <?php while ($order = mysqli_fetch_assoc($recent_orders)): ?>
                     <tr>
-                        <td>#<?php echo $order['order_id']; ?></td>
+                        <?php $adminShort = sprintf('%02d', $order['order_id'] % 100); ?>
+                        <td><?php echo $adminShort; ?></td>
                         <td><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></td>
                         <td>₹<?php echo number_format($order['total_amount'], 2); ?></td>
                         <td>

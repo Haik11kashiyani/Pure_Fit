@@ -61,7 +61,10 @@ $cart_count = count($cart_items);
                                 $item_total = $item['price'] * $item['quantity'];
                             ?>
                             <!-- Cart Item -->
-                            <div class="cart-item mb-3 mb-md-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95;">
+                            <div class="cart-item mb-3 mb-md-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95; position: relative;">
+                                <!-- selection checkbox (small, default checked) -->
+                                <input type="checkbox" class="form-check-input cart-select" data-cart-id="<?php echo $item['cart_id']; ?>" checked
+                                       style="position: absolute; left: 12px; top: 18px; transform: scale(1.1);">
                                 <div class="row align-items-center g-2">
                                     <div class="col-4 col-md-2">
                                         <a href="product-details.php?id=<?php echo $item['product_id']; ?>">
@@ -130,14 +133,45 @@ $cart_count = count($cart_items);
                             </div>
                             <?php endforeach; ?>
 
-                            <!-- Continue Shopping -->
-                            <div class="text-center mt-4">
+                            <!-- Continue Shopping and Checkout Selected -->
+                            <div class="text-center mt-4 d-flex justify-content-center gap-3 flex-wrap">
                                 <a href="products.php" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F; transition: all 0.3s ease;">
                                     <i class="fas fa-arrow-left me-2"></i>
                                     Continue Shopping
                                 </a>
+
+                                <!-- Form to submit selected cart ids to checkout.php -->
+                                <form id="selectedCheckoutForm" method="POST" action="checkout.php" style="display:inline-block;">
+                                    <!-- hidden container for selected cart ids (populated by JS) -->
+                                    <div id="selectedCartInputs"></div>
+                                    <button type="submit" id="checkoutSelectedBtn" class="btn btn-outline-success px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F;">
+                                        <i class="fas fa-shopping-cart me-2"></i>Checkout Selected
+                                    </button>
+                                </form>
                             </div>
                         </div>
+                    <script>
+                        // When submitting the selected-checkout form, collect checked cart items
+                        document.getElementById('selectedCheckoutForm').addEventListener('submit', function(e) {
+                            const container = document.getElementById('selectedCartInputs');
+                            container.innerHTML = '';
+                            const checked = Array.from(document.querySelectorAll('.cart-select:checked'));
+                            if (checked.length === 0) {
+                                e.preventDefault();
+                                try { showNotification('Please select at least one item to checkout', 'danger'); } catch (err) { alert('Please select at least one item to checkout'); }
+                                return false;
+                            }
+                            // Add hidden inputs for selected cart ids
+                            checked.forEach(cb => {
+                                const val = cb.getAttribute('data-cart-id');
+                                const input = document.createElement('input');
+                                input.type = 'hidden';
+                                input.name = 'selected_cart[]';
+                                input.value = val;
+                                container.appendChild(input);
+                            });
+                        });
+                    </script>
                     </div>
                 </div>
 

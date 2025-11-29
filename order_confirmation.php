@@ -76,7 +76,8 @@ while ($item = $items_result->fetch_assoc()) {
                     <?php echo $order['order_status'] === 'confirmed' ? 'Your order has been confirmed and will be processed soon.' : 'Your order is pending payment confirmation.'; ?>
                 </p>
                 <div class="alert alert-success d-inline-block px-5 py-3" style="background: rgba(212, 222, 149, 0.3); border: 2px solid #D4DE95; border-radius: 50px;">
-                    <strong style="color: #3D4127;">Order ID: #<?php echo str_pad($order['order_id'], 6, '0', STR_PAD_LEFT); ?></strong>
+                    <?php $displayOrderShort = sprintf('%02d', $order['order_id'] % 100); ?>
+                    <strong style="color: #3D4127;">Order ID: <?php echo $displayOrderShort; ?></strong>
                 </div>
             </div>
 
@@ -139,7 +140,15 @@ while ($item = $items_result->fetch_assoc()) {
                     <hr style="border-color: #D4DE95;">
 
                     <h5 class="fw-bold mb-3" style="color: #3D4127;">Shipping Address:</h5>
-                    <p class="mb-0" style="color: #636B2F; white-space: pre-line;"><?php echo nl2br(htmlspecialchars($order['shipping_address'])); ?></p>
+                    <?php
+                        // Some addresses were stored containing literal backslash-n sequences ("\n").
+                        // Convert literal "\n" to actual newlines so nl2br() renders them correctly.
+                        $raw_addr = $order['shipping_address'] ?? '';
+                        $raw_addr = str_replace('\\n', "\n", $raw_addr);
+                    ?>
+                    <p class="mb-0" style="color: #636B2F; white-space: pre-line;">
+                        <?php echo nl2br(htmlspecialchars($raw_addr)); ?>
+                    </p>
                 </div>
             </div>
 

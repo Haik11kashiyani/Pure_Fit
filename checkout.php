@@ -11,15 +11,44 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch cart items
-$cart_query = "SELECT c.*, p.name, p.price, p.image_path 
+// Fetch cart items — if specific selected_cart[] were posted (from cart page), use only those ids
+$selected_cart_ids = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['selected_cart']) && is_array($_POST['selected_cart'])) {
+    // sanitize integers
+    foreach ($_POST['selected_cart'] as $id) {
+        $iv = (int)$id;
+        if ($iv > 0) $selected_cart_ids[] = $iv;
+    }
+}
+
+if (!empty($selected_cart_ids)) {
+    // Build placeholders
+    $placeholders = implode(',', array_fill(0, count($selected_cart_ids), '?'));
+    $types = str_repeat('i', count($selected_cart_ids));
+    $cart_query = "SELECT c.*, p.name, p.price, p.image_path FROM cart c INNER JOIN products p ON c.product_id = p.product_id WHERE c.user_id = ? AND p.is_active = 1 AND c.cart_id IN ($placeholders)";
+    $cart_stmt = $conn->prepare($cart_query);
+    $params = array_merge([$user_id], $selected_cart_ids);
+    // dynamically bind
+    $bind_names = [];
+    $types_all = 'i' . $types; // first param user_id
+    $bind_names[] = &$types_all;
+    foreach ($params as $k => $v) {
+        $bind_names[] = &$params[$k];
+    }
+    call_user_func_array([$cart_stmt, 'bind_param'], $bind_names);
+    $cart_stmt->execute();
+    $cart_result = $cart_stmt->get_result();
+} else {
+    // default: all cart items for the user
+    $cart_query = "SELECT c.*, p.name, p.price, p.image_path 
                FROM cart c 
                INNER JOIN products p ON c.product_id = p.product_id 
                WHERE c.user_id = ? AND p.is_active = 1";
-$cart_stmt = $conn->prepare($cart_query);
-$cart_stmt->bind_param("i", $user_id);
-$cart_stmt->execute();
-$cart_result = $cart_stmt->get_result();
+    $cart_stmt = $conn->prepare($cart_query);
+    $cart_stmt->bind_param("i", $user_id);
+    $cart_stmt->execute();
+    $cart_result = $cart_stmt->get_result();
+}
 
 $cart_items = [];
 $subtotal = 0;
@@ -237,6 +266,13 @@ $has_addresses = count($addresses) > 0;
                                         <span class="fw-bold" style="color: #636B2F;">₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
                                     </div>
                                     <?php endforeach; ?>
+
+                                    <!-- If we came from cart with selection, preserve the selected cart ids for order processing -->
+                                    <?php if (!empty($selected_cart_ids)): ?>
+                                        <?php foreach ($selected_cart_ids as $cid): ?>
+                                            <input type="hidden" name="selected_cart[]" value="<?php echo (int)$cid; ?>">
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
 
                                 <!-- Price Breakdown -->

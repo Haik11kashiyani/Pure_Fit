@@ -179,7 +179,13 @@ if (empty($_SESSION['csrf_token'])) {
                                 <i class="fas fa-phone me-2"></i><?php echo htmlspecialchars($user['phone'] ?? ''); ?><br>
                                 <?php endif; ?>
                                 <?php if (!empty($user['address'])): ?>
-                                <i class="fas fa-map-marker-alt me-2"></i><?php echo htmlspecialchars($user['address'] ?? ''); ?><br>
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                <?php
+                                    // handle literal "\n" sequences in stored addresses by converting them to real newlines
+                                    $profile_addr_raw = $user['address'];
+                                    $profile_addr_raw = str_replace('\\n', "\n", $profile_addr_raw);
+                                ?>
+                                <?php echo nl2br(htmlspecialchars($profile_addr_raw ?? '')); ?><br>
                                 <?php endif; ?>
                                 <i class="fas fa-calendar me-2"></i>Member since <?php echo htmlspecialchars(date('F j, Y', strtotime($user['created_at'] ?? 'now'))); ?>
                             </p>
@@ -317,7 +323,8 @@ if (empty($_SESSION['csrf_token'])) {
                                         <div class="d-flex justify-content-between align-items-start mb-3">
                                             <div>
                                                 <h6 class="mb-1 fw-bold" style="color: #3D4127;">
-                                                    Order #<?php echo str_pad($order['order_id'], 6, '0', STR_PAD_LEFT); ?>
+                                                    <?php $shortOrder = sprintf('%02d', $order['order_id'] % 100); ?>
+                                                    Order <?php echo $shortOrder; ?>
                                                 </h6>
                                                 <small style="color: #636B2F;">
                                                     <i class="fas fa-calendar me-1"></i><?php echo date('d M Y, h:i A', strtotime($order['created_at'])); ?>

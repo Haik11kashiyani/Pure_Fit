@@ -40,6 +40,8 @@ if ($search) {
 
 $query .= " ORDER BY o.created_at DESC";
 $orders_result = mysqli_query($conn, $query);
+// Buffer for capturing modals markup when rendering the list — printed after the table to keep markup clean
+$order_modals_html = '';
 
 // Get order counts by status
 $status_counts = [];
@@ -127,9 +129,13 @@ while ($row = mysqli_fetch_assoc($status_result)) {
                 </thead>
                 <tbody>
                     <?php if (mysqli_num_rows($orders_result) > 0): ?>
-                        <?php while ($order = mysqli_fetch_assoc($orders_result)): ?>
+                        <?php 
+                            // We'll collect modal HTML for each order and output it after the table
+                            $order_modals_html = '';
+                            while ($order = mysqli_fetch_assoc($orders_result)): ?>
                         <tr>
-                            <td><strong>#<?php echo $order['order_id']; ?></strong></td>
+                            <?php $adminOrderShort = sprintf('%02d', $order['order_id'] % 100); ?>
+                            <td><strong><?php echo $adminOrderShort; ?></strong></td>
                             <td><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></td>
                             <td>
                                 <small><?php echo htmlspecialchars($order['email']); ?></small><br>
@@ -172,12 +178,14 @@ while ($row = mysqli_fetch_assoc($status_result)) {
                             </td>
                         </tr>
                         
+                        <?php ob_start(); ?>
                         <!-- Order Details Modal -->
                         <div class="modal fade" id="orderModal<?php echo $order['order_id']; ?>" tabindex="-1">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Order #<?php echo $order['order_id']; ?> Details</h5>
+                                        <?php $modalShort = sprintf('%02d', $order['order_id'] % 100); ?>
+                                        <h5 class="modal-title">Order <?php echo $modalShort; ?> Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
@@ -263,7 +271,10 @@ while ($row = mysqli_fetch_assoc($status_result)) {
                                 </div>
                             </div>
                         </div>
-                        <?php endwhile; ?>
+                        <?php
+                            $order_modals_html .= ob_get_clean();
+                            endwhile; // end while loop
+                        ?>
                     <?php else: ?>
                         <tr>
                             <td colspan="9" class="text-center text-muted py-4">
@@ -277,5 +288,10 @@ while ($row = mysqli_fetch_assoc($status_result)) {
         </div>
     </div>
 </div>
+
+<?php
+// Output buffered modals collected while rendering orders (if any)
+if (!empty($order_modals_html)) echo $order_modals_html;
+?>
 
 <?php include 'footer.php'; ?>
