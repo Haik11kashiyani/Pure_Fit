@@ -272,8 +272,8 @@ function fillVariantRows(variants) {
 function validateProduct() {
     var name = document.getElementById('productName').value.trim();
     var price = document.getElementById('productPrice').value.trim();
-    if (!name) { alert('Please enter a product name.'); return false; }
-    if (!price || isNaN(price) || Number(price) <= 0) { alert('Please enter a valid price.'); return false; }
+    if (!name) { try { showNotification('Please enter a product name.', 'danger'); } catch(e){ alert('Please enter a product name.'); } return false; }
+    if (!price || isNaN(price) || Number(price) <= 0) { try { showNotification('Please enter a valid price.', 'danger'); } catch(e){ alert('Please enter a valid price.'); } return false; }
     // Variant stock/size validated via required html
     return true;
 }

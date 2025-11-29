@@ -13,28 +13,7 @@ $categories_query = "SELECT * FROM categories WHERE is_active = 1 ORDER BY name 
 $categories_result = mysqli_query($conn, $categories_query);
 ?>
 <div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
-    <!-- Success/Error Messages -->
-    <?php if (isset($_SESSION['success_message'])): ?>
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-lg-10">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['success_message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </div>
-    </div>
-    <?php unset($_SESSION['success_message']); endif; ?>
-    
-    <?php if (isset($_SESSION['error_message'])): ?>
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-lg-10">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i><?php echo $_SESSION['error_message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </div>
-    </div>
-    <?php unset($_SESSION['error_message']); endif; ?>
+    <!-- Flash messages handled centrally in master_layout.php -->
     
     <div class="row justify-content-center mb-4 mb-md-5">
         <div class="col-12 col-lg-10 text-center px-3">

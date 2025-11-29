@@ -54,17 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </h3>
                         </div>
                         <div class="card-body p-4">
+                            <!-- Use the central notification system for form responses -->
                             <?php if ($success_msg): ?>
-                            <div class="alert alert-success alert-dismissible fade show">
-                                <i class="fas fa-check-circle me-2"></i><?php echo $success_msg; ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
+                                <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($success_msg); ?>, 'success'); } catch(e){ console.error('showNotification not available', e); } });</script>
                             <?php endif; ?>
                             <?php if ($error_msg): ?>
-                            <div class="alert alert-danger alert-dismissible fade show">
-                                <i class="fas fa-exclamation-circle me-2"></i><?php echo $error_msg; ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
+                                <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($error_msg); ?>, 'danger'); } catch(e){ console.error('showNotification not available', e); } });</script>
                             <?php endif; ?>
                             <div class="alert-container"></div>
                             <form method="POST" action="" id="contactForm" novalidate>

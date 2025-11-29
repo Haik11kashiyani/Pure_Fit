@@ -298,12 +298,7 @@ if (empty($_SESSION['csrf_token'])) {
                                 </h3>
                             </div>
                             <div class="card-body p-4">
-                                <?php if (isset($_SESSION['order_success'])): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['order_success']; unset($_SESSION['order_success']); ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                <?php endif; ?>
+                                <!-- Flash messages handled centrally in master_layout.php -->
                                 
                                 <?php if (count($orders) > 0): ?>
                                     <?php foreach ($orders as $order): 

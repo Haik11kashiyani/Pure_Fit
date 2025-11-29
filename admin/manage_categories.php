@@ -29,9 +29,13 @@ function addCategory($conn) {
     $stmt->bind_param("ssi", $category_name, $description, $status);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Category added successfully!'); window.location.href='manage_categories.php';</script>";
+        $_SESSION['success_message'] = 'Category added successfully!';
+        header('Location: manage_categories.php');
+        exit;
     } else {
-        echo "<script>alert('Error adding category: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error adding category: ' . $stmt->error;
+        header('Location: manage_categories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -47,9 +51,13 @@ function updateCategory($conn) {
     $stmt->bind_param("ssii", $category_name, $description, $status, $category_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Category updated successfully!'); window.location.href='manage_categories.php';</script>";
+        $_SESSION['success_message'] = 'Category updated successfully!';
+        header('Location: manage_categories.php');
+        exit;
     } else {
-        echo "<script>alert('Error updating category: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error updating category: ' . $stmt->error;
+        header('Location: manage_categories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -66,7 +74,9 @@ function deleteCategory($conn) {
     $stmt->close();
 
     if ($count > 0) {
-        echo "<script>alert('Cannot delete category: It has associated subcategories.'); window.location.href='manage_categories.php';</script>";
+        $_SESSION['error_message'] = 'Cannot delete category: It has associated subcategories.';
+        header('Location: manage_categories.php');
+        exit;
         return;
     }
 
@@ -74,9 +84,13 @@ function deleteCategory($conn) {
     $stmt->bind_param("i", $category_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Category deleted successfully!'); window.location.href='manage_categories.php';</script>";
+        $_SESSION['success_message'] = 'Category deleted successfully!';
+        header('Location: manage_categories.php');
+        exit;
     } else {
-        echo "<script>alert('Error deleting category: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error deleting category: ' . $stmt->error;
+        header('Location: manage_categories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -212,7 +226,7 @@ function deleteCategory($conn) {
 function validateCategory() {
     let category = document.querySelector('input[name="categoryName"]').value.trim();
     if (category === "") {
-        alert("Please enter a category name.");
+        try { showNotification('Please enter a category name.', 'danger'); } catch(e){ alert('Please enter a category name.'); }
         return false;
     }
     return true;

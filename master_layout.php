@@ -424,5 +424,27 @@
             }, 3000);
         }
     </script>
+    <?php
+        // Central flash message renderer: if server set flash messages in session,
+        // render them using the page's showNotification JS so all messages are consistent.
+        $flashKeys = [
+            'success_message' => 'success',
+            'error_message' => 'danger',
+            'success' => 'success',
+            'error' => 'danger',
+            'order_success' => 'success',
+            'order_error' => 'warning',
+            'message' => 'info'
+        ];
+
+        foreach ($flashKeys as $key => $type) {
+            if (!empty($_SESSION[$key])) {
+                // Use json_encode to ensure proper escaping
+                $msg = json_encode($_SESSION[$key]);
+                echo "<script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification($msg, '$type'); } catch(e){ console.error('showNotification not available', e); } });</script>\n";
+                unset($_SESSION[$key]);
+            }
+        }
+    ?>
 </body>
 </html>

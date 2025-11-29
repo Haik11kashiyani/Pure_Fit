@@ -95,10 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="card-body p-4">
                     <?php if (!empty($register_error)): ?>
-                        <div class="alert alert-danger"><?php echo $register_error; ?></div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($register_error); ?>, 'danger'); } catch(e){ console.error('showNotification not available', e); } });</script>
                     <?php endif; ?>
                     <?php if (!empty($register_success)): ?>
-                        <div class="alert alert-success"><?php echo $register_success; ?></div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($register_success); ?>, 'success'); } catch(e){ console.error('showNotification not available', e); } });</script>
                     <?php endif; ?>
                     <div class="alert-container"></div>
                     <form method="POST" action="" id="registerForm" novalidate>

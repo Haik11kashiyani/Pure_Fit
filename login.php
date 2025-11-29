@@ -69,10 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="card-body p-4">
                     <?php if (!empty($login_error)): ?>
-                        <div class="alert alert-danger"><?php echo $login_error; ?></div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($login_error); ?>, 'danger'); } catch(e){ console.error('showNotification not available', e); } });</script>
                     <?php endif; ?>
                     <?php if (!empty($verified_msg)): ?>
-                        <div class="alert alert-success"><?php echo $verified_msg; ?></div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ try{ showNotification(<?php echo json_encode($verified_msg); ?>, 'success'); } catch(e){ console.error('showNotification not available', e); } });</script>
                     <?php endif; ?>
                     <div class="alert-container"></div>
                     <form method="POST" action="" id="loginForm" novalidate>
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
                                     <i class="fas fa-lock"></i>
                                 </span>
-                                <input type="text" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
+                                    <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
                                        style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
                                 <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                     <i class="fas fa-eye text-muted"></i>

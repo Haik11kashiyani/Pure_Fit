@@ -85,6 +85,9 @@ $cart_count = count($cart_items);
                                         <div class="quantity-controls d-flex align-items-center justify-content-center">
                                             <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                                <?php if (!empty($item['variant_id'])): ?>
+                                                    <input type="hidden" name="variant_id" value="<?php echo $item['variant_id']; ?>">
+                                                <?php endif; ?>
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo max(1, $item['quantity'] - 1); ?>">
                                                 <input type="hidden" name="redirect" value="cart.php">
@@ -95,6 +98,9 @@ $cart_count = count($cart_items);
                                             <span class="fw-bold mx-2" style="color: #3D4127; min-width: 30px; text-align: center;"><?php echo $item['quantity']; ?></span>
                                             <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                                <?php if (!empty($item['variant_id'])): ?>
+                                                    <input type="hidden" name="variant_id" value="<?php echo $item['variant_id']; ?>">
+                                                <?php endif; ?>
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo $item['quantity'] + 1; ?>">
                                                 <input type="hidden" name="redirect" value="cart.php">
@@ -110,6 +116,9 @@ $cart_count = count($cart_items);
                                         </p>
                                         <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                            <?php if (!empty($item['variant_id'])): ?>
+                                                <input type="hidden" name="variant_id" value="<?php echo $item['variant_id']; ?>">
+                                            <?php endif; ?>
                                             <input type="hidden" name="action" value="remove">
                                             <input type="hidden" name="redirect" value="cart.php">
                                             <button type="submit" class="btn btn-sm text-danger" style="background: none; border: none;">

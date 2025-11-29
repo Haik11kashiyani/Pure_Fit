@@ -29,9 +29,13 @@ function addSubcategory($conn) {
     $stmt->bind_param("isi", $category_id, $subcategory_name, $status);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Subcategory added successfully!'); window.location.href='manage_subcategories.php';</script>";
+        $_SESSION['success_message'] = 'Subcategory added successfully!';
+        header('Location: manage_subcategories.php');
+        exit;
     } else {
-        echo "<script>alert('Error adding subcategory: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error adding subcategory: ' . $stmt->error;
+        header('Location: manage_subcategories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -48,9 +52,13 @@ function updateSubcategory($conn) {
     $stmt->bind_param("isii", $category_id, $subcategory_name, $status, $subcategory_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Subcategory updated successfully!'); window.location.href='manage_subcategories.php';</script>";
+        $_SESSION['success_message'] = 'Subcategory updated successfully!';
+        header('Location: manage_subcategories.php');
+        exit;
     } else {
-        echo "<script>alert('Error updating subcategory: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error updating subcategory: ' . $stmt->error;
+        header('Location: manage_subcategories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -63,9 +71,13 @@ function deleteSubcategory($conn) {
     $stmt->bind_param("i", $subcategory_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Subcategory deleted successfully!'); window.location.href='manage_subcategories.php';</script>";
+        $_SESSION['success_message'] = 'Subcategory deleted successfully!';
+        header('Location: manage_subcategories.php');
+        exit;
     } else {
-        echo "<script>alert('Error deleting subcategory: " . $stmt->error . "');</script>";
+        $_SESSION['error_message'] = 'Error deleting subcategory: ' . $stmt->error;
+        header('Location: manage_subcategories.php');
+        exit;
     }
     $stmt->close();
 }
@@ -222,11 +234,11 @@ function validateSubcategory() {
     let subcategory = document.querySelector('input[name="subcategory_name"]').value.trim();
     
     if (category === "") {
-        alert("Please select a category.");
+        try { showNotification('Please select a category.', 'danger'); } catch(e){ alert('Please select a category.'); }
         return false;
     }
     if (subcategory === "") {
-        alert("Please enter a subcategory name.");
+        try { showNotification('Please enter a subcategory name.', 'danger'); } catch(e){ alert('Please enter a subcategory name.'); }
         return false;
     }
     return true;

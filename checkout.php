@@ -69,20 +69,7 @@ $has_addresses = count($addresses) > 0;
 <div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10 px-3">
-            <!-- Error/Success Messages -->
-            <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i><?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <?php endif; ?>
-            
-            <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <?php endif; ?>
+            <!-- Flash messages handled centrally in master_layout.php -->
             
             <!-- Page Header -->
             <div class="text-center mb-4 mb-md-5">
@@ -336,7 +323,7 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         const selectedAddress = document.querySelector('input[name="address_id"]:checked');
         if (!selectedAddress) {
             e.preventDefault();
-            alert('Please select a delivery address');
+            try { showNotification('Please select a delivery address', 'danger'); } catch(e){ console.error('showNotification not available', e); }
             return false;
         }
     }

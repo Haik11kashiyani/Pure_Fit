@@ -163,6 +163,56 @@ try {
 
     foreach ($cart_items as $item) {
         $variant_id = $item['variant_id'] ?? null;
+
+        // Check and decrement stock for each cart item (prevent oversell)
+        if (!empty($variant_id)) {
+            // Lock the variant row and check stock
+            $check_var_q = "SELECT stock_quantity, product_id FROM product_variants WHERE variant_id = ? FOR UPDATE";
+            $check_var_stmt = $conn->prepare($check_var_q);
+            $check_var_stmt->bind_param('i', $variant_id);
+            $check_var_stmt->execute();
+            $check_var_res = $check_var_stmt->get_result();
+            if ($check_var_res && $var_row = $check_var_res->fetch_assoc()) {
+                $available = (int)$var_row['stock_quantity'];
+                if ($available < (int)$item['quantity']) {
+                    throw new Exception('Insufficient stock for product id ' . $item['product_id']);
+                }
+                // Decrement variant stock
+                $dec_var_q = "UPDATE product_variants SET stock_quantity = stock_quantity - ? WHERE variant_id = ?";
+                $dec_var_stmt = $conn->prepare($dec_var_q);
+                $dec_var_stmt->bind_param('ii', $item['quantity'], $variant_id);
+                if (!$dec_var_stmt->execute()) throw new Exception($dec_var_stmt->error);
+
+                // Also decrement product-level stock to keep in sync (if column exists)
+                $dec_prod_q = "UPDATE products SET stock_quantity = GREATEST(stock_quantity - ?, 0) WHERE product_id = ?";
+                $dec_prod_stmt = $conn->prepare($dec_prod_q);
+                $dec_prod_stmt->bind_param('ii', $item['quantity'], $item['product_id']);
+                if (!$dec_prod_stmt->execute()) throw new Exception($dec_prod_stmt->error);
+            } else {
+                throw new Exception('Variant not found for id ' . $variant_id);
+            }
+        } else {
+            // No variant: use product-level stock
+            $check_prod_q = "SELECT stock_quantity FROM products WHERE product_id = ? FOR UPDATE";
+            $check_prod_stmt = $conn->prepare($check_prod_q);
+            $check_prod_stmt->bind_param('i', $item['product_id']);
+            $check_prod_stmt->execute();
+            $check_prod_res = $check_prod_stmt->get_result();
+            if ($check_prod_res && $prow = $check_prod_res->fetch_assoc()) {
+                $available = (int)$prow['stock_quantity'];
+                if ($available < (int)$item['quantity']) {
+                    throw new Exception('Insufficient stock for product id ' . $item['product_id']);
+                }
+                $dec_prod_q = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
+                $dec_prod_stmt = $conn->prepare($dec_prod_q);
+                $dec_prod_stmt->bind_param('ii', $item['quantity'], $item['product_id']);
+                if (!$dec_prod_stmt->execute()) throw new Exception($dec_prod_stmt->error);
+            } else {
+                throw new Exception('Product not found for id ' . $item['product_id']);
+            }
+        }
+
+        // Insert the order item after stock decremented
         $order_item_stmt->bind_param("iiiid", $order_id, $item['product_id'], $variant_id, $item['quantity'], $item['price']);
         $order_item_stmt->execute();
     }

@@ -170,13 +170,13 @@ VALUES ('admin', 'admin@purefit.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9ll
             
             if (newPass.length < 6) {
                 e.preventDefault();
-                alert('Password must be at least 6 characters');
+                try { showNotification('Password must be at least 6 characters', 'danger'); } catch(e){ alert('Password must be at least 6 characters'); }
                 return false;
             }
-            
+
             if (newPass !== confirmPass) {
                 e.preventDefault();
-                alert('Passwords do not match');
+                try { showNotification('Passwords do not match', 'danger'); } catch(e){ alert('Passwords do not match'); }
                 return false;
             }
         });

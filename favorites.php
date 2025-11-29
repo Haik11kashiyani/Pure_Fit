@@ -12,28 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 ?>
 <div class="container-fluid py-4 py-md-5" style="padding-top: 80px !important;">
-    <!-- Success/Error Messages -->
-    <?php if (isset($_SESSION['success_message'])): ?>
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-lg-10">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['success_message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </div>
-    </div>
-    <?php unset($_SESSION['success_message']); endif; ?>
-    
-    <?php if (isset($_SESSION['error_message'])): ?>
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-lg-10">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i><?php echo $_SESSION['error_message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </div>
-    </div>
-    <?php unset($_SESSION['error_message']); endif; ?>
+    <!-- Flash messages handled centrally in master_layout.php -->
     
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10 px-3">
