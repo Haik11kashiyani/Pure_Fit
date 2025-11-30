@@ -15,21 +15,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$email || !$password) {
         $login_error = 'Please enter email and password.';
     } else {
-        // Get user details including role
-        $stmt = mysqli_prepare($conn, "SELECT u.user_id, u.password, u.is_active, u.first_name, u.last_name, r.role_name 
-                                        FROM users u 
-                                        INNER JOIN roles r ON u.role_id = r.role_id 
-                                        WHERE u.email = ? LIMIT 1");
+        // Check if is_email_verified column exists
+        $check_column = mysqli_query($conn, "SHOW COLUMNS FROM users LIKE 'is_email_verified'");
+        $column_exists = mysqli_num_rows($check_column) > 0;
+        
+        // Get user details including role and verification status (if column exists)
+        if ($column_exists) {
+            $stmt = mysqli_prepare($conn, "SELECT u.user_id, u.password, u.is_active, u.is_email_verified, u.first_name, u.last_name, r.role_name 
+                                            FROM users u 
+                                            INNER JOIN roles r ON u.role_id = r.role_id 
+                                            WHERE u.email = ? LIMIT 1");
+        } else {
+            // Fallback for when column doesn't exist (backward compatibility)
+            $stmt = mysqli_prepare($conn, "SELECT u.user_id, u.password, u.is_active, 1 as is_email_verified, u.first_name, u.last_name, r.role_name 
+                                            FROM users u 
+                                            INNER JOIN roles r ON u.role_id = r.role_id 
+                                            WHERE u.email = ? LIMIT 1");
+        }
         mysqli_stmt_bind_param($stmt, 's', $email);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
         if (mysqli_stmt_num_rows($stmt) === 1) {
-            mysqli_stmt_bind_result($stmt, $user_id, $hash, $is_active, $first_name, $last_name, $role_name);
+            mysqli_stmt_bind_result($stmt, $user_id, $hash, $is_active, $is_email_verified, $first_name, $last_name, $role_name);
             mysqli_stmt_fetch($stmt);
             if (!password_verify($password, $hash)) {
                 $login_error = 'Invalid credentials.';
             } elseif (!$is_active) {
-                $login_error = 'Account not active. Please verify your email.';
+                $login_error = 'Account not active. Please contact support.';
+            } elseif (!$is_email_verified) {
+                $login_error = 'Account not verified. Please check your email for a verification link. <a href="resend_verification.php" class="alert-link">Click here to resend</a>.';
             } else {
                 // Login success - Check role and redirect accordingly
                 if ($role_name == 'admin') {

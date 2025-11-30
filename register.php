@@ -1,6 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ob_start();
 include 'connection.php';
+include 'includes/smtp_mailer.php';
 
 // Registration handling
 $register_success = '';
@@ -32,46 +36,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (mysqli_stmt_num_rows($stmt) > 0) {
             $register_error = 'Email already registered. Please login or use another email.';
         } else {
-            // insert user with is_active = 0
+            // insert user with is_active = 0 (inactive) and is_email_verified = 0
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $username = strstr($email, '@', true) ?: $email;
-            $ins = mysqli_prepare($conn, "INSERT INTO users (username, email, password, first_name, last_name, phone, role_id, is_active, created_at) VALUES (?,?,?,?,?,?,2,0,NOW())");
+            $ins = mysqli_prepare($conn, "INSERT INTO users (username, email, password, first_name, last_name, phone, role_id, is_active, is_email_verified, created_at) VALUES (?,?,?,?,?,?,2,0,0,NOW())");
             mysqli_stmt_bind_param($ins, 'ssssss', $username, $email, $hash, $first, $last, $phone);
             if (mysqli_stmt_execute($ins)) {
                 $user_id = mysqli_insert_id($conn);
-                // ensure verification_tokens table exists
-                $create_table_sql = "CREATE TABLE IF NOT EXISTS verification_tokens (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, token VARCHAR(128) NOT NULL, expires_at DATETIME NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(), INDEX (token), FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
-                mysqli_query($conn, $create_table_sql);
-
+                
                 $token = bin2hex(random_bytes(16));
                 $expires = date('Y-m-d H:i:s', time() + 60*60*24);
                 $vt = mysqli_prepare($conn, "INSERT INTO verification_tokens (user_id, token, expires_at) VALUES (?,?,?)");
                 mysqli_stmt_bind_param($vt, 'iss', $user_id, $token, $expires);
                 mysqli_stmt_execute($vt);
 
-                // build verification URL
-                $host = $_SERVER['HTTP_HOST'];
-                $path = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
-                $verify_url = "http://" . $host . $path . "/verify.php?token=" . $token;
+                // send verification email using SMTP
+                $mail_sent = send_verification_email_smtp($email, $token);
 
-                // send email (may not work on local without mail server)
-                $subject = "Verify your Pure Fit account";
-                $message = "Hi " . htmlspecialchars($first) . ",\n\n" .
-                           "Thanks for registering at Pure Fit. Please verify your email by clicking the link below:\n\n" .
-                           $verify_url . "\n\nIf the link doesn't work, copy-paste it into your browser.\n\nThanks,\nPure Fit Team";
-                $headers = 'From: no-reply@' . $host . "\r\n";
-                $mail_sent = false;
-                // suppress warnings if mail is not configured locally
-                try {
-                    $mail_sent = @mail($email, $subject, $message, $headers);
-                } catch (Exception $e) {
-                    $mail_sent = false;
-                }
-
-                $register_success = 'Account created. Please check your email for verification link.';
+                $register_success = 'Account created successfully! Please check your email inbox (and spam folder) for the verification link.';
                 if (!$mail_sent) {
+                    $host = $_SERVER['HTTP_HOST'];
+                    $path = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
+                    $verify_url = "http://" . $host . $path . "/verify.php?token=" . $token;
                     // show fallback link for local testing
-                    $register_success .= ' (Mail not sent on this server — use this link to verify: ' . $verify_url . ')';
+                    $register_success .= '<br><strong>SMTP mail not configured - Use this link to verify:</strong><br><a href="' . $verify_url . '" style="color: #636B2F; word-break: break-all;">' . $verify_url . '</a>';
                 }
             } else {
                 $register_error = 'Registration failed: ' . mysqli_error($conn);
