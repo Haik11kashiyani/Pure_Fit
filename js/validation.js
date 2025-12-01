@@ -99,7 +99,18 @@ const Validation = {
 
     showFieldError: function($field, message) {
         $field.addClass('is-invalid');
-        $field.after(`<div class="error-message text-danger small mt-1">${message}</div>`);
+        
+        // Check if the field is inside an input-group with password toggle
+        const $inputGroup = $field.closest('.input-group');
+        const errorMessage = `<div class="error-message text-danger small mt-1" style="font-size: 0.875rem; margin-top: 0.25rem; margin-bottom: 0.5rem; display: block; width: 100%;">${message}</div>`;
+        
+        if ($inputGroup.length > 0) {
+            // Add error message after the entire input-group
+            $inputGroup.after(errorMessage);
+        } else {
+            // Add error message after the field (default behavior)
+            $field.after(errorMessage);
+        }
     },
 
     initPasswordToggle: function() {
@@ -133,4 +144,19 @@ const Validation = {
 
 $(document).ready(function() {
     Validation.initPasswordToggle();
+    
+    // Clear field errors when user starts typing
+    $(document).on('input keydown change', '.form-control', function() {
+        const $field = $(this);
+        if ($field.hasClass('is-invalid')) {
+            $field.removeClass('is-invalid');
+            // Remove the error message associated with this field
+            const $inputGroup = $field.closest('.input-group');
+            if ($inputGroup.length > 0) {
+                $inputGroup.next('.error-message').remove();
+            } else {
+                $field.next('.error-message').remove();
+            }
+        }
+    });
 });
