@@ -11,8 +11,23 @@ if ($colRes && mysqli_num_rows($colRes) > 0) {
 // --- Handle delete product and all its variants
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
     $product_id = (int)$_POST['product_id'];
-    mysqli_query($conn, "DELETE FROM product_variants WHERE product_id = $product_id");
-    mysqli_query($conn, "DELETE FROM products WHERE product_id = $product_id");
+    
+    // Check if product has any orders
+    $order_check = mysqli_query($conn, "SELECT COUNT(*) as order_count FROM order_items oi 
+                                      JOIN product_variants pv ON oi.variant_id = pv.variant_id 
+                                      WHERE pv.product_id = $product_id");
+    $order_data = mysqli_fetch_assoc($order_check);
+    
+    if ($order_data['order_count'] > 0) {
+        // Product has orders, don't delete - just mark as inactive
+        mysqli_query($conn, "UPDATE products SET is_active = 0 WHERE product_id = $product_id");
+        mysqli_query($conn, "UPDATE product_variants SET is_active = 0 WHERE product_id = $product_id");
+    } else {
+        // No orders, safe to delete
+        mysqli_query($conn, "DELETE FROM product_variants WHERE product_id = $product_id");
+        mysqli_query($conn, "DELETE FROM products WHERE product_id = $product_id");
+    }
+    
     header('Location: manage_products.php');
     exit;
 }
@@ -77,9 +92,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($_POST['action'], ['add', 
     }
 
     // Handle variants: remove deleted, update existing, add new
-    // Remove all existing variants (simpler logic for demo)
+    // Only remove variants that don't have orders
     if ($isEdit) {
-        mysqli_query($conn, "DELETE FROM product_variants WHERE product_id = $product_id");
+        // Get variants that have orders
+        $variants_with_orders = [];
+        $order_check = mysqli_query($conn, "SELECT DISTINCT pv.variant_id FROM order_items oi 
+                                          JOIN product_variants pv ON oi.variant_id = pv.variant_id 
+                                          WHERE pv.product_id = $product_id");
+        while ($row = mysqli_fetch_assoc($order_check)) {
+            $variants_with_orders[] = $row['variant_id'];
+        }
+        
+        // Only delete variants without orders
+        if (!empty($variants_with_orders)) {
+            $safe_delete = "DELETE FROM product_variants WHERE product_id = $product_id AND variant_id NOT IN (" . implode(',', $variants_with_orders) . ")";
+        } else {
+            $safe_delete = "DELETE FROM product_variants WHERE product_id = $product_id";
+        }
+        if (!mysqli_query($conn, $safe_delete)) {
+            $update_error = 'Error updating variants: ' . mysqli_error($conn);
+        }
     }
     // Insert all variants from POST
     if (!empty($_POST['variant_size'])) {
