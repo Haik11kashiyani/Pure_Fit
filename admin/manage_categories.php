@@ -1,6 +1,7 @@
-<?php 
-include 'layout.php';
-include ('../connection.php');
+<?php
+// Ensure admin is authenticated and DB connection is available before processing
+include_once 'auth_check.php';
+include_once('../connection.php');
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -94,6 +95,10 @@ function deleteCategory($conn) {
     }
     $stmt->close();
 }
+?>
+<?php // include the admin layout AFTER processing so header() redirects can work without "headers already sent" errors
+include 'layout.php';
+
 ?>
 <div class="container-fluid">
     <h2 class="mb-4">Manage Categories</h2>

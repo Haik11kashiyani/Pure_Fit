@@ -1,7 +1,7 @@
 <?php
 // Check authentication
-include 'auth_check.php';
-include '../connection.php';
+include_once 'auth_check.php';
+include_once '../connection.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

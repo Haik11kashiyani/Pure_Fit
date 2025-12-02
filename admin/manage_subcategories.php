@@ -1,6 +1,7 @@
-<?php 
-include 'layout.php';
-include ('../connection.php');
+<?php
+// Ensure admin is authenticated and DB connection is available before handling POSTs
+include_once 'auth_check.php';
+include_once('../connection.php');
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -81,6 +82,10 @@ function deleteSubcategory($conn) {
     }
     $stmt->close();
 }
+?>
+<?php
+// include layout after processing so header() redirects can execute without "headers already sent"
+include 'layout.php';
 ?>
 
 <div class="container-fluid">
