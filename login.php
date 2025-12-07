@@ -104,14 +104,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         
                         <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold" style="color: #713600;">
+                            <label for="password" class="form-label fw-semibold" style="color: #3D4127;">
                                 Password
                             </label>
                             <div class="input-group position-relative">
                                 <span class="input-group-text border-0" style="background: #C05800; color: #713600;">
                                     <i class="fas fa-lock"></i>
                                 </span>
-                                    <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
+                                <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
                                        style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                 <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                     <i class="fas fa-eye text-muted"></i>
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <a href="#" class="text-decoration-none" style="color: #713600; font-size: 0.9rem; transition: color 0.3s ease;">
+                            <a href="forgot_password.php" class="text-decoration-none" style="color: #636B2F; font-size: 0.9rem; transition: color 0.3s ease;">
                                 Forgot password?
                             </a>
                         </div>

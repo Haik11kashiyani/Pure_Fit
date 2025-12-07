@@ -157,10 +157,10 @@ if (empty($_SESSION['csrf_token'])) {
         <div class="col-12 col-lg-10">
             <!-- Page Header -->
             <div class="text-center mb-5 mt-5 pt-5">
-                <h1 class="display-4 fw-bold mb-3" style="color: #713600;  letter-spacing: 2px;">
+                <h1 class="display-4 fw-bold mb-3" style="color: #FDFBD4; letter-spacing: 2px; text-shadow: 0 3px 8px rgba(0,0,0,0.35);">
                     My Profile
                 </h1>
-                <p class="lead" style="color: #713600; ">
+                <p class="lead" style="color: rgba(253,251,212,0.9);">
                     Manage your account settings and preferences
                 </p>
             </div>
@@ -286,8 +286,8 @@ if (empty($_SESSION['csrf_token'])) {
                                                 style="background: #f8f9fa; border-left: 4px solid #C05800 !important; transition: all 0.3s ease;"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
                                     </div>
                                     
-                                    <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #713600, #713600); border: none; letter-spacing: 1px;">
+                                    <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold" 
+                                            style="background: linear-gradient(135deg, #713600, #C05800); color: #FDFBD4; border: none; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
                                         Save Changes
                                     </button>
                                 </form>
@@ -357,7 +357,7 @@ if (empty($_SESSION['csrf_token'])) {
                                         </div>
                                         
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="order_confirmation.php?order_id=<?php echo $order['order_id']; ?>" class="btn btn-sm px-3 py-2 rounded-pill" style="background: #C05800; color: #FDFBD4; border: none;">
+                                            <a href="order_confirmation.php?order_id=<?php echo $order['order_id']; ?>" class="btn btn-sm px-3 py-2 rounded-pill" style="background: #C05800; color: #FDFBD4; border: none; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
                                                 <i class="fas fa-eye me-1"></i>View Details
                                             </a>
                                             <?php if ($order['order_status'] == 'confirmed' || $order['order_status'] == 'processing'): ?>
@@ -373,7 +373,7 @@ if (empty($_SESSION['csrf_token'])) {
                                         <i class="fas fa-shopping-bag fa-4x text-muted mb-3" style="opacity: 0.3;"></i>
                                         <h5 class="text-muted">No Orders Yet</h5>
                                         <p class="text-muted">You haven't placed any orders yet.</p>
-                                        <a href="products.php" class="btn px-4 py-2 rounded-pill fw-bold mt-3" style="background: #FDFBD4; color: #713600; border: 2px solid #C05800; font-weight: 600;">
+                                        <a href="products.php" class="btn px-4 py-2 rounded-pill fw-bold mt-3" style="background: #FDFBD4; color: #FDFBD4; border: 2px solid #C05800; font-weight: 600; text-shadow: 0 1px 2px rgba(113,54,0,0.5);">
                                             <i class="fas fa-shopping-cart me-2"></i>Start Shopping
                                         </a>
                                     </div>
@@ -404,8 +404,8 @@ if (empty($_SESSION['csrf_token'])) {
                                                 placeholder="Enter your complete address..."><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
                                     </div>
                                     
-                                    <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #713600, #713600); border: none; letter-spacing: 1px;">
+                                    <button type="submit" class="btn px-4 py-2 rounded-pill fw-bold" 
+                                            style="background: linear-gradient(135deg, #713600, #C05800); color: #FDFBD4; border: none; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
                                         Update Address
                                     </button>
                                 </form>
@@ -471,8 +471,8 @@ if (empty($_SESSION['csrf_token'])) {
                                         </ul>
                                     </div>
                                     
-                                    <button type="submit" class="btn px-5 py-3 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #713600, #713600); border: none; letter-spacing: 1px;">
+                                    <button type="submit" class="btn px-5 py-3 rounded-pill fw-bold" 
+                                            style="background: linear-gradient(135deg, #713600, #C05800); color: #FDFBD4; border: none; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
                                         <i class="fas fa-save me-2"></i>Change Password
                                     </button>
                                 </form>
@@ -484,7 +484,7 @@ if (empty($_SESSION['csrf_token'])) {
                     <div class="profile-section" id="language" style="display: none;">
                         <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                             <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #713600, #C05800);">
-                                <h3 class="mb-0 fw-bold" style="color: #713600;">
+                                <h3 class="mb-0 fw-bold" style="color: #FDFBD4;">
                                     <i class="fas fa-globe me-2"></i>Language Settings
                                 </h3>
                             </div>

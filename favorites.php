@@ -18,10 +18,10 @@ $user_id = $_SESSION['user_id'];
         <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
             <div class="text-center mb-4 mb-md-5">
-                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #713600;">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #FDFBD4; text-shadow: 0 3px 8px rgba(0,0,0,0.35);">
                     <i class="fas fa-heart text-danger me-2"></i>My Favorites
                 </h1>
-                <p class="lead mb-0" style="color: #713600;">
+                <p class="lead mb-0" style="color: #FDFBD4; opacity: 0.9;">
                     Your saved items for future purchases
                 </p>
             </div>
@@ -88,10 +88,10 @@ $user_id = $_SESSION['user_id'];
                         ?>
                         <div class="col-12">
                             <div class="text-center py-5">
-                                <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
-                                <h3 class="text-muted">No Favorites Yet</h3>
-                                <p class="text-muted">Start adding products to your favorites!</p>
-                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold mt-3" style="background: linear-gradient(135deg, #713600, #713600); border: none;">
+                                <i class="fas fa-heart-broken fa-4x mb-3" style="color: rgba(253,251,212,0.75);"></i>
+                                <h3 class="fw-bold" style="color: #FDFBD4; text-shadow: 0 2px 6px rgba(0,0,0,0.35);">No Favorites Yet</h3>
+                                <p style="color: rgba(253,251,212,0.85);">Start adding products to your favorites!</p>
+                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill fw-bold mt-3" style="background: linear-gradient(135deg, #FDFBD4, #F5E7A6); border: none; color: #713600;">
                                     Browse Products
                                 </a>
                             </div>

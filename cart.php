@@ -37,10 +37,10 @@ $cart_count = count($cart_items);
         <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
             <div class="text-center mb-4 mb-md-5">
-                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #713600;">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #FDFBD4; text-shadow: 0 3px 8px rgba(0,0,0,0.35);">
                     <i class="fas fa-shopping-cart me-2"></i>Shopping Cart
                 </h1>
-                <p class="lead mb-0" style="color: #713600;">
+                <p class="lead mb-0" style="color: #FDFBD4; opacity: 0.9;">
                     Review your items and proceed to checkout
                 </p>
             </div>
@@ -51,7 +51,7 @@ $cart_count = count($cart_items);
                 <div class="col-12 col-lg-8">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
                         <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #713600, #C05800);">
-                            <h3 class="mb-0 fw-bold" style="color: #713600;">
+                            <h3 class="mb-0 fw-bold" style="color: #FDFBD4;">
                                 Your Items (<?php echo $cart_count; ?>)
                             </h3>
                         </div>
@@ -179,7 +179,7 @@ $cart_count = count($cart_items);
                 <div class="col-12 col-lg-4">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
                         <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #713600, #C05800);">
-                            <h3 class="mb-0 fw-bold" style="color: #713600;">
+                            <h3 class="mb-0 fw-bold" style="color: #FDFBD4;">
                                 Order Summary
                             </h3>
                         </div>
@@ -217,10 +217,10 @@ $cart_count = count($cart_items);
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="text-center py-5">
-                        <i class="fas fa-shopping-cart fa-5x text-muted mb-4" style="opacity: 0.3;"></i>
-                        <h3 class="fw-bold mb-3" style="color: #713600;">Your Cart is Empty</h3>
-                        <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
-                        <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #713600, #713600); border: none;">
+                        <i class="fas fa-shopping-cart fa-5x mb-4" style="color: rgba(253,251,212,0.7);"></i>
+                        <h3 class="fw-bold mb-3" style="color: #FDFBD4; text-shadow: 0 2px 6px rgba(0,0,0,0.35);">Your Cart is Empty</h3>
+                        <p class="mb-4" style="color: rgba(253,251,212,0.85);">Looks like you haven't added anything to your cart yet.</p>
+                        <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill fw-bold" style="background: linear-gradient(135deg, #FDFBD4, #F5E7A6); border: none; color: #713600;">
                             <i class="fas fa-shopping-bag me-2"></i>Start Shopping
                         </a>
                     </div>

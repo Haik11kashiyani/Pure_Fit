@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2025 at 02:22 PM
+-- Generation Time: Dec 07, 2025 at 06:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -120,7 +120,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`category_id`, `subcategory _id`, `name`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Mens', 'Ohk updated', 1, '2025-10-24 11:29:25', '2025-10-26 05:57:27'),
-(2, 2, 'Female ', 'Lai liyo Ben', 1, '2025-10-28 12:32:09', '2025-10-30 04:44:12');
+(2, 2, 'Female ', 'Lai liyo Ben', 1, '2025-10-28 12:32:09', '2025-10-30 04:44:12'),
+(4, NULL, 'Child', 'hsdhbs', 1, '2025-12-02 07:24:29', '2025-12-02 07:24:29');
 
 -- --------------------------------------------------------
 
@@ -164,9 +165,8 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`favorite_id`, `user_id`, `product_id`, `created_at`) VALUES
-(7, 1, 7, '2025-11-29 12:34:06'),
-(8, 1, 8, '2025-11-29 12:34:15'),
-(9, 4, 7, '2025-11-29 14:42:31');
+(9, 4, 7, '2025-11-29 14:42:31'),
+(10, 1, 7, '2025-12-07 05:19:22');
 
 -- --------------------------------------------------------
 
@@ -197,7 +197,8 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_amount`, `shipping_address`,
 (6, 1, 2596.00, 'khimrana, Jamnagar, Gujarat - 361120\\nPhone: 8154919492', 2, 'delivered', 'completed', NULL, 'Online Payment - Awaiting payment confirmation', '2025-11-29 12:27:17', '2025-11-29 12:33:36'),
 (10, 4, 1180.00, 'Gulabnagar, Rajkot, GUJARAT - \nPhone: 1234567890', 1, 'delivered', 'completed', 'COD-1764424696-4', 'Cash on Delivery - Payment will be collected at the time of delivery', '2025-11-29 13:58:16', '2025-11-29 14:04:24'),
 (14, 4, 1180.00, 'Gulabnagar, Rajkot, GUJARAT - \nPhone: 1234567890', 1, 'delivered', 'completed', 'COD-1764425000-4', 'Cash on Delivery - Payment will be collected at the time of delivery', '2025-11-29 14:03:20', '2025-11-29 14:05:11'),
-(19, 4, 1003.00, 'Gulabnagar, Rajkot, GUJARAT - \nPhone: 1234567890', 1, 'confirmed', 'pending', 'COD-1764427823-4', 'Cash on Delivery - Payment will be collected at the time of delivery', '2025-11-29 14:50:23', '2025-11-29 14:50:23');
+(19, 4, 1003.00, 'Gulabnagar, Rajkot, GUJARAT - \nPhone: 1234567890', 1, 'confirmed', 'pending', 'COD-1764427823-4', 'Cash on Delivery - Payment will be collected at the time of delivery', '2025-11-29 14:50:23', '2025-11-29 14:50:23'),
+(20, 4, 649.00, 'Gulabnagar, Rajkot, GUJARAT - \nPhone: 1234567890', 1, 'confirmed', 'completed', 'COD-1764659919-4', 'Cash on Delivery - Payment will be collected at the time of delivery', '2025-12-02 07:18:39', '2025-12-02 07:19:50');
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,22 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `variant_i
 (3, 10, 2, NULL, 2, 500.00, '2025-11-29 13:58:16'),
 (4, 14, 2, 35, 2, 500.00, '2025-11-29 14:03:20'),
 (5, 19, 4, NULL, 1, 250.00, '2025-11-29 14:50:23'),
-(6, 19, 3, NULL, 1, 600.00, '2025-11-29 14:50:23');
+(6, 19, 3, NULL, 1, 600.00, '2025-11-29 14:50:23'),
+(7, 20, 7, 49, 1, 550.00, '2025-12-02 07:18:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `otp` varchar(10) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -276,13 +292,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `category_id`, `name`, `description`, `price`, `stock_quantity`, `image_path`, `is_active`, `created_at`, `updated_at`, `subcategory_id`) VALUES
-(2, 1, 'Pent', 'Lay lio Bhai', 500.00, 0, 'assets/products/1761654162_6c890c25.png', 1, '2025-10-26 05:32:02', '2025-11-29 14:03:20', 1),
-(3, 2, 'T-Shirt', 'Jordar', 600.00, 0, 'assets/products/1761654800_ea74a42d.png', 1, '2025-10-28 12:33:20', '2025-10-28 12:33:20', 2),
-(4, 2, 'Jeans', 'jeans Is Here..!', 250.00, 0, 'assets/products/1761654912_b973f718.png', 1, '2025-10-28 12:35:12', '2025-10-28 12:35:12', 3),
-(5, 1, 'T-Shirt', 'T shirt', 400.00, 0, 'assets/products/1761654999_0e025e6e.png', 1, '2025-10-28 12:36:39', '2025-10-28 12:36:39', 2),
-(6, 1, 'Shirt', 'shirt for mens', 400.00, 0, 'assets/products/1761655144_d0de1ce8.png', 1, '2025-10-28 12:39:04', '2025-10-28 12:39:04', 4),
-(7, 1, 'Jeans', 'jeans for mens', 550.00, 0, 'assets/products/1761655213_91e68c7c.png', 1, '2025-10-28 12:40:13', '2025-11-29 11:15:41', 3),
-(8, 2, 'Shirt', 'Ladies Shirt', 200.00, 0, 'assets/products/1761655262_74157813.png', 1, '2025-10-28 12:41:02', '2025-11-28 07:39:04', 4);
+(2, 1, 'Pent', 'Lay lio Bhai', 500.00, 0, 'assets/products/1764562133_bab6d428.png', 1, '2025-10-26 05:32:02', '2025-12-01 04:08:53', 1),
+(3, 2, 'T-Shirt', 'Jordar', 600.00, 0, 'assets/products/1764562111_9d5067a4.png', 1, '2025-10-28 12:33:20', '2025-12-01 04:08:31', 2),
+(4, 2, 'Jeans', 'jeans Is Here..!', 250.00, 0, 'assets/products/1764562095_de3e048a.png', 1, '2025-10-28 12:35:12', '2025-12-01 04:08:15', 3),
+(5, 1, 'T-Shirt', 'T shirt', 400.00, 0, 'assets/products/1764562067_cc81ef5e.png', 1, '2025-10-28 12:36:39', '2025-12-01 04:07:47', 2),
+(6, 1, 'Shirt', 'shirt for mens', 400.00, 0, 'assets/products/1764562030_1c9c08fd.png', 1, '2025-10-28 12:39:04', '2025-12-01 04:07:10', 4),
+(7, 1, 'Jeans', 'jeans for mens', 550.00, 0, 'assets/products/1764561998_6cff58a7.png', 1, '2025-10-28 12:40:13', '2025-12-01 04:07:25', 3),
+(8, 2, 'Shirt', 'Ladies Shirt', 200.00, 0, 'assets/products/1764561872_c13d2b29.png', 1, '2025-10-28 12:41:02', '2025-12-01 04:04:32', 4);
 
 -- --------------------------------------------------------
 
@@ -305,15 +321,17 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `stock_quantity`, `is_active`, `created_at`, `updated_at`) VALUES
-(34, 2, '28', 3, 1, '2025-10-28 12:22:42', '2025-10-28 12:22:42'),
 (35, 2, '30', 1, 1, '2025-10-28 12:22:42', '2025-11-29 14:03:20'),
-(36, 2, '32', 2, 1, '2025-10-28 12:22:42', '2025-10-28 12:22:42'),
-(37, 3, 'Small', 2, 1, '2025-10-28 12:33:20', '2025-11-29 14:50:23'),
-(38, 4, 'Small', 3, 1, '2025-10-28 12:35:12', '2025-11-29 14:50:23'),
-(39, 5, 'Small', 5, 1, '2025-10-28 12:36:39', '2025-10-28 12:36:39'),
-(40, 6, 'Small', 3, 1, '2025-10-28 12:39:04', '2025-10-28 12:39:04'),
-(43, 8, 'Small', 5, 0, '2025-11-28 07:39:04', '2025-11-28 07:39:04'),
-(44, 7, 'Small', 0, 1, '2025-11-29 11:15:41', '2025-11-29 12:27:17');
+(44, 7, 'Small', 0, 1, '2025-11-29 11:15:41', '2025-11-29 12:27:17'),
+(45, 8, 'Small', 15, 1, '2025-12-01 04:04:32', '2025-12-01 04:04:32'),
+(48, 6, 'Small', 13, 1, '2025-12-01 04:07:10', '2025-12-01 04:07:10'),
+(49, 7, 'Small', 14, 1, '2025-12-01 04:07:25', '2025-12-02 07:18:39'),
+(50, 5, 'Small', 15, 1, '2025-12-01 04:07:47', '2025-12-01 04:07:47'),
+(51, 4, 'Small', 13, 1, '2025-12-01 04:08:15', '2025-12-01 04:08:15'),
+(52, 3, 'Small', 12, 1, '2025-12-01 04:08:31', '2025-12-01 04:08:31'),
+(53, 2, '28', 13, 1, '2025-12-01 04:08:53', '2025-12-01 04:08:53'),
+(54, 2, '30', 10, 1, '2025-12-01 04:08:53', '2025-12-01 04:08:53'),
+(55, 2, '32', 20, 1, '2025-12-01 04:08:53', '2025-12-01 04:08:53');
 
 -- --------------------------------------------------------
 
@@ -359,7 +377,10 @@ INSERT INTO `subcategories` (`subcategory_id`, `category_id`, `subcategory_name`
 (1, 1, 'Pents', 1, '2025-10-24 12:34:30', '2025-10-26 05:57:08'),
 (2, 2, 'T-Shirts', 1, '2025-10-28 12:32:34', '2025-10-28 12:32:34'),
 (3, 2, 'Jeans', 1, '2025-10-28 12:34:21', '2025-10-28 12:34:21'),
-(4, 1, 'Shirt', 1, '2025-10-28 12:38:13', '2025-10-28 12:38:13');
+(4, 1, 'Shirt', 1, '2025-10-28 12:38:13', '2025-10-28 12:38:13'),
+(5, 1, 'Pents', 1, '2025-12-02 07:20:38', '2025-12-02 07:20:38'),
+(6, 1, 'T-bbb', 1, '2025-12-02 07:21:06', '2025-12-02 07:21:06'),
+(7, 4, 'T-Shirts', 1, '2025-12-02 07:31:44', '2025-12-02 07:31:44');
 
 -- --------------------------------------------------------
 
@@ -420,13 +441,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `first_name`, `last_name`, `phone`, `address`, `role_id`, `is_active`, `is_email_verified`, `is_verified`, `verification_token`, `verification_sent_at`, `verified_at`, `created_at`, `updated_at`) VALUES
-(1, 'prakashdharaviya2005', 'prakashdharaviya2005@gmail.com', '$2y$10$IsX54ldBsbpU9K2az0XKDu8Q5eL5fR0kWx1yiPn6KBluInInfiXq.', 'Prakash', 'Dharaviya', '8154919492', 'Khimrana', 2, 1, 1, 0, NULL, NULL, NULL, '2025-10-26 11:16:58', '2025-11-30 13:19:06'),
+(1, 'prakashdharaviya2005', 'prakashdharaviya2005@gmail.com', '$2y$10$ijR9kflmgRiIRgUJJeEJxeiXt7xnOjBMOYu.Jzc2Nv7SXYcFSjk3.', 'Prakash', 'Dharaviya', '8154919492', 'Khimrana', 2, 1, 1, 0, NULL, NULL, NULL, '2025-10-26 11:16:58', '2025-12-07 05:13:56'),
 (3, 'admin', 'admin@purefit.com', '$2y$10$kWJ4/OjvOYTtK3pS1sygzOeof2Mziox2yEnGFw5tTv2L95Mx0ssPC', 'Admin', 'User', '1234567890', NULL, 1, 1, 1, 0, NULL, NULL, NULL, '2025-10-29 11:31:50', '2025-11-30 13:19:06'),
 (4, 'haik', 'haik@gmail.com', '$2y$10$ifzCo7wkoH9io9nguHDhkO0nVos04Y4UmhriPV/w5O1LjI8q4HsxO', 'Hardik', 'Kashiyani', '1234567890', 'GulabNagar', 2, 1, 1, 0, NULL, NULL, NULL, '2025-10-29 11:58:11', '2025-11-30 13:19:06'),
-(5, 'devraj', 'devu@gmail.com', '$2y$10$TM2s51EKwfVcz790jBTAW.brn8xDF8eKnm5rrEBhMFYGn1vSCYQBa', 'dev', 'raj', '0987643215', NULL, 1, 0, 1, 0, NULL, NULL, NULL, '2025-10-29 12:00:18', '2025-11-30 13:19:06'),
-(10, 'pdharviya101', 'pdharviya101@rku.ac.in', '$2y$10$1hOzqisQBxDajQtOM2gQnutCQkKnVicXqC0Pqzo3JijTdwofMw6D6', 'Prakash', 'Dharviya', '8154919464', NULL, 2, 1, 1, 0, '93491d908865834b8f99d3e61e2fa819cb47db6c74c062dc40111a2716926e4d', '2025-11-30 18:10:18', NULL, '2025-11-30 12:40:18', '2025-11-30 13:19:06'),
-(11, 'projectbcaall', 'projectbcaall@gmail.com', '$2y$10$FbJiLDjlLPmMw9GXmLCvTODPwYlDjM9cJSZ63vf3pst7i0HC.YvRu', 'Harshit', 'Rathod', '1234567890', NULL, 2, 1, 1, 0, NULL, NULL, NULL, '2025-11-30 13:00:25', '2025-11-30 13:01:11'),
-(12, 'savan6414', 'savan6414@gmail.com', '$2y$10$2OPZMjTaN4fxehMbp/9OO.nlZU.U/FN2MElZ9YWeRXpB.KbOM/BLS', 'Savan', 'Parmar', '6351376461', NULL, 2, 0, 0, 0, NULL, NULL, NULL, '2025-11-30 13:21:13', '2025-11-30 13:21:13');
+(5, 'devraj', 'devu@gmail.com', '$2y$10$TM2s51EKwfVcz790jBTAW.brn8xDF8eKnm5rrEBhMFYGn1vSCYQBa', 'dev', 'raj', '0987643215', NULL, 1, 0, 1, 0, NULL, NULL, NULL, '2025-10-29 12:00:18', '2025-11-30 13:19:06');
 
 -- --------------------------------------------------------
 
@@ -441,13 +459,6 @@ CREATE TABLE `verification_tokens` (
   `expires_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `verification_tokens`
---
-
-INSERT INTO `verification_tokens` (`id`, `user_id`, `token`, `expires_at`, `created_at`) VALUES
-(8, 12, 'a83eff3f8ef1b0b27cbb1ec549d9da95', '2025-12-01 14:21:13', '2025-11-30 18:51:13');
 
 --
 -- Indexes for dumped tables
@@ -517,6 +528,14 @@ ALTER TABLE `order_items`
   ADD KEY `fk_orderitems_order` (`order_id`),
   ADD KEY `fk_orderitems_product` (`product_id`),
   ADD KEY `fk_orderitems_variant` (`variant_id`);
+
+--
+-- Indexes for table `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_expires_at` (`expires_at`);
 
 --
 -- Indexes for table `payment_methods`
@@ -598,13 +617,13 @@ ALTER TABLE `addresses`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `contact_messages`
@@ -616,19 +635,25 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -646,7 +671,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `variant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -658,7 +683,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `team_members`
@@ -670,13 +695,13 @@ ALTER TABLE `team_members`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `verification_tokens`
 --
 ALTER TABLE `verification_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -723,6 +748,12 @@ ALTER TABLE `order_items`
   ADD CONSTRAINT `fk_orderitems_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_orderitems_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `fk_orderitems_variant` FOREIGN KEY (`variant_id`) REFERENCES `product_variants` (`variant_id`);
+
+--
+-- Constraints for table `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD CONSTRAINT `fk_password_reset_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products`
