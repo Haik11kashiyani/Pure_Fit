@@ -18,10 +18,10 @@ $user_id = $_SESSION['user_id'];
         <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
             <div class="text-center mb-4 mb-md-5">
-                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #713600;">
                     <i class="fas fa-heart text-danger me-2"></i>My Favorites
                 </h1>
-                <p class="lead mb-0" style="color: #636B2F;">
+                <p class="lead mb-0" style="color: #713600;">
                     Your saved items for future purchases
                 </p>
             </div>
@@ -68,7 +68,7 @@ $user_id = $_SESSION['user_id'];
                                                 <input type="hidden" name="action" value="add">
                                                 <input type="hidden" name="quantity" value="1">
                                                 <input type="hidden" name="redirect" value="favorites.php">
-                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #713600; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
                                             </form>
@@ -77,7 +77,7 @@ $user_id = $_SESSION['user_id'];
                                     <div class="product-info p-3 text-center rounded-bottom bg-white">
                                         <h3 class="mb-2 fs-5 fs-md-4"><?php echo $title; ?></h3>
                                         <p class="mb-2 text-muted small"><?php echo $desc; ?></p>
-                                        <p class="mb-0 fw-bold fs-5" style="color: #636B2F;"><?php echo $price; ?></p>
+                                        <p class="mb-0 fw-bold fs-5" style="color: #713600;"><?php echo $price; ?></p>
                                     </div>
                                 </div>
                             </a>
@@ -91,7 +91,7 @@ $user_id = $_SESSION['user_id'];
                                 <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
                                 <h3 class="text-muted">No Favorites Yet</h3>
                                 <p class="text-muted">Start adding products to your favorites!</p>
-                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold mt-3" style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold mt-3" style="background: linear-gradient(135deg, #713600, #713600); border: none;">
                                     Browse Products
                                 </a>
                             </div>

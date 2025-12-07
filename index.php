@@ -10,7 +10,7 @@
                             <p class="mb-2">Dress Your Vibe</p>
                             <p class="mb-4">Quality never goes out of style.</p>
                             <div class="d-none d-md-block">
-                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                                <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill fw-bold" style="background: #FDFBD4; color: #713600; border: 2px solid #C05800; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                                     Shop Now
                                 </a>
                             </div>
@@ -27,8 +27,8 @@
             <div class="row mb-4 mb-md-5">
                 <div class="col-12">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
-                        <h1 class="mb-3 mb-md-0 fw-bold" style="color: #3D4127;">Our Products</h1>
-                        <a href="products.php" class="btn btn-primary px-4 py-2 rounded-pill" style="background: linear-gradient(90deg, #798436ff, #616d10ff); border: none; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                        <h1 class="mb-3 mb-md-0 fw-bold" style="color: #713600;">Our Products</h1>
+                        <a href="products.php" class="btn btn-primary px-4 py-2 rounded-pill" style="background: linear-gradient(90deg, #C05800, #E8A850); border: none; font-weight: 600; color: #FDFBD4 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                             See All Products <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
@@ -66,7 +66,7 @@
                                         <input type="hidden" name="action" value="add">
                                         <input type="hidden" name="quantity" value="1">
                                         <input type="hidden" name="redirect" value="index.php">
-                                        <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                        <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #713600; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>
                                     </form>
@@ -75,7 +75,7 @@
                             <div class="product-info p-3 text-center rounded-bottom bg-white">
                                 <h3 class="mb-2 fs-5 fs-md-4"><?php echo $pname; ?></h3>
                                 <p class="mb-2 text-muted small"><?php echo mb_strimwidth($pdesc, 0, 80, '...'); ?></p>
-                                <p class="mb-0 fw-bold fs-5" style="color: #636B2F;"><?php echo $pprice; ?></p>
+                                <p class="mb-0 fw-bold fs-5" style="color: #713600;"><?php echo $pprice; ?></p>
                             </div>
                         </div>
                     </a>

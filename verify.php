@@ -59,7 +59,7 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #BAC095, #D4DE95);
+            background: linear-gradient(135deg, #713600, #C05800);
             min-height: 100vh;
             font-family: 'Montserrat', sans-serif;
         }
@@ -80,7 +80,7 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
             overflow: hidden;
         }
         .card-header {
-            background: linear-gradient(135deg, #636B2F, #3D4127);
+            background: linear-gradient(135deg, #713600, #713600);
             color: white;
             text-align: center;
             padding: 2rem;
@@ -91,7 +91,7 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
             font-weight: bold;
         }
         .logo {
-            color: #BAC095;
+            color: #713600;
         }
         .card-body {
             padding: 2rem;
@@ -108,13 +108,13 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
             margin-bottom: 1rem;
         }
         .message {
-            color: #636B2F;
+            color: #713600;
             font-size: 1.1rem;
             margin-bottom: 2rem;
             line-height: 1.6;
         }
         .btn-login {
-            background: linear-gradient(135deg, #636B2F, #3D4127);
+            background: linear-gradient(135deg, #713600, #713600);
             border: none;
             color: white;
             padding: 12px 30px;

@@ -73,11 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row justify-content-center" style="min-height: 80vh; padding-top: 4vh;">
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); margin: 2rem 0;">
-                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                    <h2 class="mb-0 fw-bold" style="color: #3D4127;  letter-spacing: 1px;">
+                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #713600, #C05800);">
+                    <h2 class="mb-0 fw-bold" style="color: #FDFBD4;  letter-spacing: 1px;">
                         Welcome Back
                     </h2>
-                    <p class="mb-0 mt-2" style="color: #636B2F; font-size: 0.9rem;">
+                    <p class="mb-0 mt-2" style="color: #FDFBD4; font-size: 0.9rem;">
                         Sign in to your Pure Fit account
                     </p>
                 </div>
@@ -91,28 +91,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="alert-container"></div>
                     <form method="POST" action="" id="loginForm" novalidate>
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold" style="color: #3D4127;">
+                            <label for="email" class="form-label fw-semibold" style="color: #713600;">
                                 Email Address
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                <span class="input-group-text border-0" style="background: #C05800; color: #713600;">
                                     <i class="fas fa-envelope"></i>
                                 </span>
                                 <input type="text" class="form-control border-0 py-3" id="email" name="email" placeholder="Enter your email" 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                             </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold" style="color: #3D4127;">
+                            <label for="password" class="form-label fw-semibold" style="color: #713600;">
                                 Password
                             </label>
                             <div class="input-group position-relative">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                <span class="input-group-text border-0" style="background: #C05800; color: #713600;">
                                     <i class="fas fa-lock"></i>
                                 </span>
                                     <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Enter your password" 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                 <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                     <i class="fas fa-eye text-muted"></i>
                                 </span>
@@ -120,20 +120,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <a href="#" class="text-decoration-none" style="color: #636B2F; font-size: 0.9rem; transition: color 0.3s ease;">
+                            <a href="#" class="text-decoration-none" style="color: #713600; font-size: 0.9rem; transition: color 0.3s ease;">
                                 Forgot password?
                             </a>
                         </div>
                         
-                        <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3" 
-                                style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease;  letter-spacing: 1px;">
+                        <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold mb-3" 
+                                style="background: #FDFBD4; color: #713600; border: 2px solid #C05800; transition: all 0.3s ease;  letter-spacing: 1px;">
                             Sign In
                         </button>
                         
                         <div class="text-center">
-                            <p class="mb-0" style="color: #636B2F; font-size: 0.9rem;">
+                            <p class="mb-0" style="color: #713600; font-size: 0.9rem;">
                                 Don't have an account? 
-                                <a href="register.php" class="text-decoration-none fw-bold" style="color: #3D4127; transition: color 0.3s ease;">
+                                <a href="register.php" class="text-decoration-none fw-bold" style="color: #713600; transition: color 0.3s ease;">
                                     Sign up here
                                 </a>
                             </p>
@@ -167,12 +167,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 .form-check-input:checked {
-    background-color: #636B2F;
-    border-color: #636B2F;
+    background-color: #713600;
+    border-color: #713600;
 }
 
 a:hover {
-    color: #BAC095 !important;
+    color: #713600 !important;
 }
 
 /* Animation for form elements */

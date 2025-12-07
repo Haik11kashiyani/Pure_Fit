@@ -60,11 +60,11 @@
         }
         #google_translate_element select,
         #google_translate_element_profile select {
-            border: 2px solid #636B2F !important;
+            border: 2px solid #713600 !important;
             border-radius: 10px !important;
             padding: 12px 20px !important;
             font-size: 16px !important;
-            color: #3D4127 !important;
+            color: #713600 !important;
             background: white !important;
             cursor: pointer !important;
             outline: none !important;
@@ -74,7 +74,7 @@
         #google_translate_element select:hover,
         #google_translate_element_profile select:hover {
             background: #f8f9fa !important;
-            border-color: #3D4127 !important;
+            border-color: #713600 !important;
         }
         .goog-te-gadget {
             font-family: inherit !important;
@@ -285,7 +285,7 @@
                                 $button.html(originalHTML);
                                 $button.css({
                                     'background': 'rgba(255, 255, 255, 0.95)',
-                                    'color': '#636B2F'
+                                    'color': '#713600'
                                 }).prop('disabled', false);
                             }, 1500);
                         } else {

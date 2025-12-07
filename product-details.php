@@ -61,7 +61,7 @@ if (!empty($variants)) {
 
 <div class="container-fluid py-5"><div class="row justify-content-center mb-5">
         <div class="col-12 col-lg-10 text-center">
-            <h1 class="display-4 fw-bold mb-3" style="color: #3D4127; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
+            <h1 class="display-4 fw-bold mb-3" style="color: #713600; font-family: 'Montserrat', sans-serif; letter-spacing: 2px;">
                  Products Details
             </h1>
             
@@ -90,13 +90,13 @@ if (!empty($variants)) {
                 <div class="col-12 col-lg-6">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
                         <div class="card-body p-4">
-                            <h1 class="fw-bold mb-3" style="color: #3D4127;  letter-spacing: 1px;">
+                            <h1 class="fw-bold mb-3" style="color: #713600;  letter-spacing: 1px;">
                                 <?php echo htmlspecialchars($currentProduct['name']); ?>
                             </h1>
                             
                             <div class="d-flex align-items-center mb-3">
                                 <?php if ($currentProduct['stock'] > 0): ?>
-                                    <span class="badge rounded-pill px-3 py-2" style="background: #D4DE95; color: #636B2F; font-size: 0.8rem;">
+                                    <span class="badge rounded-pill px-3 py-2" style="background: #C05800; color: #713600; font-size: 0.8rem;">
                                         In Stock 
                                     </span>
                                 <?php else: ?>
@@ -107,27 +107,27 @@ if (!empty($variants)) {
                             </div>
                             
                             <div class="price-section mb-4">
-                                <span class="h2 fw-bold" style="color: #636B2F;"><?php echo htmlspecialchars($currentProduct['price']); ?></span>
+                                <span class="h2 fw-bold" style="color: #713600;"><?php echo htmlspecialchars($currentProduct['price']); ?></span>
                                 
                             </div>
                             
-                            <p class="mb-4" style="color: #636B2F;  line-height: 1.6;">
+                            <p class="mb-4" style="color: #713600;  line-height: 1.6;">
                                 <?php echo htmlspecialchars($currentProduct['description']); ?>
                             </p>
                             
                             <!-- Size Selection -->
                             <?php if (!empty($variants)): ?>
                             <div class="mb-4">
-                                <h6 class="fw-bold mb-3" style="color: #3D4127;">Select Size:</h6>
+                                <h6 class="fw-bold mb-3" style="color: #713600;">Select Size:</h6>
                                 <div class="d-flex gap-2 flex-wrap">
                                     <?php foreach ($variants as $index => $variant): ?>
                                         <button class="btn size-btn <?php echo $index === 0 ? 'active' : ''; ?>" 
                                                 data-variant-id="<?php echo $variant['variant_id']; ?>"
                                                 data-stock="<?php echo $variant['stock_quantity']; ?>"
                                                 <?php echo $variant['stock_quantity'] <= 0 ? 'disabled' : ''; ?>
-                                                style="background: <?php echo $index === 0 ? '#636B2F' : '#f8f9fa'; ?>; 
-                                                       color: <?php echo $index === 0 ? 'white' : '#636B2F'; ?>; 
-                                                       border: 2px solid <?php echo $index === 0 ? '#636B2F' : '#D4DE95'; ?>; 
+                                                style="background: <?php echo $index === 0 ? '#713600' : '#f8f9fa'; ?>; 
+                                                       color: <?php echo $index === 0 ? 'white' : '#713600'; ?>; 
+                                                       border: 2px solid <?php echo $index === 0 ? '#713600' : '#C05800'; ?>; 
                                                        min-width: 50px; 
                                                        transition: all 0.3s ease;
                                                        <?php echo $variant['stock_quantity'] <= 0 ? 'opacity: 0.5; cursor: not-allowed;' : ''; ?>">
@@ -144,13 +144,13 @@ if (!empty($variants)) {
                             
                             <!-- Quantity -->
                             <div class="mb-4">
-                                <h6 class="fw-bold mb-3" style="color: #3D4127; ">Quantity:</h6>
+                                <h6 class="fw-bold mb-3" style="color: #713600; ">Quantity:</h6>
                                 <div class="d-flex align-items-center">
-                                    <button id="qtyMinus" type="button" class="btn qty-btn rounded-circle me-3" style="background: #D4DE95; color: #636B2F; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                    <button id="qtyMinus" type="button" class="btn qty-btn rounded-circle me-3" style="background: #C05800; color: #713600; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span id="qtyDisplay" class="fw-bold mx-3" style="color: #3D4127; font-size: 1.2rem; min-width: 30px; text-align: center;">1</span>
-                                    <button id="qtyPlus" type="button" class="btn qty-btn rounded-circle ms-3" style="background: #D4DE95; color: #636B2F; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                    <span id="qtyDisplay" class="fw-bold mx-3" style="color: #713600; font-size: 1.2rem; min-width: 30px; text-align: center;">1</span>
+                                    <button id="qtyPlus" type="button" class="btn qty-btn rounded-circle ms-3" style="background: #C05800; color: #713600; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -166,7 +166,7 @@ if (!empty($variants)) {
                                     <input type="hidden" name="variant_id" id="selectedVariantId" value="<?php echo (!empty($variants) ? htmlspecialchars($variants[0]['variant_id']) : ''); ?>">
                                     <input type="hidden" name="redirect" value="product-details.php?id=<?php echo $currentProduct['id']; ?>">
                                     <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold text-white" 
-                                            style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; letter-spacing: 1px;">
+                                            style="background: linear-gradient(135deg, #713600, #713600); border: none; letter-spacing: 1px;">
                                         <i class="fas fa-shopping-cart me-2"></i>
                                         Add to Cart
                                     </button>
@@ -182,7 +182,7 @@ if (!empty($variants)) {
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="redirect" value="product-details.php?id=<?php echo $currentProduct['id']; ?>">
                                     <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold" 
-                                            style="background: #f8f9fa; color: #636B2F; border: 2px solid #D4DE95;">
+                                            style="background: #f8f9fa; color: #713600; border: 2px solid #C05800;">
                                         <i class="fas fa-heart me-2"></i>
                                         Add to Wishlist
                                     </button>
@@ -198,17 +198,17 @@ if (!empty($variants)) {
             <div class="row justify-content-center mt-5">
                 <div class="col-12 col-lg-10">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);">
-                        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
+                        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #713600, #C05800);">
                             <ul class="nav nav-tabs border-0" id="productTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active border-0 fw-bold" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" 
-                                            style="color: #3D4127; background: none; ">
+                                            style="color: #713600; background: none; ">
                                         Description
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link border-0 fw-bold" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" 
-                                            style="color: #636B2F; background: none; ">
+                                            style="color: #713600; background: none; ">
                                         Specifications
                                     </button>
                                 </li>
@@ -219,47 +219,47 @@ if (!empty($variants)) {
                             <div class="tab-content" id="productTabsContent">
                                 <!-- Description Tab -->
                                 <div class="tab-pane fade show active" id="description" role="tabpanel">
-                                    <h4 class="fw-bold mb-3" style="color: #3D4127; ">Product Description</h4>
-                                    <p style="color: #636B2F;  line-height: 1.8;">
+                                    <h4 class="fw-bold mb-3" style="color: #713600; ">Product Description</h4>
+                                    <p style="color: #713600;  line-height: 1.8;">
                                         <?php echo htmlspecialchars($currentProduct['description']); ?>
                                     </p>
-                                    <p style="color: #636B2F;  line-height: 1.8;">
+                                    <p style="color: #713600;  line-height: 1.8;">
                                         This product is designed with the latest technology and materials to provide you with the best possible experience. Whether you're hitting the gym, going for a run, or practicing yoga, this item will help you perform at your best while looking great.
                                     </p>
                                 </div>
                                 
                                 <!-- Specifications Tab -->
                                 <div class="tab-pane fade" id="specifications" role="tabpanel">
-                                    <h4 class="fw-bold mb-3" style="color: #3D4127; ">Technical Specifications</h4>
+                                    <h4 class="fw-bold mb-3" style="color: #713600; ">Technical Specifications</h4>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <ul class="list-unstyled">
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Material:</strong> 88% Polyester, 12% Spandex
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Weight:</strong> 150 g/m²
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Fit:</strong> Athletic
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Care:</strong> Machine wash cold
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="col-md-6">
                                             <ul class="list-unstyled">
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>UPF Rating:</strong> 50+
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Moisture Wicking:</strong> Yes
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Anti-Odor:</strong> Yes
                                                 </li>
-                                                <li class="mb-2" style="color: #636B2F; ">
+                                                <li class="mb-2" style="color: #713600; ">
                                                     <strong>Made in:</strong> Vietnam
                                                 </li>
                                             </ul>
@@ -293,11 +293,11 @@ if (!empty($variants)) {
 
 .thumbnail-img:hover {
     transform: scale(1.1);
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 }
 
 .thumbnail-img.active {
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 }
 
 .size-btn {
@@ -305,14 +305,14 @@ if (!empty($variants)) {
 }
 
 .size-btn:hover {
-    background: #D4DE95 !important;
-    border-color: #D4DE95 !important;
+    background: #C05800 !important;
+    border-color: #C05800 !important;
     transform: scale(1.05);
 }
 
 .size-btn.active {
-    background: #636B2F !important;
-    border-color: #636B2F !important;
+    background: #713600 !important;
+    border-color: #713600 !important;
     color: white !important;
 }
 
@@ -325,7 +325,7 @@ if (!empty($variants)) {
 }
 
 .color-option.active {
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
     transform: scale(1.1);
 }
 
@@ -339,11 +339,11 @@ if (!empty($variants)) {
 }
 
 .nav-link:hover {
-    color: #3D4127 !important;
+    color: #713600 !important;
 }
 
 .nav-link.active {
-    color: #3D4127 !important;
+    color: #713600 !important;
     background: none !important;
 }
 
@@ -404,7 +404,7 @@ document.querySelectorAll('.thumbnail-img').forEach(thumb => {
         // Remove active class from all thumbnails
         document.querySelectorAll('.thumbnail-img').forEach(t => t.style.borderColor = 'transparent');
         // Add active class to clicked thumbnail
-        this.style.borderColor = '#636B2F';
+        this.style.borderColor = '#713600';
         // Update main image
         document.getElementById('mainImage').src = this.src;
     });
@@ -417,14 +417,14 @@ document.querySelectorAll('.size-btn').forEach(btn => {
         document.querySelectorAll('.size-btn').forEach(b => {
             b.classList.remove('active');
             b.style.background = '#f8f9fa';
-            b.style.color = '#636B2F';
-            b.style.borderColor = '#D4DE95';
+            b.style.color = '#713600';
+            b.style.borderColor = '#C05800';
         });
         // Add active class to clicked button
         this.classList.add('active');
-        this.style.background = '#636B2F';
+        this.style.background = '#713600';
         this.style.color = 'white';
-        this.style.borderColor = '#636B2F';
+        this.style.borderColor = '#713600';
         // Set selected variant id and update quantity max
         const selectedVariantId = this.getAttribute('data-variant-id');
         const variantStock = parseInt(this.getAttribute('data-stock') || '0', 10);
@@ -580,7 +580,7 @@ include_once 'master_layout.php';
 
     transform: scale(1.1);
 
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 
 }
 
@@ -588,7 +588,7 @@ include_once 'master_layout.php';
 
 .thumbnail-img.active {
 
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 
 }
 
@@ -604,9 +604,9 @@ include_once 'master_layout.php';
 
 .size-btn:hover {
 
-    background: #D4DE95 !important;
+    background: #C05800 !important;
 
-    border-color: #D4DE95 !important;
+    border-color: #C05800 !important;
 
     transform: scale(1.05);
 
@@ -616,9 +616,9 @@ include_once 'master_layout.php';
 
 .size-btn.active {
 
-    background: #636B2F !important;
+    background: #713600 !important;
 
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 
     color: white !important;
 
@@ -644,7 +644,7 @@ include_once 'master_layout.php';
 
 .color-option.active {
 
-    border-color: #636B2F !important;
+    border-color: #713600 !important;
 
     transform: scale(1.1);
 
@@ -672,7 +672,7 @@ include_once 'master_layout.php';
 
 .nav-link:hover {
 
-    color: #3D4127 !important;
+    color: #713600 !important;
 
 }
 
@@ -680,7 +680,7 @@ include_once 'master_layout.php';
 
 .nav-link.active {
 
-    color: #3D4127 !important;
+    color: #713600 !important;
 
     background: none !important;
 
@@ -802,7 +802,7 @@ document.querySelectorAll('.thumbnail-img').forEach(thumb => {
 
         // Add active class to clicked thumbnail
 
-        this.style.borderColor = '#636B2F';
+        this.style.borderColor = '#713600';
 
         // Update main image
 
@@ -828,9 +828,9 @@ document.querySelectorAll('.size-btn').forEach(btn => {
 
             b.style.background = '#f8f9fa';
 
-            b.style.color = '#636B2F';
+            b.style.color = '#713600';
 
-            b.style.borderColor = '#D4DE95';
+            b.style.borderColor = '#C05800';
 
         });
 
@@ -838,11 +838,11 @@ document.querySelectorAll('.size-btn').forEach(btn => {
 
         this.classList.add('active');
 
-        this.style.background = '#636B2F';
+        this.style.background = '#713600';
 
         this.style.color = 'white';
 
-        this.style.borderColor = '#636B2F';
+        this.style.borderColor = '#713600';
 
     });
 

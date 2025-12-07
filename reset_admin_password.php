@@ -54,7 +54,7 @@ $admin_data = $admin_exists ? mysqli_fetch_assoc($result) : null;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #636B2F 0%, #3D4127 100%);
+            background: linear-gradient(135deg, #713600 0%, #713600 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -69,9 +69,9 @@ $admin_data = $admin_exists ? mysqli_fetch_assoc($result) : null;
 <body>
     <div class="container">
         <div class="card reset-card shadow-lg">
-            <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                <i class="fas fa-key fa-3x mb-3" style="color: #3D4127;"></i>
-                <h3 class="mb-0 fw-bold" style="color: #3D4127;">Reset Admin Password</h3>
+            <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #713600, #C05800);">
+                <i class="fas fa-key fa-3x mb-3" style="color: #713600;"></i>
+                <h3 class="mb-0 fw-bold" style="color: #713600;">Reset Admin Password</h3>
             </div>
             <div class="card-body p-4">
                 <?php if ($message): ?>

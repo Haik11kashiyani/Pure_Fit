@@ -67,11 +67,11 @@ function send_verification_email_smtp($email, $token) {
                 }
                 .header h1 {
                     margin: 0;
-                    color: #3D4127;
+                    color: #713600;
                     font-size: 28px;
                 }
                 .logo {
-                    color: #636B2F;
+                    color: #713600;
                     font-weight: bold;
                 }
                 .content {
@@ -84,7 +84,7 @@ function send_verification_email_smtp($email, $token) {
                     padding: 30px 0;
                 }
                 .button {
-                    background: linear-gradient(135deg, #636B2F, #3D4127);
+                    background: linear-gradient(135deg, #713600, #713600);
                     color: #ffffff;
                     padding: 15px 30px;
                     text-decoration: none;
@@ -144,7 +144,7 @@ function send_verification_email_smtp($email, $token) {
                     </ul>
                     
                     <p>If the button above doesn\'t work, you can also copy and paste this link into your browser:</p>
-                    <p style="word-break: break-all; color: #636B2F; font-family: monospace;">' . $verify_url . '</p>
+                    <p style="word-break: break-all; color: #713600; font-family: monospace;">' . $verify_url . '</p>
                 </div>
                 <div class="footer">
                     <p>If you did not create an account with Pure Fit, please ignore this email or contact our support team.</p>
@@ -216,11 +216,11 @@ function send_welcome_email($email, $first_name) {
                 }
                 .header h1 {
                     margin: 0;
-                    color: #3D4127;
+                    color: #713600;
                     font-size: 28px;
                 }
                 .logo {
-                    color: #636B2F;
+                    color: #713600;
                     font-weight: bold;
                 }
                 .content {
@@ -233,7 +233,7 @@ function send_welcome_email($email, $first_name) {
                     padding: 30px 0;
                 }
                 .button {
-                    background: linear-gradient(135deg, #636B2F, #3D4127);
+                    background: linear-gradient(135deg, #713600, #713600);
                     color: #ffffff;
                     padding: 15px 30px;
                     text-decoration: none;

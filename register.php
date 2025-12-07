@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $path = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
                     $verify_url = "http://" . $host . $path . "/verify.php?token=" . $token;
                     // show fallback link for local testing
-                    $register_success .= '<br><strong>SMTP mail not configured - Use this link to verify:</strong><br><a href="' . $verify_url . '" style="color: #636B2F; word-break: break-all;">' . $verify_url . '</a>';
+                    $register_success .= '<br><strong>SMTP mail not configured - Use this link to verify:</strong><br><a href="' . $verify_url . '" style="color: #713600; word-break: break-all;">' . $verify_url . '</a>';
                 }
             } else {
                 $register_error = 'Registration failed: ' . mysqli_error($conn);
@@ -73,11 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row justify-content-center" style="min-height: 80vh; padding-top: 4vh;">
         <div class="col-12 col-md-8 col-lg-6">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); margin: 2rem 0;">
-                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                    <h2 class="mb-0 fw-bold" style="color: #3D4127;  letter-spacing: 1px;">
+                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #713600, #C05800);">
+                    <h2 class="mb-0 fw-bold" style="color: #FDFBD4;  letter-spacing: 1px;">
                         Create Account
                     </h2>
-                    <p class="mb-0 mt-2" style="color: #636B2F; font-size: 0.9rem;">
+                    <p class="mb-0 mt-2" style="color: #FDFBD4; font-size: 0.9rem;">
                         Join Pure Fit and start your fitness journey
                     </p>
                 </div>
@@ -92,69 +92,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form method="POST" action="" id="registerForm" novalidate>
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label for="firstName" class="form-label fw-semibold" style="color: #3D4127; ">
+                                <label for="firstName" class="form-label fw-semibold" style="color: #713600; ">
                                     First Name
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                         <i class="fas fa-user"></i>
                                     </span>
                                     <input type="text" class="form-control border-0 py-3" id="firstName" name="firstName" placeholder="First name" 
-                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                           style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                 </div>
                             </div>
                             
                             <div class="col-md-6 mb-4">
-                                <label for="lastName" class="form-label fw-semibold" style="color: #3D4127; ">
+                                <label for="lastName" class="form-label fw-semibold" style="color: #713600; ">
                                     Last Name
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                         <i class="fas fa-user"></i>
                                     </span>
                                     <input type="text" class="form-control border-0 py-3" id="lastName" name="lastName" placeholder="Last name" 
-                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                           style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                 </div>
                             </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold" style="color: #3D4127; ">
+                            <label for="email" class="form-label fw-semibold" style="color: #713600; ">
                                 Email Address
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                     <i class="fas fa-envelope"></i>
                                 </span>
                                 <input type="text" class="form-control border-0 py-3" id="email" name="email" placeholder="Enter your email" 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                             </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label for="phone" class="form-label fw-semibold" style="color: #3D4127; ">
+                            <label for="phone" class="form-label fw-semibold" style="color: #713600; ">
                                 Phone Number
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                     <i class="fas fa-phone"></i>
                                 </span>
                                 <input type="text" class="form-control border-0 py-3" id="phone" name="phone" placeholder="Enter your phone number" 
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label for="password" class="form-label fw-semibold" style="color: #3D4127; ">
+                                <label for="password" class="form-label fw-semibold" style="color: #713600; ">
                                     Password
                                 </label>
                                 <div class="input-group position-relative">
-                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                         <i class="fas fa-lock"></i>
                                     </span>
                                     <input type="password" class="form-control border-0 py-3 pe-5" id="password" name="password" placeholder="Create password" 
-                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                           style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                     <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                         <i class="fas fa-eye text-muted"></i>
                                     </span>
@@ -162,15 +162,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             
                             <div class="col-md-6 mb-4">
-                                <label for="confirmPassword" class="form-label fw-semibold" style="color: #3D4127; ">
+                                <label for="confirmPassword" class="form-label fw-semibold" style="color: #713600; ">
                                     Confirm Password
                                 </label>
                                 <div class="input-group position-relative">
-                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <span class="input-group-text border-0" style="background: #FDFBD4; color: #C05800;">
                                         <i class="fas fa-lock"></i>
                                     </span>
                                     <input type="password" class="form-control border-0 py-3 pe-5" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" 
-                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important; transition: all 0.3s ease;">
+                                           style="background: #f8f9fa; border-left: 3px solid #C05800 !important; transition: all 0.3s ease;">
                                     <span class="password-toggle position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                         <i class="fas fa-eye text-muted"></i>
                                     </span>
@@ -180,23 +180,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         
                         <div class="mb-4">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="terms" name="terms" style="accent-color: #636B2F;">
-                                <label class="form-check-label" for="terms" style="color: #636B2F; font-size: 0.9rem;">
-                                    I agree to the <a href="#" class="text-decoration-none fw-bold" style="color: #3D4127;">Terms of Service</a> and 
-                                    <a href="#" class="text-decoration-none fw-bold" style="color: #3D4127;">Privacy Policy</a>
+                                <input class="form-check-input" type="checkbox" id="terms" name="terms" style="accent-color: #C05800;">
+                                <label class="form-check-label" for="terms" style="color: #713600; font-size: 0.9rem;">
+                                    I agree to the <a href="#" class="text-decoration-none fw-bold" style="color: #713600;">Terms of Service</a> and 
+                                    <a href="#" class="text-decoration-none fw-bold" style="color: #713600;">Privacy Policy</a>
                                 </label>
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3" 
-                                style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease;  letter-spacing: 1px;">
+                        <button type="submit" class="btn w-100 py-3 rounded-pill fw-bold mb-3" 
+                                style="background: #FDFBD4; color: #713600; border: 2px solid #C05800; transition: all 0.3s ease; letter-spacing: 1px; font-weight: 600;">
                             Create Account
                         </button>
                         
                         <div class="text-center">
-                            <p class="mb-0" style="color: #636B2F; font-size: 0.9rem;">
+                            <p class="mb-0" style="color: #713600; font-size: 0.9rem;">
                                 Already have an account? 
-                                <a href="login.php" class="text-decoration-none fw-bold" style="color: #3D4127; transition: color 0.3s ease;">
+                                <a href="login.php" class="text-decoration-none fw-bold" style="color: #C05800; transition: color 0.3s ease;">
                                     Sign in here
                                 </a>
                             </p>
@@ -230,12 +230,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 .form-check-input:checked {
-    background-color: #636B2F;
-    border-color: #636B2F;
+    background-color: #713600;
+    border-color: #713600;
 }
 
 a:hover {
-    color: #BAC095 !important;
+    color: #713600 !important;
 }
 
 /* Animation for form elements */

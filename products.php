@@ -17,10 +17,10 @@ $categories_result = mysqli_query($conn, $categories_query);
     
     <div class="row justify-content-center mb-4 mb-md-5">
         <div class="col-12 col-lg-10 text-center px-3">
-            <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
+            <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #FDFBD4;">
                 Our Products
             </h1>
-            <p class="lead mb-0" style="color: #636B2F;">
+            <p class="lead mb-0" style="color: #FDFBD4;">
                 Discover our complete collection of high-quality fitness apparel
             </p>
         </div>
@@ -33,19 +33,19 @@ $categories_result = mysqli_query($conn, $categories_query);
                     <form method="GET" action="products.php" id="filterForm" novalidate>
                         <div class="row g-2 g-md-3 align-items-end">
                             <div class="col-12 col-md-3">
-                                <label class="form-label small fw-bold" style="color: #3D4127;">Search</label>
+                                <label class="form-label small fw-bold" style="color: #713600;">Search</label>
                                 <div class="input-group">
-                                    <span class="input-group-text border-0" style="background: #D4DE95; color: #636B2F;">
+                                    <span class="input-group-text border-0" style="background: #C05800; color: #713600;">
                                         <i class="fas fa-search"></i>
                                     </span>
                                     <input type="text" name="search" class="form-control border-0 py-2" placeholder="Search products..." 
                                            value="<?php echo htmlspecialchars($search); ?>"
-                                           style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                           style="background: #f8f9fa; border-left: 3px solid #C05800 !important;">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-2">
-                                <label class="form-label small fw-bold" style="color: #3D4127;">Category</label>
-                                <select name="category" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                <label class="form-label small fw-bold" style="color: #713600;">Category</label>
+                                <select name="category" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #C05800 !important;">
                                     <option value="0">All Categories</option>
                                     <?php while ($cat = mysqli_fetch_assoc($categories_result)): ?>
                                     <option value="<?php echo $cat['category_id']; ?>" <?php echo $category_id == $cat['category_id'] ? 'selected' : ''; ?>>
@@ -55,20 +55,20 @@ $categories_result = mysqli_query($conn, $categories_query);
                                 </select>
                             </div>
                             <div class="col-6 col-sm-3 col-md-2">
-                                <label class="form-label small fw-bold" style="color: #3D4127;">Min Price</label>
+                                <label class="form-label small fw-bold" style="color: #713600;">Min Price</label>
                                 <input type="number" name="min_price" class="form-control border-0 py-2" placeholder="Min" 
                                        value="<?php echo $min_price > 0 ? $min_price : ''; ?>"
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;" min="0" step="0.01">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important;" min="0" step="0.01">
                             </div>
                             <div class="col-6 col-sm-3 col-md-2">
-                                <label class="form-label small fw-bold" style="color: #3D4127;">Max Price</label>
+                                <label class="form-label small fw-bold" style="color: #713600;">Max Price</label>
                                 <input type="number" name="max_price" class="form-control border-0 py-2" placeholder="Max" 
                                        value="<?php echo $max_price > 0 ? $max_price : ''; ?>"
-                                       style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;" min="0" step="0.01">
+                                       style="background: #f8f9fa; border-left: 3px solid #C05800 !important;" min="0" step="0.01">
                             </div>
                             <div class="col-12 col-sm-6 col-md-2">
-                                <label class="form-label small fw-bold" style="color: #3D4127;">Sort By</label>
-                                <select name="sort" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #D4DE95 !important;">
+                                <label class="form-label small fw-bold" style="color: #713600;">Sort By</label>
+                                <select name="sort" class="form-select border-0 py-2" style="background: #f8f9fa; border-left: 3px solid #C05800 !important;">
                                     <option value="newest" <?php echo $sort == 'newest' ? 'selected' : ''; ?>>Newest First</option>
                                     <option value="price_low" <?php echo $sort == 'price_low' ? 'selected' : ''; ?>>Price: Low to High</option>
                                     <option value="price_high" <?php echo $sort == 'price_high' ? 'selected' : ''; ?>>Price: High to Low</option>
@@ -77,8 +77,8 @@ $categories_result = mysqli_query($conn, $categories_query);
                                 </select>
                             </div>
                             <div class="col-12 col-sm-6 col-md-1">
-                                <button type="submit" class="btn w-100 py-2 rounded-pill fw-bold text-white" 
-                                        style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                                <button type="submit" class="btn w-100 py-2 rounded-pill fw-bold" 
+                                        style="background: #FDFBD4; color: #713600; border: 2px solid #C05800;">
                                     <i class="fas fa-filter"></i>
                                 </button>
                             </div>
@@ -198,7 +198,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                                                 <input type="hidden" name="action" value="add">
                                                 <input type="hidden" name="quantity" value="1">
                                                 <input type="hidden" name="redirect" value="products.php?page=<?php echo $current_page; ?>">
-                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #636B2F; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                <button type="submit" class="btn btn-sm rounded-circle" style="background: rgba(255, 255, 255, 0.95); color: #713600; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
                                             </form>
@@ -207,7 +207,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                                     <div class="product-info p-3 text-center rounded-bottom bg-white">
                                         <h3 class="mb-2 fs-5 fs-md-4"><?php echo $title; ?></h3>
                                         <p class="mb-2 text-muted small"><?php echo $desc; ?></p>
-                                        <p class="mb-0 fw-bold fs-5" style="color: #636B2F;"><?php echo $price; ?></p>
+                                        <p class="mb-0 fw-bold fs-5" style="color: #713600;"><?php echo $price; ?></p>
                                     </div>
                                 </div>
                             </a>
@@ -216,11 +216,11 @@ $categories_result = mysqli_query($conn, $categories_query);
                     }
                 } else {
                     echo "<div class='col-12 text-center py-5'>";
-                    echo "<i class='fas fa-box-open fa-4x mb-3' style='color: #D4DE95;'></i>";
-                    echo "<h4 class='mb-2' style='color: #3D4127;'>No Products Found</h4>";
+                    echo "<i class='fas fa-box-open fa-4x mb-3' style='color: #C05800;'></i>";
+                    echo "<h4 class='mb-2' style='color: #713600;'>No Products Found</h4>";
                     echo "<p class='text-muted'>Try adjusting your filters or search terms</p>";
                     if ($search || $category_id || $min_price || $max_price) {
-                        echo "<a href='products.php' class='btn btn-primary mt-3' style='background: linear-gradient(135deg, #636B2F, #3D4127); border: none;'>";
+                        echo "<a href='products.php' class='btn btn-primary mt-3' style='background: linear-gradient(135deg, #713600, #713600); border: none;'>";
                         echo "<i class='fas fa-redo me-2'></i>Clear All Filters";
                         echo "</a>";
                     }
@@ -240,7 +240,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                     <nav aria-label="Products pagination">
                         <ul class="pagination justify-content-center flex-wrap">
                             <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
-                                <a class="page-link rounded-start" href="<?php echo ($current_page > 1) ? '?page=' . ($current_page - 1) . $query_string : '#'; ?>" style="border-color: #D4DE95; color: #636B2F;">
+                                <a class="page-link rounded-start" href="<?php echo ($current_page > 1) ? '?page=' . ($current_page - 1) . $query_string : '#'; ?>" style="border-color: #C05800; color: #713600;">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
                             </li>
@@ -250,28 +250,28 @@ $categories_result = mysqli_query($conn, $categories_query);
                             $end_page = min($total_pages, $current_page + 2);
                             
                             if ($start_page > 1) {
-                                echo '<li class="page-item"><a class="page-link" href="?page=1' . $query_string . '" style="border-color: #D4DE95; color: #636B2F;">1</a></li>';
+                                echo '<li class="page-item"><a class="page-link" href="?page=1' . $query_string . '" style="border-color: #C05800; color: #713600;">1</a></li>';
                                 if ($start_page > 2) {
-                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #D4DE95; color: #636B2F;">...</span></li>';
+                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #C05800; color: #713600;">...</span></li>';
                                 }
                             }
                             
                             for ($i = $start_page; $i <= $end_page; $i++) {
                                 $active = ($i == $current_page) ? 'active' : '';
-                                $style = ($i == $current_page) ? 'background: #636B2F; border-color: #636B2F; color: white;' : 'border-color: #D4DE95; color: #636B2F;';
+                                $style = ($i == $current_page) ? 'background: #713600; border-color: #713600; color: white;' : 'border-color: #C05800; color: #713600;';
                                 echo '<li class="page-item ' . $active . '"><a class="page-link" href="?page=' . $i . $query_string . '" style="' . $style . '">' . $i . '</a></li>';
                             }
                             
                             if ($end_page < $total_pages) {
                                 if ($end_page < $total_pages - 1) {
-                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #D4DE95; color: #636B2F;">...</span></li>';
+                                    echo '<li class="page-item disabled"><span class="page-link" style="border-color: #C05800; color: #713600;">...</span></li>';
                                 }
-                                echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $query_string . '" style="border-color: #D4DE95; color: #636B2F;">' . $total_pages . '</a></li>';
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $query_string . '" style="border-color: #C05800; color: #713600;">' . $total_pages . '</a></li>';
                             }
                             ?>
                             
                             <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
-                                <a class="page-link rounded-end" href="<?php echo ($current_page < $total_pages) ? '?page=' . ($current_page + 1) . $query_string : '#'; ?>" style="border-color: #D4DE95; color: #636B2F;">
+                                <a class="page-link rounded-end" href="<?php echo ($current_page < $total_pages) ? '?page=' . ($current_page + 1) . $query_string : '#'; ?>" style="border-color: #C05800; color: #713600;">
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
                             </li>
@@ -329,7 +329,7 @@ $categories_result = mysqli_query($conn, $categories_query);
 }
 
 .product-overlay button:last-child:hover {
-    background: #636B2F !important;
+    background: #713600 !important;
     color: white !important;
 }
 
@@ -357,9 +357,9 @@ $categories_result = mysqli_query($conn, $categories_query);
 }
 
 .pagination .page-link:hover {
-    background: #D4DE95;
-    border-color: #D4DE95;
-    color: #636B2F;
+    background: #C05800;
+    border-color: #C05800;
+    color: #713600;
 }
 
 /* Animation for page elements */

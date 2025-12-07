@@ -37,10 +37,10 @@ $cart_count = count($cart_items);
         <div class="col-12 col-lg-10 px-3">
             <!-- Page Header -->
             <div class="text-center mb-4 mb-md-5">
-                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #3D4127;">
+                <h1 class="display-5 display-md-4 fw-bold mb-3" style="color: #713600;">
                     <i class="fas fa-shopping-cart me-2"></i>Shopping Cart
                 </h1>
-                <p class="lead mb-0" style="color: #636B2F;">
+                <p class="lead mb-0" style="color: #713600;">
                     Review your items and proceed to checkout
                 </p>
             </div>
@@ -50,8 +50,8 @@ $cart_count = count($cart_items);
                 <!-- Cart Items -->
                 <div class="col-12 col-lg-8">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
-                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127;">
+                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #713600, #C05800);">
+                            <h3 class="mb-0 fw-bold" style="color: #713600;">
                                 Your Items (<?php echo $cart_count; ?>)
                             </h3>
                         </div>
@@ -61,7 +61,7 @@ $cart_count = count($cart_items);
                                 $item_total = $item['price'] * $item['quantity'];
                             ?>
                             <!-- Cart Item -->
-                            <div class="cart-item mb-3 mb-md-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #D4DE95; position: relative;">
+                            <div class="cart-item mb-3 mb-md-4 p-3 rounded-3" style="background: #f8f9fa; border-left: 4px solid #C05800; position: relative;">
                                 <!-- selection checkbox (small, default checked) -->
                                 <input type="checkbox" class="form-check-input cart-select" data-cart-id="<?php echo $item['cart_id']; ?>" checked
                                        style="position: absolute; left: 12px; top: 18px; transform: scale(1.1);">
@@ -73,14 +73,14 @@ $cart_count = count($cart_items);
                                     </div>
                                     <div class="col-8 col-md-4">
                                         <a href="product-details.php?id=<?php echo $item['product_id']; ?>" class="text-decoration-none">
-                                            <h6 class="fw-bold mb-1" style="color: #3D4127;">
+                                            <h6 class="fw-bold mb-1" style="color: #713600;">
                                                 <?php echo htmlspecialchars($item['name']); ?>
                                             </h6>
                                         </a>
-                                        <p class="mb-1 small" style="color: #636B2F;">
+                                        <p class="mb-1 small" style="color: #713600;">
                                             Price: ₹<?php echo number_format($item['price'], 2); ?>
                                         </p>
-                                        <p class="mb-0 fw-bold d-md-none" style="color: #636B2F;">
+                                        <p class="mb-0 fw-bold d-md-none" style="color: #713600;">
                                             Total: ₹<?php echo number_format($item_total, 2); ?>
                                         </p>
                                     </div>
@@ -94,11 +94,11 @@ $cart_count = count($cart_items);
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo max(1, $item['quantity'] - 1); ?>">
                                                 <input type="hidden" name="redirect" value="cart.php">
-                                                <button type="submit" class="btn btn-sm rounded-circle me-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                                <button type="submit" class="btn btn-sm rounded-circle me-2" style="background: #C05800; color: #713600; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
                                                     <i class="fas fa-minus fa-xs"></i>
                                                 </button>
                                             </form>
-                                            <span class="fw-bold mx-2" style="color: #3D4127; min-width: 30px; text-align: center;"><?php echo $item['quantity']; ?></span>
+                                            <span class="fw-bold mx-2" style="color: #713600; min-width: 30px; text-align: center;"><?php echo $item['quantity']; ?></span>
                                             <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                                 <?php if (!empty($item['variant_id'])): ?>
@@ -107,14 +107,14 @@ $cart_count = count($cart_items);
                                                 <input type="hidden" name="action" value="update_quantity">
                                                 <input type="hidden" name="quantity" value="<?php echo $item['quantity'] + 1; ?>">
                                                 <input type="hidden" name="redirect" value="cart.php">
-                                                <button type="submit" class="btn btn-sm rounded-circle ms-2" style="background: #D4DE95; color: #636B2F; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                                <button type="submit" class="btn btn-sm rounded-circle ms-2" style="background: #C05800; color: #713600; border: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
                                                     <i class="fas fa-plus fa-xs"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 text-end">
-                                        <p class="mb-2 fw-bold d-none d-md-block" style="color: #636B2F;">
+                                        <p class="mb-2 fw-bold d-none d-md-block" style="color: #713600;">
                                             ₹<?php echo number_format($item_total, 2); ?>
                                         </p>
                                         <form method="POST" action="add_to_cart.php" style="display: inline;" novalidate>
@@ -135,7 +135,7 @@ $cart_count = count($cart_items);
 
                             <!-- Continue Shopping and Checkout Selected -->
                             <div class="text-center mt-4 d-flex justify-content-center gap-3 flex-wrap">
-                                <a href="products.php" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F; transition: all 0.3s ease;">
+                                <a href="products.php" class="btn btn-outline-secondary px-4 py-2 rounded-pill" style="border-color: #C05800; color: #713600; transition: all 0.3s ease;">
                                     <i class="fas fa-arrow-left me-2"></i>
                                     Continue Shopping
                                 </a>
@@ -144,7 +144,7 @@ $cart_count = count($cart_items);
                                 <form id="selectedCheckoutForm" method="POST" action="checkout.php" style="display:inline-block;">
                                     <!-- hidden container for selected cart ids (populated by JS) -->
                                     <div id="selectedCartInputs"></div>
-                                    <button type="submit" id="checkoutSelectedBtn" class="btn btn-outline-success px-4 py-2 rounded-pill" style="border-color: #D4DE95; color: #636B2F;">
+                                    <button type="submit" id="checkoutSelectedBtn" class="btn btn-outline-success px-4 py-2 rounded-pill" style="border-color: #C05800; color: #713600;">
                                         <i class="fas fa-shopping-cart me-2"></i>Checkout Selected
                                     </button>
                                 </form>
@@ -178,33 +178,33 @@ $cart_count = count($cart_items);
                 <!-- Order Summary -->
                 <div class="col-12 col-lg-4">
                     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);">
-                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #BAC095, #D4DE95);">
-                            <h3 class="mb-0 fw-bold" style="color: #3D4127;">
+                        <div class="card-header text-center py-3 py-md-4" style="background: linear-gradient(135deg, #713600, #C05800);">
+                            <h3 class="mb-0 fw-bold" style="color: #713600;">
                                 Order Summary
                             </h3>
                         </div>
                         <div class="card-body p-3 p-md-4">
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F;">Subtotal (<?php echo $cart_count; ?> items):</span>
-                                <span class="fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount, 2); ?></span>
+                                <span style="color: #713600;">Subtotal (<?php echo $cart_count; ?> items):</span>
+                                <span class="fw-bold" style="color: #713600;">₹<?php echo number_format($total_amount, 2); ?></span>
                             </div>
                         
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F;">Shipping:</span>
-                                <span class="fw-bold" style="color: #3D4127;">Free</span>
+                                <span style="color: #713600;">Shipping:</span>
+                                <span class="fw-bold" style="color: #713600;">Free</span>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
-                                <span style="color: #636B2F;">Tax (GST 18%):</span>
-                                <span class="fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount * 0.18, 2); ?></span>
+                                <span style="color: #713600;">Tax (GST 18%):</span>
+                                <span class="fw-bold" style="color: #713600;">₹<?php echo number_format($total_amount * 0.18, 2); ?></span>
                             </div>
-                            <hr style="border-color: #D4DE95;">
+                            <hr style="border-color: #C05800;">
                             <div class="d-flex justify-content-between mb-4">
-                                <span class="h5 fw-bold" style="color: #3D4127;">Total:</span>
-                                <span class="h5 fw-bold" style="color: #3D4127;">₹<?php echo number_format($total_amount * 1.18, 2); ?></span>
+                                <span class="h5 fw-bold" style="color: #713600;">Total:</span>
+                                <span class="h5 fw-bold" style="color: #713600;">₹<?php echo number_format($total_amount * 1.18, 2); ?></span>
                             </div>
                             
                             <a href="checkout.php" class="btn w-100 py-3 rounded-pill fw-bold text-white mb-3 text-decoration-none" 
-                                    style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none; transition: all 0.3s ease; letter-spacing: 1px; display: block;">
+                                    style="background: linear-gradient(135deg, #713600, #713600); border: none; transition: all 0.3s ease; letter-spacing: 1px; display: block;">
                                 <i class="fas fa-lock me-2"></i>Proceed to Checkout
                             </a>
                             
@@ -218,9 +218,9 @@ $cart_count = count($cart_items);
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="text-center py-5">
                         <i class="fas fa-shopping-cart fa-5x text-muted mb-4" style="opacity: 0.3;"></i>
-                        <h3 class="fw-bold mb-3" style="color: #3D4127;">Your Cart is Empty</h3>
+                        <h3 class="fw-bold mb-3" style="color: #713600;">Your Cart is Empty</h3>
                         <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
-                        <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #636B2F, #3D4127); border: none;">
+                        <a href="products.php" class="btn btn-lg px-5 py-3 rounded-pill text-white fw-bold" style="background: linear-gradient(135deg, #713600, #713600); border: none;">
                             <i class="fas fa-shopping-bag me-2"></i>Start Shopping
                         </a>
                     </div>
@@ -255,7 +255,7 @@ $cart_count = count($cart_items);
 }
 
 .quantity-controls button:hover {
-    background: #636B2F !important;
+    background: #713600 !important;
     color: #ffffff !important;
     transform: scale(1.1);
 }
