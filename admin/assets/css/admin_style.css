@@ -1,0 +1,13 @@
+#wrapper {
+    display: flex;
+}
+#sidebar {
+    width: 250px;
+    min-height: 100vh;
+}
+#page-content {
+    flex: 1;
+}
+.nav-link:hover {
+    background-color: #495057;
+}
